@@ -11,7 +11,7 @@ catalog:
   '@shikijs/vitepress-twoslash': ^2.3.2
   '@types/node': ^22.13.4
   '@unocss/reset': ^65.5.0
-  '@vueuse/core': ^12.7.0
+  '@vueuse/core': ^13.6.0
   '@vitejs/plugin-vue': ^6.0.1
   '@vue/tsconfig': ^0.7.0
   bumpp: ^10.0.3
