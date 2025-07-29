@@ -17,7 +17,7 @@ catalog:
   bumpp: ^10.0.3
   eslint: ^9.20.1
   floating-vue: ^5.2.2
-  lint-staged: ^15.4.3
+  lint-staged: ^16.1.2
   pinia: ^3.0.1
   pnpm: ^10.4.0
   simple-git-hooks: ^2.11.1
