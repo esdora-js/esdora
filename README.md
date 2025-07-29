@@ -4,4 +4,4 @@ todo
 
 ## License
 
-[MIT](./LICENSE) License © [Anthony Fu](https://github.com/antfu)
+[MIT](./LICENSE) License © [EsDora](https://github.com/esdora-js/esdora)
