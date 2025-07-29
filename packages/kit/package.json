@@ -1,0 +1,106 @@
+{
+  "name": "@esdora/kit",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A library of tools commonly used for development",
+  "author": "DreamyTZK",
+  "license": "MIT",
+  "funding": "https://github.com/esdora-js/esdora",
+  "homepage": "https://github.com/esdora-js/esdora#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esdora-js/esdora.git"
+  },
+  "bugs": "https://github.com/esdora-js/esdora/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./validate": {
+      "import": {
+        "types": "./dist/types/validate.d.mts",
+        "default": "./dist/validate.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate.d.cts",
+        "default": "./dist/validate.cjs"
+      }
+    },
+    "./validate/is-email": {
+      "import": {
+        "types": "./dist/types/validate/is-email.d.mts",
+        "default": "./dist/validate/is-email.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate/is-email.d.cts",
+        "default": "./dist/validate/is-email.cjs"
+      }
+    },
+    "./validate/is-phone": {
+      "import": {
+        "types": "./dist/types/validate/is-phone.d.mts",
+        "default": "./dist/validate/is-phone.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate/is-phone.d.cts",
+        "default": "./dist/validate/is-phone.cjs"
+      }
+    },
+    "./web": {
+      "import": {
+        "types": "./dist/types/web.d.mts",
+        "default": "./dist/web.mjs"
+      },
+      "require": {
+        "types": "./dist/types/web.d.cts",
+        "default": "./dist/web.cjs"
+      }
+    },
+    "./web/is-firefox": {
+      "import": {
+        "types": "./dist/types/web/is-firefox.d.mts",
+        "default": "./dist/web/is-firefox.mjs"
+      },
+      "require": {
+        "types": "./dist/types/web/is-firefox.d.cts",
+        "default": "./dist/web/is-firefox.cjs"
+      }
+    },
+    "./web/is-safari": {
+      "import": {
+        "types": "./dist/types/web/is-safari.d.mts",
+        "default": "./dist/web/is-safari.mjs"
+      },
+      "require": {
+        "types": "./dist/types/web/is-safari.d.cts",
+        "default": "./dist/web/is-safari.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "browser": "./dist/esdora.min.js",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run update-exports && unbuild && npm run organize-types && npm run build:browser",
+    "build:browser": "tsx scripts/build-browser.ts",
+    "organize-types": "tsx scripts/organize-types.ts",
+    "dev": "npm run update-exports && unbuild --stub",
+    "update-exports": "tsx scripts/update-package.ts",
+    "prepublishOnly": "nr build",
+    "start": "tsx src/index.ts",
+    "test": "vitest"
+  }
+}
