@@ -99,8 +99,10 @@
     "organize-types": "tsx scripts/organize-types.ts",
     "dev": "npm run update-exports && unbuild --stub",
     "update-exports": "tsx scripts/update-package.ts",
-    "prepublishOnly": "nr build",
-    "start": "tsx src/index.ts",
-    "test": "vitest"
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit"
   }
 }

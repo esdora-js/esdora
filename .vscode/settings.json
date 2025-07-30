@@ -34,5 +34,19 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+
+  // TypeScript preferences
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // File associations
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // Test explorer
+  "vitest.enable": true,
+  "vitest.commandLine": "pnpm test"
 }

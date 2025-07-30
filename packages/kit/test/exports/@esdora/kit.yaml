@@ -1,0 +1,22 @@
+.:
+  isEmail: function
+  isEmailStrict: function
+  isFirefox: function
+  isPhone: function
+  isSafari: function
+./validate:
+  isEmail: function
+  isEmailStrict: function
+  isPhone: function
+./validate/is-email:
+  isEmail: function
+  isEmailStrict: function
+./validate/is-phone:
+  isPhone: function
+./web:
+  isFirefox: function
+  isSafari: function
+./web/is-firefox:
+  isFirefox: function
+./web/is-safari:
+  isSafari: function

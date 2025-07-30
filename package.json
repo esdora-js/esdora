@@ -2,41 +2,62 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.4.0",
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": ">=22.16.0",
+    "pnpm": ">=10.13.1"
+  },
   "scripts": {
-    "build": "nr -r build",
-    "dev": "nr -r dev",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "build:kit": "pnpm -C packages/kit run build",
     "lint": "eslint --cache .",
-    "prepublishOnly": "nr build",
+    "lint:fix": "eslint --fix .",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "release": "bumpp -r && pnpm -r publish",
-    "test": "vitest",
-    "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "test:ui": "turbo test:ui",
+    "test:kit": "pnpm -C packages/kit run test run",
+    "typecheck": "turbo typecheck",
+    "commit": "czg",
+    "preinstall": "npx only-allow pnpm",
+    "prepublishOnly": "turbo build",
+    "update:deps": "npx taze -r -w",
+    "catalog": "pnpx codemod pnpm/catalog"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
-    "@antfu/ni": "catalog:",
     "@antfu/utils": "catalog:",
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
     "@esdora/kit": "workspace:*",
     "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "bumpp": "catalog:",
-    "esbuild": "^0.25.8",
+    "commitlint-plugin-function-rules": "catalog:",
+    "cz-git": "catalog:",
+    "czg": "catalog:",
+    "esbuild": "catalog:",
     "eslint": "catalog:",
-    "lint-staged": "catalog:",
+    "eslint-plugin-format": "catalog:",
+    "lefthook": "catalog:",
     "pnpm": "catalog:",
-    "simple-git-hooks": "catalog:",
+    "tinyexec": "catalog:",
     "tsx": "catalog:",
+    "turbo": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "vitest-package-exports": "catalog:",
+    "yaml": "catalog:"
   },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook"
+    ]
   }
 }
