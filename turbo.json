@@ -16,6 +16,12 @@
     "test": {
       "outputs": []
     },
+    "test:coverage": {
+      "outputs": ["coverage/**"]
+    },
+    "test:ui": {
+      "outputs": []
+    },
     "typecheck": {
       "outputs": []
     }

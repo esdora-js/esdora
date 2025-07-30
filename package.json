@@ -8,19 +8,24 @@
     "pnpm": ">=10.13.1"
   },
   "scripts": {
-    "build": "turbo build",
     "dev": "turbo dev",
+    "build": "turbo build",
+    "build:kit": "pnpm -C packages/kit run build",
     "lint": "eslint --cache .",
     "lint:fix": "eslint --fix .",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "release": "bumpp -r && pnpm -r publish",
     "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "test:ui": "turbo test:ui",
+    "test:kit": "pnpm -C packages/kit run test run",
     "typecheck": "turbo typecheck",
     "commit": "czg",
     "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "turbo build",
-    "update:deps": "npx taze -r -w"
+    "update:deps": "npx taze -r -w",
+    "catalog": "pnpx codemod pnpm/catalog"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -29,6 +34,7 @@
     "@commitlint/config-conventional": "catalog:",
     "@esdora/kit": "workspace:*",
     "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "bumpp": "catalog:",
     "commitlint-plugin-function-rules": "catalog:",
     "cz-git": "catalog:",
@@ -38,12 +44,15 @@
     "eslint-plugin-format": "catalog:",
     "lefthook": "catalog:",
     "pnpm": "catalog:",
+    "tinyexec": "catalog:",
     "tsx": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "vitest-package-exports": "catalog:",
+    "yaml": "catalog:"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

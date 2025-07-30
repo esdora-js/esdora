@@ -12,3 +12,8 @@ temp
 cache
 .eslintcache
 .turbo
+
+# Environment variables
+.env
+.env.local
+.env.*.local
