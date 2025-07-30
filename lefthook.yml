@@ -2,15 +2,16 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      run: pnpm run lint:fix
+      run: pnpm exec eslint {staged_files} --cache --fix
+      stage_fixed: true
       glob: '*'
-
-post-merge:
-  commands:
-    install:
-      run: pnpm install
 
 commit-msg:
   commands:
     commitlint:
       run: pnpm exec commitlint --edit $1
+
+post-merge:
+  commands:
+    install:
+      run: pnpm install
