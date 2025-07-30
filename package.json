@@ -2,10 +2,10 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.13.1",
   "engines": {
     "node": ">=22.16.0",
-    "pnpm": ">=9.12.0"
+    "pnpm": ">=10.13.1"
   },
   "scripts": {
     "build": "turbo build",
@@ -19,7 +19,8 @@
     "typecheck": "turbo typecheck",
     "commit": "czg",
     "preinstall": "npx only-allow pnpm",
-    "prepublishOnly": "turbo build"
+    "prepublishOnly": "turbo build",
+    "update:deps": "npx taze -r -w"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -31,6 +32,7 @@
     "bumpp": "catalog:",
     "commitlint-plugin-function-rules": "catalog:",
     "cz-git": "catalog:",
+    "czg": "catalog:",
     "esbuild": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-format": "catalog:",
@@ -42,5 +44,11 @@
     "unbuild": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook"
+    ]
   }
 }
