@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: pnpm run lint:fix
+      glob: '*'
+
+post-merge:
+  commands:
+    install:
+      run: pnpm install
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm exec commitlint --edit $1

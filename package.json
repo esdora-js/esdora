@@ -2,41 +2,45 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.4.0",
+  "packageManager": "pnpm@10.12.4",
+  "engines": {
+    "node": ">=22.16.0",
+    "pnpm": ">=9.12.0"
+  },
   "scripts": {
-    "build": "nr -r build",
-    "dev": "nr -r dev",
+    "build": "turbo build",
+    "dev": "turbo dev",
     "lint": "eslint --cache .",
-    "prepublishOnly": "nr build",
+    "lint:fix": "eslint --fix .",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "release": "bumpp -r && pnpm -r publish",
-    "test": "vitest",
-    "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "commit": "czg",
+    "preinstall": "npx only-allow pnpm",
+    "prepublishOnly": "turbo build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
-    "@antfu/ni": "catalog:",
     "@antfu/utils": "catalog:",
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
     "@esdora/kit": "workspace:*",
     "@types/node": "catalog:",
     "bumpp": "catalog:",
-    "esbuild": "^0.25.8",
+    "commitlint-plugin-function-rules": "catalog:",
+    "cz-git": "catalog:",
+    "esbuild": "catalog:",
     "eslint": "catalog:",
-    "lint-staged": "catalog:",
+    "eslint-plugin-format": "catalog:",
+    "lefthook": "catalog:",
     "pnpm": "catalog:",
-    "simple-git-hooks": "catalog:",
     "tsx": "catalog:",
+    "turbo": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
   }
 }
