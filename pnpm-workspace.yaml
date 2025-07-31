@@ -22,6 +22,7 @@ catalog:
   esbuild: ^0.25.8
   eslint: ^9.32.0
   eslint-plugin-format: ^1.0.1
+  fast-glob: ^3.3.3
   floating-vue: ^5.2.2
   lefthook: ^1.12.2
   pinia: ^3.0.3
