@@ -1,6 +1,6 @@
 # 食用方法
 
-esdora-kit 可以通过[@esdora/kit](https://www.npmjs.com/package/@esdora/kit)安装，你也可以通过 从 [#浏览器](CDN) 导入 的方式在浏览器中使用 es-toolkit。
+esdora-kit 可以通过[@esdora/kit](https://www.npmjs.com/package/@esdora/kit)安装，你也可以通过 从 [浏览器](#浏览器) 导入 的方式在浏览器中使用 es-toolkit。
 
 ## Node.js
 

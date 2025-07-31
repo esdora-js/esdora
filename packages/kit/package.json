@@ -55,6 +55,16 @@
         "default": "./dist/validate/is-phone.cjs"
       }
     },
+    "./validate/safe": {
+      "import": {
+        "types": "./dist/types/validate/safe.d.mts",
+        "default": "./dist/validate/safe.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate/safe.d.cts",
+        "default": "./dist/validate/safe.cjs"
+      }
+    },
     "./web": {
       "import": {
         "types": "./dist/types/web.d.mts",
