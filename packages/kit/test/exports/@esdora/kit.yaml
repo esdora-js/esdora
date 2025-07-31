@@ -19,6 +19,10 @@
   isEmailStrict: function
 ./validate/is-phone:
   isPhone: function
+./validate/safe:
+  _JSON: object
+  createSafe: function
+  safe: function
 ./web:
   isFirefox: function
   isSafari: function
