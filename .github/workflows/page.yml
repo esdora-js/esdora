@@ -1,0 +1,65 @@
+name: Deploy Documentation
+
+on:
+  # 当推送到 main 分支时触发
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - .github/workflows/page.yml
+
+  # 允许手动触发工作流
+  workflow_dispatch:
+
+# 只允许一个并发部署，跳过正在运行和最新排队之间的运行
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
+env:
+  NODE_OPTIONS: --max-old-space-size=4096
+
+jobs:
+  # 构建并部署作业
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 需要完整的 git 历史记录以获取最后修改时间
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build documentation
+        run: pnpm run docs:build
+
+      - name: Deploy to esdora-js.github.io
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          # 使用 GitHub Token 推送到目标仓库
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          # 目标仓库
+          external_repository: esdora-js/esdora-js.github.io
+          # 推送到 main 分支（GitHub Pages 默认分支）
+          publish_branch: main
+          # 构建产物目录
+          publish_dir: ./docs/.vitepress/dist
+          # 提交信息
+          commit_message: 'docs: deploy documentation from ${{ github.sha }}'
+          # 用户信息
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

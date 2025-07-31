@@ -15,6 +15,7 @@
     "lint:fix": "eslint --fix .",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
+    "docs:preview": "pnpm -C docs run docs:preview",
     "release": "bumpp -r && pnpm -r publish",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
