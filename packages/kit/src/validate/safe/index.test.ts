@@ -78,9 +78,9 @@ describe('safe function', () => {
     expect(errorHandler).toHaveBeenCalledWith(new Error('This method does not accept arguments'))
   })
 
-  it('传入一个 null 方法', () => {
+  it('传入一个 undefined 方法', () => {
     const errorHandler = vi.fn()
-    const safeFn = safe(null, errorHandler)
+    const safeFn = safe(undefined as unknown as (...args: any[]) => any, errorHandler)
     expect(safeFn).toBeTypeOf('function')
     expect(safeFn()).toBeUndefined() // 返回 undefined
     expect(errorHandler).not.toHaveBeenCalled()
