@@ -1,13 +1,19 @@
 .:
+  _JSON: object
+  createSafe: function
   isEmail: function
   isEmailStrict: function
   isFirefox: function
   isPhone: function
   isSafari: function
+  safe: function
 ./validate:
+  _JSON: object
+  createSafe: function
   isEmail: function
   isEmailStrict: function
   isPhone: function
+  safe: function
 ./validate/is-email:
   isEmail: function
   isEmailStrict: function
