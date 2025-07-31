@@ -10,7 +10,7 @@
 
 [npm-image]: https://img.shields.io/npm/v/@esdora/kit.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/@esdora/kit
-[github-action-image]: https://github.com/esdora-js/esdora/blob/main/.github/workflows/ci.yml/badge.svg
+[github-action-image]: https://github.com/esdora-js/esdora/actions/workflows/ci.yml/badge.svg
 [github-action-url]: https://github.com/esdora-js/esdora/blob/main/.github/workflows/ci.yml
 [codecov-image]: https://img.shields.io/codecov/c/github/esdora-js/esdora/main.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/esdora-js/esdora/branch/main
