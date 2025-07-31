@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "description": "A library of tools commonly used for development",
-  "author": "DreamyTZK",
+  "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
   "funding": "https://github.com/esdora-js/esdora",
   "homepage": "https://github.com/esdora-js/esdora#readme",

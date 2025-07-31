@@ -11,6 +11,7 @@
     "@shikijs/vitepress-twoslash": "catalog:",
     "@unocss/reset": "catalog:",
     "@vueuse/core": "catalog:",
+    "fast-glob": "catalog:",
     "floating-vue": "catalog:",
     "pinia": "catalog:",
     "unocss": "catalog:",

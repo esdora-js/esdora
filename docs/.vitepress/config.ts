@@ -1,24 +1,14 @@
-import type { DefaultTheme } from 'vitepress'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
-import { version } from '../../package.json'
+import { getSidebarItem } from './libs/get-sidebar-item'
 import vite from './vite.config'
 
-const GUIDES: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Getting Started', link: '/guide/' },
-  { text: 'Installation & Usage', link: '/guide/install' },
-]
-
-const VERSIONS: (DefaultTheme.NavItemWithLink | DefaultTheme.NavItemChildren)[] = [
-  { text: `v${version} (current)`, link: '/' },
-  { text: `Release Notes`, link: 'https://github.com/antfu/pkg-placeholder/releases' },
-  { text: `Contributing`, link: 'https://github.com/antfu/pkg-placeholder/blob/main/CONTRIBUTING.md' },
-]
-
 export default defineConfig({
-  title: 'pkg-placeholder',
-  description: '_description_',
+  title: 'esdora',
+  description: '一个想要成为开发者的百宝袋的工具库',
+  lang: 'zh-CN',
+  lastUpdated: true,
   markdown: {
     theme: {
       light: 'vitesse-light',
@@ -37,49 +27,56 @@ export default defineConfig({
   themeConfig: {
     // logo: '/logo.svg',
     nav: [
-      {
-        text: 'Guide',
-        items: [
-          {
-            items: GUIDES,
-          },
-        ],
-      },
-      {
-        text: `v${version}`,
-        items: VERSIONS,
-      },
+      { text: '主页', link: '/' },
+      { text: 'kit', link: '/kit' },
     ],
     sidebar: {
-      '/': [
+
+      'kit/': [
         {
-          text: 'Guide',
-          items: GUIDES,
+          text: '指南',
+          items: [
+            { text: '介绍', link: '/kit/' },
+            { text: '食用方法', link: '/kit/usage' },
+          ],
+        },
+        {
+          text: '参考',
+          items: [
+            {
+              text: '验证类',
+              items: getSidebarItem(__dirname, '../kit/reference/validate'),
+            },
+            {
+              text: '浏览器类',
+              items: getSidebarItem(__dirname, '../kit/reference/web'),
+            },
+          ],
         },
       ],
     },
     editLink: {
-      pattern: 'https://github.com/antfu/pkg-placeholder/edit/main/docs/:path',
-      text: 'Suggest changes to this page',
+      pattern: 'https://github.com/esdora-js/esdora/edit/main/docs/:path',
+      text: '在 GitHub 上编辑此页面',
     },
     search: {
       provider: 'local',
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/antfu/pkg-placeholder' },
+      { icon: 'github', link: 'https://github.com/esdora-js/esdora' },
     ],
 
     footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025-PRESENT Anthony Fu.',
+      // message: 'Released under the MIT License.',
+      // copyright: 'Copyright © 2025-PRESENT Esdora.',
     },
   },
 
   head: [
     // ['meta', { name: 'theme-color', content: '#ffffff' }],
     // ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
-    ['meta', { name: 'author', content: 'Anthony Fu' }],
+    ['meta', { name: 'author', content: 'Esdora' }],
     // ['meta', { property: 'og:title', content: '' }],
     // ['meta', { property: 'og:image', content: '' }],
     // ['meta', { property: 'og:description', content: '_description_' }],
