@@ -30,3 +30,15 @@ export const REGEX_UA_SAFARI = /version\/[\d._].*safari/i
  * UA Firefox浏览器
  */
 export const REGEX_UA_FIREFOX = /^(?!.*Seamonkey)(?=.*Firefox).*/i
+/**
+ * 字母和数字
+ */
+export const REGEX_ALNUM = /^[a-z0-9]+$/i
+/**
+ * 仅包含字符
+ */
+export const REGEX_ALPHA = /^[a-z]+$/i
+/**
+ * 仅包含数字
+ */
+export const REGEX_DIGIT = /^\d+$/

@@ -1,3 +1,7 @@
+---
+title: isSafari
+---
+
 # isSafari
 
 验证传入的ua是否是Safari。mac版与iOS版都会返回true
