@@ -1,3 +1,7 @@
+---
+title: isAlnum
+---
+
 # isAlnum
 
 该方法使用的正则如下：

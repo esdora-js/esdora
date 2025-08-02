@@ -3,18 +3,61 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 /**
- * 获取侧边栏项目（兼容性函数）
- * @param docsRoot 文档根目录
- * @param parts 路径片段
- * @returns 侧边栏项目数组
- * @deprecated 推荐使用 dynamic-sidebar.ts 中的 createDynamicSidebar 函数
+ * 动态生成侧边栏配置
+ * 这个函数会在每次构建时重新扫描文件系统
  */
-export function getSidebarItem(docsRoot: string, ...parts: string[]): DefaultTheme.SidebarItem[] {
-  const targetDir = path.join(docsRoot, ...parts)
+export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
+  const baseDir = path.dirname(docsRoot)
+
+  return {
+    '/kit/': [
+      {
+        text: '指南',
+        items: [
+          { text: '介绍', link: '/kit/' },
+          { text: '食用方法', link: '/kit/usage' },
+        ],
+      },
+      {
+        text: '参考',
+        items: [
+          {
+            text: '验证类',
+            items: getSidebarItem(baseDir, 'kit/reference/validate'),
+          },
+          {
+            text: '浏览器类',
+            items: getSidebarItem(baseDir, 'kit/reference/web'),
+          },
+          {
+            text: 'Promise类',
+            items: getSidebarItem(baseDir, 'kit/reference/promise'),
+          },
+          {
+            text: '函数类',
+            items: getSidebarItem(baseDir, 'kit/reference/function'),
+          },
+        ],
+      },
+    ],
+    '/intro': [
+      { text: 'Kit(工具库)', link: '/kit' },
+    ],
+  }
+}
+
+/**
+ * 获取侧边栏项目
+ * @param docsRoot 文档根目录
+ * @param relativePath 相对路径
+ * @returns 侧边栏项目数组
+ */
+function getSidebarItem(docsRoot: string, relativePath: string): DefaultTheme.SidebarItem[] {
+  const targetDir = path.join(docsRoot, relativePath)
 
   // 检查目录是否存在
   if (!fs.existsSync(targetDir)) {
-    console.warn(`[Get Sidebar Item] Directory not found: ${targetDir}`)
+    console.warn(`[Dynamic Sidebar] Directory not found: ${targetDir}`)
     return []
   }
 
@@ -26,8 +69,7 @@ export function getSidebarItem(docsRoot: string, ...parts: string[]): DefaultThe
 
     return files.map((file) => {
       const filename = path.basename(file, '.md')
-      const relativePath = path.relative(docsRoot, path.join(targetDir, file))
-      const link = `/${relativePath.replace(/\\/g, '/').replace(/\.md$/, '')}`
+      const link = `/${relativePath}/${filename}`
       const title = extractTitleFromFile(path.join(targetDir, file)) || formatTitle(filename)
 
       return {
@@ -37,7 +79,7 @@ export function getSidebarItem(docsRoot: string, ...parts: string[]): DefaultThe
     })
   }
   catch (error) {
-    console.error(`[Get Sidebar Item] Error reading directory ${targetDir}:`, error)
+    console.error(`[Dynamic Sidebar] Error reading directory ${targetDir}:`, error)
     return []
   }
 }
@@ -79,7 +121,7 @@ function extractTitleFromFile(filePath: string): string | null {
     return null
   }
   catch (error) {
-    console.warn(`[Get Sidebar Item] Error reading file ${filePath}:`, error)
+    console.warn(`[Dynamic Sidebar] Error reading file ${filePath}:`, error)
     return null
   }
 }

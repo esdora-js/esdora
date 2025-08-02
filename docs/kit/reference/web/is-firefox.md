@@ -1,3 +1,7 @@
+---
+title: isFireFox
+---
+
 # isFireFox
 
 验证传入的ua是否是火狐浏览器
