@@ -51,6 +51,14 @@ export default defineConfig({
               text: '浏览器类',
               items: getSidebarItem(__dirname, '../kit/reference/web'),
             },
+            {
+              text: 'Promise类',
+              items: getSidebarItem(__dirname, '../kit/reference/promise'),
+            },
+            {
+              text: '函数类',
+              items: getSidebarItem(__dirname, '../kit/reference/function'),
+            },
           ],
         },
       ],
