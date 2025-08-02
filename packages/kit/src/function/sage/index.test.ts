@@ -78,6 +78,18 @@ describe('safe function', () => {
     expect(errorHandler).toHaveBeenCalledWith(new Error('This method does not accept arguments'))
   })
 
+  it('传入一个方法，参数中既有函数又有非函数（覆盖第26行map中的非函数分支）', () => {
+    const fn = (a: number, callback: (x: number) => number, b: string) => {
+      return `${a}-${callback(a)}-${b}`
+    }
+    const errorHandler = vi.fn()
+    const safeFn = safe(fn, errorHandler)
+    // 传入混合参数：数字、函数、字符串
+    const result = safeFn(5, (x: number) => x * 2, 'test')
+    expect(result).toBe('5-10-test')
+    expect(errorHandler).not.toHaveBeenCalled()
+  })
+
   it('传入一个 undefined 方法', () => {
     const errorHandler = vi.fn()
     const safeFn = safe(undefined as unknown as (...args: any[]) => any, errorHandler)

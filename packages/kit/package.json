@@ -25,6 +25,46 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./function": {
+      "import": {
+        "types": "./dist/types/function.d.mts",
+        "default": "./dist/function.mjs"
+      },
+      "require": {
+        "types": "./dist/types/function.d.cts",
+        "default": "./dist/function.cjs"
+      }
+    },
+    "./function/sage": {
+      "import": {
+        "types": "./dist/types/function/sage.d.mts",
+        "default": "./dist/function/sage.mjs"
+      },
+      "require": {
+        "types": "./dist/types/function/sage.d.cts",
+        "default": "./dist/function/sage.cjs"
+      }
+    },
+    "./promise": {
+      "import": {
+        "types": "./dist/types/promise.d.mts",
+        "default": "./dist/promise.mjs"
+      },
+      "require": {
+        "types": "./dist/types/promise.d.cts",
+        "default": "./dist/promise.cjs"
+      }
+    },
+    "./promise/to": {
+      "import": {
+        "types": "./dist/types/promise/to.d.mts",
+        "default": "./dist/promise/to.mjs"
+      },
+      "require": {
+        "types": "./dist/types/promise/to.d.cts",
+        "default": "./dist/promise/to.cjs"
+      }
+    },
     "./validate": {
       "import": {
         "types": "./dist/types/validate.d.mts",
@@ -33,6 +73,36 @@
       "require": {
         "types": "./dist/types/validate.d.cts",
         "default": "./dist/validate.cjs"
+      }
+    },
+    "./validate/is-alnum": {
+      "import": {
+        "types": "./dist/types/validate/is-alnum.d.mts",
+        "default": "./dist/validate/is-alnum.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate/is-alnum.d.cts",
+        "default": "./dist/validate/is-alnum.cjs"
+      }
+    },
+    "./validate/is-alpha": {
+      "import": {
+        "types": "./dist/types/validate/is-alpha.d.mts",
+        "default": "./dist/validate/is-alpha.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate/is-alpha.d.cts",
+        "default": "./dist/validate/is-alpha.cjs"
+      }
+    },
+    "./validate/is-digit": {
+      "import": {
+        "types": "./dist/types/validate/is-digit.d.mts",
+        "default": "./dist/validate/is-digit.mjs"
+      },
+      "require": {
+        "types": "./dist/types/validate/is-digit.d.cts",
+        "default": "./dist/validate/is-digit.cjs"
       }
     },
     "./validate/is-email": {
@@ -53,16 +123,6 @@
       "require": {
         "types": "./dist/types/validate/is-phone.d.cts",
         "default": "./dist/validate/is-phone.cjs"
-      }
-    },
-    "./validate/safe": {
-      "import": {
-        "types": "./dist/types/validate/safe.d.mts",
-        "default": "./dist/validate/safe.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate/safe.d.cts",
-        "default": "./dist/validate/safe.cjs"
       }
     },
     "./web": {

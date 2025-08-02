@@ -7,22 +7,34 @@
   isPhone: function
   isSafari: function
   safe: function
-./validate:
+  to: function
+./function:
   _JSON: object
   createSafe: function
+  safe: function
+./function/sage:
+  _JSON: object
+  createSafe: function
+  safe: function
+./promise:
+  to: function
+./promise/to:
+  to: function
+./validate:
   isEmail: function
   isEmailStrict: function
   isPhone: function
-  safe: function
+./validate/is-alnum:
+  isAlnum: function
+./validate/is-alpha:
+  isAlpha: function
+./validate/is-digit:
+  isDigit: function
 ./validate/is-email:
   isEmail: function
   isEmailStrict: function
 ./validate/is-phone:
   isPhone: function
-./validate/safe:
-  _JSON: object
-  createSafe: function
-  safe: function
 ./web:
   isFirefox: function
   isSafari: function

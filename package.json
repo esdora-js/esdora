@@ -2,7 +2,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.14.0",
   "engines": {
     "node": ">=22.16.0",
     "pnpm": ">=10.13.1"
@@ -56,6 +56,11 @@
     "yaml": "catalog:"
   },
   "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint": "*"
+      }
+    },
     "onlyBuiltDependencies": [
       "esbuild",
       "lefthook"
