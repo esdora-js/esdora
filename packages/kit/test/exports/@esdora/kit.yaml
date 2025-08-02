@@ -24,6 +24,12 @@
   isEmail: function
   isEmailStrict: function
   isPhone: function
+./validate/is-alnum:
+  isAlnum: function
+./validate/is-alpha:
+  isAlpha: function
+./validate/is-digit:
+  isDigit: function
 ./validate/is-email:
   isEmail: function
   isEmailStrict: function

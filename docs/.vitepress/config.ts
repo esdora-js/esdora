@@ -62,6 +62,9 @@ export default defineConfig({
           ],
         },
       ],
+      '/intro': [
+        { text: 'Kit(工具库)', link: '/kit' },
+      ],
     },
     editLink: {
       pattern: 'https://github.com/esdora-js/esdora/edit/main/docs/:path',
