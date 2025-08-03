@@ -8,14 +8,14 @@
 
 [报告问题][github-issues-url] · [特性需求][github-issues-url]
 
-[npm-image]: https://img.shields.io/npm/v/@esdora/kit.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/@esdora/kit
+[npm-image]: https://img.shields.io/npm/v/esdora.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/esdora
 [github-action-image]: https://github.com/esdora-js/esdora/actions/workflows/ci.yml/badge.svg
 [github-action-url]: https://github.com/esdora-js/esdora/blob/main/.github/workflows/ci.yml
 [codecov-image]: https://img.shields.io/codecov/c/github/esdora-js/esdora/main.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/esdora-js/esdora/branch/main
-[download-image]: https://img.shields.io/npm/dm/@esdora/kit.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@esdora/kit
+[download-image]: https://img.shields.io/npm/dm/esdora.svg?style=flat-square
+[download-url]: https://npmjs.org/package/esdora
 [github-issues-url]: https://github.com/esdora-js/esdora/issues
 
 </div>
