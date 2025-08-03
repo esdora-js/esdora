@@ -26,7 +26,8 @@
     "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "turbo build",
     "update:deps": "npx taze -r -w",
-    "catalog": "pnpx codemod pnpm/catalog"
+    "catalog": "pnpx codemod pnpm/catalog",
+    "postinstall": "lefthook install"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
