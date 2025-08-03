@@ -1,17 +1,45 @@
+# pre-commit 钩子：在 `git commit` 时运行
 pre-commit:
-  parallel: true
+  # 在 pre-commit 中，我们通常只需要一个命令来处理所有事情
   commands:
-    lint:
-      run: pnpm exec eslint {staged_files} --cache --fix
-      stage_fixed: true
+    # 我们将所有逻辑合并到这一个命令中
+    lint-and-validate:
+      # glob: '*' 表示这个命令关心所有暂存的文件
       glob: '*'
+      # run 字段包含完整的逻辑脚本
+      run: |
+        # 获取当前分支的名称
+        current_branch=$(git rev-parse --abbrev-ref HEAD)
 
+        # 检查当前分支是否是 "main"
+        if [ "$current_branch" = "main" ]; then
+          # --- 如果是 main 分支，只打印错误并立即失败 ---
+          echo ""
+          echo "\033[31mError: You are not allowed to commit directly to the 'main' branch.\033[0m"
+          echo "\033[31m错误：不允许直接在 'main' 分支上提交。\033[0m"
+          echo ""
+          echo "Please create a new branch for your work (e.g., 'git checkout -b <branch-name>')."
+          echo "请为您的工作创建一个新分支（例如：'git checkout -b <分支名>'）。"
+          echo ""
+          exit 1
+        else
+          # --- 如果不是 main 分支，才执行 linting ---
+          echo "Running ESLint on staged files..."
+          pnpm exec eslint {staged_files} --cache --fix
+        fi
+      # 这个选项只在 linting 被执行时才起作用
+      stage_fixed: true
+
+# commit-msg 钩子：在 commit message 编辑器关闭后运行
 commit-msg:
   commands:
+    # 检查 commit message 是否符合 Conventional Commits 规范
     commitlint:
       run: pnpm exec commitlint --edit $1
 
+# post-merge 钩子：在 `git merge` 或 `git pull` 成功后运行
 post-merge:
   commands:
+    # 自动安装依赖
     install:
       run: pnpm install
