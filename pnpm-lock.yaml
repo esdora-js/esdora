@@ -40,7 +40,7 @@ catalogs:
       specifier: ^10.2.2
       version: 10.2.2
     chokidar:
-      specifier: ^4.0.1
+      specifier: ^4.0.3
       version: 4.0.3
     commitlint-plugin-function-rules:
       specifier: ^4.0.2
