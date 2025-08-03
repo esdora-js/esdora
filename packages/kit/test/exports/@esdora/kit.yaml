@@ -1,6 +1,9 @@
 .:
   _JSON: object
   createSafe: function
+  isAlnum: function
+  isAlpha: function
+  isDigit: function
   isEmail: function
   isEmailStrict: function
   isFirefox: function
@@ -21,6 +24,9 @@
 ./promise/to:
   to: function
 ./validate:
+  isAlnum: function
+  isAlpha: function
+  isDigit: function
   isEmail: function
   isEmailStrict: function
   isPhone: function

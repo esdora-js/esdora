@@ -246,6 +246,12 @@ importers:
         specifier: 'catalog:'
         version: 3.5.18(typescript@5.9.2)
 
+  packages/esdora:
+    dependencies:
+      '@esdora/kit':
+        specifier: workspace:*
+        version: link:../kit
+
   packages/kit: {}
 
 packages:

@@ -1,0 +1,48 @@
+{
+  "name": "esdora",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A comprehensive collection of development tools and utilities - Meta package that aggregates all Esdora packages",
+  "author": "Esdora <https://github.com/esdora-js/esdora>",
+  "license": "MIT",
+  "funding": "https://github.com/esdora-js/esdora",
+  "homepage": "https://github.com/esdora-js/esdora#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esdora-js/esdora.git"
+  },
+  "bugs": "https://github.com/esdora-js/esdora/issues",
+  "keywords": [
+    "utilities",
+    "tools",
+    "development",
+    "validation",
+    "promise",
+    "function",
+    "web",
+    "meta-package",
+    "aggregator"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.js"
+    }
+  },
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "README.md",
+    "index.d.ts",
+    "index.js"
+  ],
+  "scripts": {
+    "prepublishOnly": "echo 'Meta package - no build required'"
+  },
+  "dependencies": {
+    "@esdora/kit": "workspace:*"
+  }
+}

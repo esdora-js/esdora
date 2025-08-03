@@ -1,0 +1,13 @@
+.:
+  _JSON: object
+  createSafe: function
+  isAlnum: function
+  isAlpha: function
+  isDigit: function
+  isEmail: function
+  isEmailStrict: function
+  isFirefox: function
+  isPhone: function
+  isSafari: function
+  safe: function
+  to: function

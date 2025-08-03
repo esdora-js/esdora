@@ -1,2 +1,5 @@
+export * from './is-alnum'
+export * from './is-alpha'
+export * from './is-digit'
 export * from './is-email'
 export * from './is-phone'
