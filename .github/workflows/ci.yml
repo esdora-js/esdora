@@ -55,9 +55,24 @@ jobs:
       - run: pnpm run test:coverage
 
       # Upload coverage reports
+      - name: Find coverage files
+        id: coverage
+        run: |
+          # Find all coverage-final.json files in packages
+          coverage_files=$(find ./packages -name "coverage-final.json" -type f | tr '\n' ',' | sed 's/,$//')
+          echo "files=$coverage_files" >> $GITHUB_OUTPUT
+          echo "Found coverage files: $coverage_files"
+
       - name: Upload coverage reports to Codecov
+        if: steps.coverage.outputs.files != ''
         uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/*/coverage/coverage-final.json
+          files: ${{ steps.coverage.outputs.files }}
+          flags: unittests
+          name: codecov-umbrella
           fail_ci_if_error: false
+          verbose: true
+          override_branch: ${{ github.head_ref || github.ref_name }}
+          override_commit: ${{ github.sha }}
