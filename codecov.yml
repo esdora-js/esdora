@@ -1,7 +1,3 @@
-codecov:
-  require_ci_to_pass: true
-  allow_coverage_offsets: true
-
 coverage:
   precision: 2
   round: down
@@ -12,17 +8,10 @@ coverage:
       default:
         target: auto
         threshold: 1%
-        if_ci_failed: error
     patch:
       default:
         target: auto
         threshold: 1%
-        if_ci_failed: error
-
-comment:
-  layout: 'reach,diff,flags,tree'
-  behavior: default
-  require_changes: false
 
 ignore:
   - '**/*.test.ts'
