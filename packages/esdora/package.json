@@ -40,7 +40,8 @@
     "index.js"
   ],
   "scripts": {
-    "prepublishOnly": "echo 'Meta package - no build required'"
+    "prepublishOnly": "echo 'Meta package - no build required'",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@esdora/kit": "workspace:*"
