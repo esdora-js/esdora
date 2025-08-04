@@ -63,16 +63,6 @@ jobs:
           echo "files=$coverage_files" >> $GITHUB_OUTPUT
           echo "Found coverage files: $coverage_files"
 
-      - name: Debug GitHub context
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Head ref: ${{ github.head_ref }}"
-          echo "Base ref: ${{ github.base_ref }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "PR number: ${{ github.event.number }}"
-
       - name: Upload coverage reports to Codecov
         if: steps.coverage.outputs.files != ''
         uses: codecov/codecov-action@v5
