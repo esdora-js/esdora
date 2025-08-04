@@ -11,14 +11,18 @@
   isSafari: function
   safe: function
   to: function
+  treePathAnalyze: function
 ./function:
   _JSON: object
   createSafe: function
   safe: function
+  treePathAnalyze: function
 ./function/sage:
   _JSON: object
   createSafe: function
   safe: function
+./function/tree-path:
+  treePathAnalyze: function
 ./promise:
   to: function
 ./promise/to:

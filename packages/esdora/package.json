@@ -41,6 +41,7 @@
   ],
   "scripts": {
     "prepublishOnly": "echo 'Meta package - no build required'",
+    "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
