@@ -27,7 +27,8 @@
     "prepublishOnly": "turbo build",
     "update:deps": "npx taze -r -w",
     "catalog": "pnpx codemod pnpm/catalog",
-    "postinstall": "lefthook install"
+    "postinstall": "lefthook install",
+    "clean": "node ./scripts/clean.mjs"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",

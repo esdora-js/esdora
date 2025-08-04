@@ -58,10 +58,38 @@ jobs:
       - name: Find coverage files
         id: coverage
         run: |
+          echo "=== Debugging coverage file discovery ==="
+          echo "Current directory: $(pwd)"
+          echo "Listing packages directory:"
+          ls -la ./packages/
+          echo "Searching for coverage directories:"
+          find ./packages -name "coverage" -type d
+          echo "Searching for coverage-final.json files:"
+          find ./packages -name "coverage-final.json" -type f
+          echo "Checking if files exist:"
+          ls -la ./packages/*/coverage/coverage-final.json 2>/dev/null || echo "No coverage files found"
+
           # Find all coverage-final.json files in packages
           coverage_files=$(find ./packages -name "coverage-final.json" -type f | tr '\n' ',' | sed 's/,$//')
           echo "files=$coverage_files" >> $GITHUB_OUTPUT
           echo "Found coverage files: $coverage_files"
+          echo "Coverage files variable: '$coverage_files'"
+
+          if [ -z "$coverage_files" ]; then
+            echo "WARNING: No coverage files found!"
+          else
+            echo "SUCCESS: Found coverage files"
+          fi
+
+      - name: Check upload condition
+        run: |
+          echo "=== Checking upload condition ==="
+          echo "Coverage files output: '${{ steps.coverage.outputs.files }}'"
+          if [ -n "${{ steps.coverage.outputs.files }}" ]; then
+            echo "✅ Upload condition met - files found"
+          else
+            echo "❌ Upload condition NOT met - no files found"
+          fi
 
       - name: Upload coverage reports to Codecov
         if: steps.coverage.outputs.files != ''
@@ -70,3 +98,10 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ steps.coverage.outputs.files }}
           fail_ci_if_error: false
+          verbose: true
+
+      - name: Upload fallback (if no files found)
+        if: steps.coverage.outputs.files == ''
+        run: |
+          echo "❌ No coverage files found - upload step was skipped"
+          echo "This indicates that the test:coverage step may have failed to generate coverage files"

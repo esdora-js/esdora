@@ -14,10 +14,13 @@
       ]
     },
     "test": {
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "test:coverage": {
-      "outputs": ["coverage/**"]
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "outputLogs": "new-only"
     },
     "test:ui": {
       "outputs": []
