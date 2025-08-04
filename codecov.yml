@@ -11,19 +11,10 @@ coverage:
       default:
         target: auto
         threshold: 1%
-        flags:
-          - unittests
     patch:
       default:
         target: auto
         threshold: 1%
-        flags:
-          - unittests
-
-flags:
-  unittests:
-    paths:
-      - packages/*/src/
 
 comment:
   layout: 'reach,diff,flags,tree'
