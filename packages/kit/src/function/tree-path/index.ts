@@ -94,7 +94,6 @@ export function treePathAnalyze<T>(
   root: TreeNode<T>,
   options: TreePathsOptions = {},
 ): T[][] {
-  // --- 1. 配置初始化 ---
   const { keyField = 'id', childrenField = 'children' } = options
 
   const allPaths: T[][] = []
@@ -112,11 +111,7 @@ export function treePathAnalyze<T>(
    * @param currentPath 从根到当前节点的路径（通过引用传递）。
    */
   function dfs(node: TreeNode<T>, currentPath: T[]): void {
-    // --- 2. 递归终止与边界条件 ---
-    if (!node || typeof node !== 'object') {
-      return
-    }
-
+    // --- 递归终止与边界条件 ---
     // 如果当前节点已在当前探索路径上被访问过，则终止，以避免无限循环。
     if (visited.has(node)) {
       devWarn(
@@ -139,14 +134,14 @@ export function treePathAnalyze<T>(
       return
     }
 
-    // --- 3. 路径构建与状态更新 ---
+    // --- 路径构建与状态更新 ---
     // 将当前节点标识推入路径，并标记节点为已访问。
     currentPath.push(nodeKey)
     visited.add(node)
 
     const children = node[childrenField] as TreeNode<T>[] | undefined
 
-    // --- 4. 递归探索 ---
+    // --- 递归探索 ---
     // 如果节点是叶子节点（没有子节点或子节点数组为空），则记录当前路径。
     if (!children || !Array.isArray(children) || children.length === 0) {
       // 必须存储路径的副本，因为 currentPath 会在回溯时被修改。
@@ -171,7 +166,7 @@ export function treePathAnalyze<T>(
       }
     }
 
-    // --- 5. 回溯 ---
+    // --- 回溯 ---
     // 在探索完一个节点的所有子孙后，将其从当前路径和访问记录中移除。
     // 这是为了能够正确地构建后续兄弟节点的路径。
     visited.delete(node)
