@@ -35,6 +35,16 @@
         "default": "./dist/function.cjs"
       }
     },
+    "./function/has-circular-reference": {
+      "import": {
+        "types": "./dist/types/function/has-circular-reference.d.mts",
+        "default": "./dist/function/has-circular-reference.mjs"
+      },
+      "require": {
+        "types": "./dist/types/function/has-circular-reference.d.cts",
+        "default": "./dist/function/has-circular-reference.cjs"
+      }
+    },
     "./function/sage": {
       "import": {
         "types": "./dist/types/function/sage.d.mts",

@@ -1,5 +1,6 @@
 .:
   _JSON: object
+  checkCircularReference: function
   createSafe: function
   isAlnum: function
   isAlpha: function
@@ -14,9 +15,12 @@
   treePathAnalyze: function
 ./function:
   _JSON: object
+  checkCircularReference: function
   createSafe: function
   safe: function
   treePathAnalyze: function
+./function/has-circular-reference:
+  checkCircularReference: function
 ./function/sage:
   _JSON: object
   createSafe: function
