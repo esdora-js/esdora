@@ -1,129 +1,185 @@
 /**
- * 树路径分析工具
- *
- * 提供树结构路径分析功能，支持：
- * - 自定义字段名配置
- * - 类型安全的路径操作
- * - 纯函数式的路径分析
- * - 最长/最短路径过滤
+ * @file 树路径分析工具模块
+ * @module TreePathAnalyzer
+ * @description
+ * 提供一个通用的树路径分析函数，用于处理各类树形数据结构。
+ * 主要功能包括：
+ * - 提取从根节点到所有叶子节点的完整路径。
+ * - 支持通过配置选项自定义节点的关键字段和子节点字段。
+ * - 能够稳健地处理包含共享节点或循环引用的复杂结构。
  */
 
-/**
- * 树节点的通用类型
- *
- * 支持任意字段名的对象结构，用于表示具有动态字段名的树节点
- */
-type TreeNodeLike = Record<string, unknown>
+import { devWarn } from '../../_internal/log/dev-warn'
 
 /**
- * 树路径分析配置选项
+ * 代表树结构中的一个通用节点。
+ * @template T 节点唯一标识符的类型。
+ */
+interface TreeNode<T> {
+  /**
+   * 允许节点拥有其他任意属性，以提供最大的灵活性。
+   */
+  [key: string]: unknown
+
+  /**
+   * 可选的子节点数组，其成员也应符合 TreeNode<T> 结构。
+   */
+  children?: TreeNode<T>[]
+}
+
+/**
+ * 用于配置树路径分析的选项对象。
  */
 interface TreePathsOptions {
-  /** 用作节点标识的字段名（默认：'id'） */
+  /**
+   * 用作节点唯一标识符的字段名。
+   * @default 'id'
+   */
   keyField?: string
-  /** 子节点数组的字段名（默认：'children'） */
+
+  /**
+   * 包含子节点数组的字段名。
+   * @default 'children'
+   */
   childrenField?: string
 }
 
 /**
- * 分析树结构中的所有路径（纯分析函数）
+ * 分析一个树形结构，找出从根节点到每个叶子节点的所有路径。
  *
- * 遍历树结构，返回从根节点到每个叶子节点的所有路径。
- * 每个路径以数组形式表示，包含从根到叶的节点标识符序列。
+ * 本函数通过深度优先遍历（DFS）来探索整个树。它设计稳健，能够正确处理包含
+ * 共享节点或循环引用的复杂树结构，并安全地返回所有可达的有限路径。
  *
- * @template T - 节点标识符的类型（如 string、number 等）
- * @param root - 树的根节点对象
- * @param options - 分析配置选项
- * @param options.keyField - 节点标识符字段名，默认为 'id'
- * @param options.childrenField - 子节点数组字段名，默认为 'children'
- * @returns 二维数组，每个子数组代表一条从根到叶的路径
+ * @template T 节点的唯一标识符类型（如 `string` 或 `number`），将根据输入树的结构自动推断。
+ * @param {TreeNode<T>} root 要分析的树的根节点。
+ * @param {TreePathsOptions} [options] 用于指定字段名的可选配置。
+ * @returns {T[][]} 一个二维数组。每个内部数组都是一条从根节点到叶子节点的完整路径。
+ *                  如果根节点无效或未找到任何路径，则返回空数组。
  *
  * @example
- * ```typescript
- * // 基本用法（使用默认字段名 'id' 和 'children'）
+ * // 基本用法
  * const tree = {
  *   id: 'root',
  *   children: [
- *     {
- *       id: 'A',
- *       children: [
- *         { id: 'A1' },
- *         { id: 'A2', children: [{ id: 'A2a' }] }
- *       ]
- *     },
+ *     { id: 'A', children: [{ id: 'A1' }, { id: 'A2' }] },
  *     { id: 'B' }
  *   ]
- * }
+ * };
+ * const paths = treePathAnalyze(tree);
+ * // 输出: [['root', 'A', 'A1'], ['root', 'A', 'A2'], ['root', 'B']]
  *
- * const paths = treePathAnalyze(tree)
- * console.log(paths)
- * // 输出: [['root','A','A1'], ['root','A','A2','A2a'], ['root','B']]
- *
+ * @example
  * // 自定义字段名
  * const customTree = {
- *   name: 'root',
+ *   uuid: 1,
  *   items: [
- *     { name: 'A', items: [{ name: 'A1' }] },
- *     { name: 'B' }
+ *     { uuid: 10, items: [{ uuid: 100 }] },
+ *     { uuid: 20 }
  *   ]
- * }
+ * };
+ * const customPaths = treePathAnalyze(customTree, { keyField: 'uuid', childrenField: 'items' });
+ * // 输出: [[1, 10, 100], [1, 20]]
  *
- * const customPaths = treePathAnalyze(customTree, {
- *   keyField: 'name',
- *   childrenField: 'items'
- * })
- * console.log(customPaths)
- * // 输出: [['root','A','A1'], ['root','B']]
- * ```
+ * @example
+ * // 处理包含循环引用的结构
+ * const nodeA = { id: 'A', children: [] };
+ * const nodeB = { id: 'B', children: [nodeA] };
+ * nodeA.children.push(nodeB); // 构造一个 A -> B -> A 的循环
+ * const circularTree = { id: 'root', children: [nodeA] };
+ * const safePaths = treePathAnalyze(circularTree);
+ * // 函数会安全终止。由于不存在通往叶子的有限路径，因此结果为空数组。
+ * // 输出: []
  */
-export function treePathAnalyze<T = number | string>(
-  root: TreeNodeLike,
+export function treePathAnalyze<T>(
+  root: TreeNode<T>,
   options: TreePathsOptions = {},
 ): T[][] {
+  // --- 1. 配置初始化 ---
   const { keyField = 'id', childrenField = 'children' } = options
 
   const allPaths: T[][] = []
+  // 用于跟踪遍历过程中已访问的节点，以处理共享或循环结构。
+  const visited = new WeakSet<TreeNode<T>>()
+
+  if (!root || typeof root !== 'object' || Array.isArray(root)) {
+    devWarn('无效的根节点。期望一个对象，但收到了：', root)
+    return []
+  }
 
   /**
-   * 深度优先搜索遍历树节点
-   * @param node - 当前遍历的节点
-   * @param currentPath - 从根节点到当前节点的路径
+   * 内部使用的深度优先搜索（DFS）遍历函数。
+   * @param node 当前正在访问的节点。
+   * @param currentPath 从根到当前节点的路径（通过引用传递）。
    */
-  function dfs(node: TreeNodeLike, currentPath: T[]): void {
-    // 验证节点有效性
+  function dfs(node: TreeNode<T>, currentPath: T[]): void {
+    // --- 2. 递归终止与边界条件 ---
     if (!node || typeof node !== 'object') {
       return
     }
 
-    // 获取当前节点的标识符并构建新路径
-    const nodeKey = node[keyField] as T
-
-    // 如果nodeKey为undefined或null，跳过该节点
-    if (nodeKey === undefined || nodeKey === null) {
+    // 如果当前节点已在当前探索路径上被访问过，则终止，以避免无限循环。
+    if (visited.has(node)) {
+      devWarn(
+        '检测到循环引用，将终止此路径的探索。',
+        `路径: [${[...currentPath].join(' -> ')}]`,
+        '循环节点:',
+        node,
+      )
       return
     }
 
-    const newPath = [...currentPath, nodeKey]
+    const nodeKey = node[keyField] as T
+    // 如果节点没有有效的标识符，则跳过该节点。
+    if (nodeKey === undefined || nodeKey === null) {
+      devWarn(
+        `节点缺少有效的标识符 (key: "${keyField}")，将跳过此节点及其所有子节点。`,
+        '问题节点:',
+        node,
+      )
+      return
+    }
 
-    // 获取当前节点的子节点数组
-    const children = node[childrenField]
+    // --- 3. 路径构建与状态更新 ---
+    // 将当前节点标识推入路径，并标记节点为已访问。
+    currentPath.push(nodeKey)
+    visited.add(node)
 
-    // 判断是否为叶子节点
+    const children = node[childrenField] as TreeNode<T>[] | undefined
+
+    // --- 4. 递归探索 ---
+    // 如果节点是叶子节点（没有子节点或子节点数组为空），则记录当前路径。
     if (!children || !Array.isArray(children) || children.length === 0) {
-      // 叶子节点：将完整路径添加到结果中
-      allPaths.push(newPath)
+      // 必须存储路径的副本，因为 currentPath 会在回溯时被修改。
+      allPaths.push([...currentPath])
     }
     else {
-      // 非叶子节点：递归遍历所有子节点
+      // 如果是非叶子节点，则继续遍历其所有子节点。
       for (const child of children) {
         if (child && typeof child === 'object') {
-          dfs(child as TreeNodeLike, newPath)
+          dfs(child, currentPath)
+        }
+        else if (child !== null && child !== undefined) {
+          // 只对确实存在但类型不对的值告警
+          devWarn(
+            `在 "${childrenField}" 数组中发现无效的子节点，已跳过。`,
+            '无效子节点:',
+            child,
+            '父节点:',
+            node,
+          )
         }
       }
     }
+
+    // --- 5. 回溯 ---
+    // 在探索完一个节点的所有子孙后，将其从当前路径和访问记录中移除。
+    // 这是为了能够正确地构建后续兄弟节点的路径。
+    visited.delete(node)
+    currentPath.pop()
   }
 
-  // 从根节点开始遍历
+  // 从根节点启动遍历。
   dfs(root, [])
+
   return allPaths
 }

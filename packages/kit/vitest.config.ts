@@ -24,6 +24,9 @@ export default defineConfig({
     },
     environment: 'node',
     globals: true,
+    env: {
+      NODE_ENV: 'development',
+    },
     // 添加测试文件匹配模式
     include: [
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
