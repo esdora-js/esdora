@@ -11,3 +11,4 @@
   isSafari: function
   safe: function
   to: function
+  treePathAnalyze: function

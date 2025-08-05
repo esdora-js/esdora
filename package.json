@@ -21,6 +21,7 @@
     "test:coverage": "turbo test:coverage",
     "test:ui": "turbo test:ui",
     "test:kit": "pnpm -C packages/kit run test run",
+    "test:esdora": "pnpm -C packages/esdora run test run",
     "typecheck": "turbo typecheck",
     "commit": "czg",
     "preinstall": "npx only-allow pnpm",
