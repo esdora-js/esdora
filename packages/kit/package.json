@@ -45,6 +45,16 @@
         "default": "./dist/function/sage.cjs"
       }
     },
+    "./function/tree-path": {
+      "import": {
+        "types": "./dist/types/function/tree-path.d.mts",
+        "default": "./dist/function/tree-path.mjs"
+      },
+      "require": {
+        "types": "./dist/types/function/tree-path.d.cts",
+        "default": "./dist/function/tree-path.cjs"
+      }
+    },
     "./promise": {
       "import": {
         "types": "./dist/types/promise.d.mts",
