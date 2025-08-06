@@ -294,4 +294,56 @@ describe('treeMap 树结构映射函数', () => {
     const result = treeMap(tree, fn)
     expect(result).toEqual([undefined])
   })
+
+  it('测试广度优先遍历的顺序，传递错误的children', () => {
+    const tree = [
+      { id: 1, children: [{ id: 2 }, { id: 3 }] },
+      { id: 4, children: 'this is the error type children' },
+    ] as Item[]
+    const fn = vi.fn((item: Item) => {
+      return {
+        ...item,
+        id: item.id * 2,
+      }
+    })
+
+    expect(() => treeMap(tree, fn, {
+      mode: 'bfs',
+    })).toThrow(TypeError)
+  })
+
+  it('测试深度优先遍历的顺序，传递错误的children', () => {
+    const tree = [
+      { id: 1, children: [{ id: 2 }, { id: 3 }] },
+      { id: 4, children: 'this is the error type children' },
+    ] as Item[]
+    const fn = vi.fn((item: Item) => {
+      return {
+        ...item,
+        id: item.id * 2,
+      }
+    })
+
+    expect(() => treeMap(tree, fn, {
+      mode: 'dfs',
+    })).toThrow(TypeError)
+  })
+
+  it('测试深度优先后序遍历的顺序，传递错误的children', () => {
+    const tree = [
+      { id: 1, children: [{ id: 2 }, { id: 3 }] },
+      { id: 4, children: 'this is the error type children' },
+    ] as Item[]
+    const fn = vi.fn((item: Item) => {
+      return {
+        ...item,
+        id: item.id * 2,
+      }
+    })
+
+    expect(() => treeMap(tree, fn, {
+      mode: 'dfs',
+      order: 'post',
+    })).toThrow(TypeError)
+  })
 })
