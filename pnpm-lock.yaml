@@ -28,8 +28,8 @@ catalogs:
       specifier: ^24.2.0
       version: 24.2.0
     '@unocss/reset':
-      specifier: ^66.4.0
-      version: 66.4.0
+      specifier: ^66.4.1
+      version: 66.4.1
     '@vitest/coverage-v8':
       specifier: ^3.2.4
       version: 3.2.4
@@ -217,7 +217,7 @@ importers:
         version: 3.9.2(typescript@5.9.2)
       '@unocss/reset':
         specifier: 'catalog:'
-        version: 66.4.0
+        version: 66.4.1
       '@vueuse/core':
         specifier: 'catalog:'
         version: 13.6.0(vue@3.5.18(typescript@5.9.2))
@@ -1199,9 +1199,6 @@ packages:
 
   '@unocss/preset-wind@66.4.1':
     resolution: {integrity: sha512-r/dUy+0G20/UO6bcZFnNXoRu/6KdRzVdfbeH5TjgO8riI7U44ckLQjDhCMUgUgYldIHewazyiDfMWBcYs5QF5w==}
-
-  '@unocss/reset@66.4.0':
-    resolution: {integrity: sha512-zbH648K61/Umjy2tCj481ETMuaOlKjyzlXCvVO+U5dF1LhoWM2B7/mdBAiz/cmsKTeE2SfpUmusTRQr6X3n0/Q==}
 
   '@unocss/reset@66.4.1':
     resolution: {integrity: sha512-f0t2YIRF7uVUwEB0aDR6yPMqBO+QgGdgACWQmCrZ84Kir9HV+5d50tK5tXDflHmFTu9mqS9MUG4Ba3sPp44vZw==}
@@ -4807,8 +4804,6 @@ snapshots:
     dependencies:
       '@unocss/core': 66.4.1
       '@unocss/preset-wind3': 66.4.1
-
-  '@unocss/reset@66.4.0': {}
 
   '@unocss/reset@66.4.1': {}
 
