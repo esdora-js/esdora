@@ -49,12 +49,16 @@ export function generateBuildEntries(): string[] {
 }
 
 /**
- * 生成 package.json 的 exports 字段
+ * 生成 package.json 的 exports 字段（用于 dist 目录）
  */
 export function generatePackageExports(): Record<string, any> {
   const srcPath = join(__dirname, '../src')
   const entries = scanSrcDirectory(srcPath)
   const exports: Record<string, any> = {}
+
+  // 路径相对于 dist 目录
+  const pathPrefix = './'
+  const typesPrefix = './types/'
 
   for (const entry of entries) {
     // 移除 src/ 前缀
@@ -64,28 +68,27 @@ export function generatePackageExports(): Record<string, any> {
       // 主入口点
       exports['.'] = {
         import: {
-          types: './dist/types/index.d.mts',
-          default: './dist/index.mjs',
+          types: `${typesPrefix}index.d.mts`,
+          default: `${pathPrefix}index.mjs`,
         },
         require: {
-          types: './dist/types/index.d.cts',
-          default: './dist/index.cjs',
+          types: `${typesPrefix}index.d.cts`,
+          default: `${pathPrefix}index.cjs`,
         },
       }
     }
     else {
       // 子模块入口点
       const exportPath = `./${cleanEntry}`
-      const distPath = `./dist/${cleanEntry}`
 
       exports[exportPath] = {
         import: {
-          types: `./dist/types/${cleanEntry}.d.mts`,
-          default: `${distPath}.mjs`,
+          types: `${typesPrefix}${cleanEntry}.d.mts`,
+          default: `${pathPrefix}${cleanEntry}.mjs`,
         },
         require: {
-          types: `./dist/types/${cleanEntry}.d.cts`,
-          default: `${distPath}.cjs`,
+          types: `${typesPrefix}${cleanEntry}.d.cts`,
+          default: `${pathPrefix}${cleanEntry}.cjs`,
         },
       }
     }
