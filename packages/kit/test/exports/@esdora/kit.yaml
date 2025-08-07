@@ -21,11 +21,11 @@
   treePathAnalyze: function
 ./function/has-circular-reference:
   checkCircularReference: function
-./function/sage:
+./function/safe:
   _JSON: object
   createSafe: function
   safe: function
-./function/tree-path:
+./function/tree-path-analyze:
   treePathAnalyze: function
 ./promise:
   to: function

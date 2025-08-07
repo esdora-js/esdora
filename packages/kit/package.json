@@ -45,24 +45,24 @@
         "default": "./dist/function/has-circular-reference.cjs"
       }
     },
-    "./function/sage": {
+    "./function/safe": {
       "import": {
-        "types": "./dist/types/function/sage.d.mts",
-        "default": "./dist/function/sage.mjs"
+        "types": "./dist/types/function/safe.d.mts",
+        "default": "./dist/function/safe.mjs"
       },
       "require": {
-        "types": "./dist/types/function/sage.d.cts",
-        "default": "./dist/function/sage.cjs"
+        "types": "./dist/types/function/safe.d.cts",
+        "default": "./dist/function/safe.cjs"
       }
     },
-    "./function/tree-path": {
+    "./function/tree-path-analyze": {
       "import": {
-        "types": "./dist/types/function/tree-path.d.mts",
-        "default": "./dist/function/tree-path.mjs"
+        "types": "./dist/types/function/tree-path-analyze.d.mts",
+        "default": "./dist/function/tree-path-analyze.mjs"
       },
       "require": {
-        "types": "./dist/types/function/tree-path.d.cts",
-        "default": "./dist/function/tree-path.cjs"
+        "types": "./dist/types/function/tree-path-analyze.d.cts",
+        "default": "./dist/function/tree-path-analyze.cjs"
       }
     },
     "./promise": {

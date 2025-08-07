@@ -56,7 +56,6 @@ function _findPath(value: unknown): string[] | null {
 
     visited.set(current, path)
 
-    // (核心优化) 使用 Object.entries 替代 for...in
     for (const [key, innerValue] of Object.entries(current)) {
       const result = traverse(innerValue, [...path, key])
       if (result) {

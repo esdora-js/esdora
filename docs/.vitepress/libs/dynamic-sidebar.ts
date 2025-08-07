@@ -40,8 +40,36 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         ],
       },
     ],
-    '/intro': [
-      { text: 'Kit(工具库)', link: '/kit' },
+    '/contributing/': [
+      {
+        text: '贡献指南',
+        items: [
+          { text: '介绍与环境设置', link: '/contributing/' },
+          { text: 'Git 工作流与提交规范', link: '/contributing/git-workflow' },
+          { text: '测试指南', link: '/contributing/testing-guide' },
+          {
+            text: '文档编写',
+            collapsed: false, // 默认展开
+            items: [
+              { text: '总览', link: '/contributing/documentation/overview' },
+              { text: 'Kit 函数模板', link: '/contributing/documentation/kit-template' },
+              // 未来可以添加:
+              // { text: 'Hooks 模板', link: '/contributing/documentation/hooks-template' },
+              // { text: '文章模板', link: '/contributing/documentation/practices-template' },
+            ],
+          },
+        ],
+      },
+    ],
+    '/guide/': [
+      {
+        text: '项目指南',
+        items: [
+          { text: '快速上手', link: '/guide/getting-started' },
+          { text: '核心理念', link: '/guide/core-concepts' },
+          { text: '版本与更新策略', link: '/guide/versioning' },
+        ],
+      },
     ],
   }
 }
@@ -64,7 +92,7 @@ function getSidebarItem(docsRoot: string, relativePath: string): DefaultTheme.Si
   try {
     // 读取目录下的所有 .md 文件并排序
     const files = fs.readdirSync(targetDir)
-      .filter(file => file.endsWith('.md'))
+      .filter(file => file.endsWith('.md') && file !== 'index.md')
       .sort()
 
     return files.map((file) => {
