@@ -1,5 +1,6 @@
 .:
   _JSON: object
+  checkCircularReference: function
   createSafe: function
   isAlnum: function
   isAlpha: function

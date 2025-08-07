@@ -1,44 +1,69 @@
-import { x } from 'tinyexec'
 import { describe, expect, it } from 'vitest'
-import { getPackageExportsManifest } from 'vitest-package-exports'
 import yaml from 'yaml'
 
-describe('exports-snapshot', async () => {
-  const packages: { name: string, path: string, private?: boolean }[] = JSON.parse(
-    await x('pnpm', ['ls', '--only-projects', '--json']).then(r => r.stdout),
-  )
+/**
+ * 获取模块的导出信息，模拟 vitest-package-exports 的行为
+ * 但支持私有包，并生成完整的子模块导出信息
+ */
+async function getKitExports() {
+  const { generatePackageExports } = await import('../scripts/generate-entries')
 
-  for (const pkg of packages) {
-    if (pkg.private)
-      continue
-    it(`${pkg.name}`, async () => {
-      const manifest = await getPackageExportsManifest({
-        importMode: 'src',
-        cwd: pkg.path,
-        // 自定义 resolveSourcePath 函数来处理复杂的导出配置
-        resolveSourcePath: (dist: any) => {
-          // 如果 dist 不是字符串，尝试从对象中提取路径
-          if (typeof dist !== 'string') {
-            if (dist && typeof dist === 'object') {
-              // 优先使用 import.default，然后是 require.default
-              const importPath = dist.import?.default || dist.import
-              const requirePath = dist.require?.default || dist.require
-              const defaultPath = dist.default
+  // 使用现有的 generatePackageExports 函数来获取完整的导出信息
+  const packageExports = generatePackageExports()
 
-              const path = importPath || requirePath || defaultPath
-              if (typeof path === 'string') {
-                return path.replace('dist', 'src').replace(/\.[mc]?js$/, '')
-              }
-            }
-            // 如果无法解析，返回空字符串
-            return ''
-          }
-          // 原始逻辑：处理字符串路径
-          return dist.replace('dist', 'src').replace(/\.[mc]?js$/, '')
-        },
-      })
-      await expect(yaml.stringify(manifest.exports))
-        .toMatchFileSnapshot(`./exports/${pkg.name}.yaml`)
-    })
+  // 转换为 vitest-package-exports 的格式
+  const result: Record<string, Record<string, string>> = {}
+
+  for (const [exportPath] of Object.entries(packageExports)) {
+    // 动态导入每个模块来获取实际的导出
+    try {
+      let importPath: string
+      if (exportPath === '.') {
+        importPath = '../src/index'
+      }
+      else {
+        // 移除开头的 './' 并构建导入路径
+        const cleanPath = exportPath.replace(/^\.\//, '')
+        importPath = `../src/${cleanPath}/index`
+      }
+
+      const moduleExports = await import(importPath)
+      const exports: Record<string, string> = {}
+
+      for (const [name, value] of Object.entries(moduleExports)) {
+        if (typeof value === 'function') {
+          exports[name] = 'function'
+        }
+        else if (typeof value === 'object' && value !== null) {
+          exports[name] = 'object'
+        }
+        else {
+          exports[name] = typeof value
+        }
+      }
+
+      result[exportPath] = exports
+    }
+    catch (error) {
+      console.warn(`Failed to import ${exportPath}:`, error)
+      result[exportPath] = {}
+    }
   }
+
+  return result
+}
+
+/**
+ * 测试 kit 包的所有导出
+ * 生成与 esdora 包一致的 YAML 格式快照
+ * 由于 kit 包是私有的，我们使用自定义逻辑但保持相同的输出格式
+ */
+describe('exports-snapshot', () => {
+  it('@esdora/kit', async () => {
+    const exports = await getKitExports()
+
+    // 生成 YAML 格式的快照，与 esdora 包保持一致
+    await expect(yaml.stringify(exports))
+      .toMatchFileSnapshot(`./exports/@esdora/kit.yaml`)
+  })
 })

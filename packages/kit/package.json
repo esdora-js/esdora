@@ -2,6 +2,7 @@
   "name": "@esdora/kit",
   "type": "module",
   "version": "0.1.0",
+  "private": true,
   "description": "A library of tools commonly used for development",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
@@ -14,171 +15,19 @@
   "bugs": "https://github.com/esdora-js/esdora/issues",
   "keywords": [],
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/types/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    },
-    "./function": {
-      "import": {
-        "types": "./dist/types/function.d.mts",
-        "default": "./dist/function.mjs"
-      },
-      "require": {
-        "types": "./dist/types/function.d.cts",
-        "default": "./dist/function.cjs"
-      }
-    },
-    "./function/sage": {
-      "import": {
-        "types": "./dist/types/function/sage.d.mts",
-        "default": "./dist/function/sage.mjs"
-      },
-      "require": {
-        "types": "./dist/types/function/sage.d.cts",
-        "default": "./dist/function/sage.cjs"
-      }
-    },
-    "./function/tree-path": {
-      "import": {
-        "types": "./dist/types/function/tree-path.d.mts",
-        "default": "./dist/function/tree-path.mjs"
-      },
-      "require": {
-        "types": "./dist/types/function/tree-path.d.cts",
-        "default": "./dist/function/tree-path.cjs"
-      }
-    },
-    "./promise": {
-      "import": {
-        "types": "./dist/types/promise.d.mts",
-        "default": "./dist/promise.mjs"
-      },
-      "require": {
-        "types": "./dist/types/promise.d.cts",
-        "default": "./dist/promise.cjs"
-      }
-    },
-    "./promise/to": {
-      "import": {
-        "types": "./dist/types/promise/to.d.mts",
-        "default": "./dist/promise/to.mjs"
-      },
-      "require": {
-        "types": "./dist/types/promise/to.d.cts",
-        "default": "./dist/promise/to.cjs"
-      }
-    },
-    "./validate": {
-      "import": {
-        "types": "./dist/types/validate.d.mts",
-        "default": "./dist/validate.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate.d.cts",
-        "default": "./dist/validate.cjs"
-      }
-    },
-    "./validate/is-alnum": {
-      "import": {
-        "types": "./dist/types/validate/is-alnum.d.mts",
-        "default": "./dist/validate/is-alnum.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate/is-alnum.d.cts",
-        "default": "./dist/validate/is-alnum.cjs"
-      }
-    },
-    "./validate/is-alpha": {
-      "import": {
-        "types": "./dist/types/validate/is-alpha.d.mts",
-        "default": "./dist/validate/is-alpha.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate/is-alpha.d.cts",
-        "default": "./dist/validate/is-alpha.cjs"
-      }
-    },
-    "./validate/is-digit": {
-      "import": {
-        "types": "./dist/types/validate/is-digit.d.mts",
-        "default": "./dist/validate/is-digit.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate/is-digit.d.cts",
-        "default": "./dist/validate/is-digit.cjs"
-      }
-    },
-    "./validate/is-email": {
-      "import": {
-        "types": "./dist/types/validate/is-email.d.mts",
-        "default": "./dist/validate/is-email.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate/is-email.d.cts",
-        "default": "./dist/validate/is-email.cjs"
-      }
-    },
-    "./validate/is-phone": {
-      "import": {
-        "types": "./dist/types/validate/is-phone.d.mts",
-        "default": "./dist/validate/is-phone.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate/is-phone.d.cts",
-        "default": "./dist/validate/is-phone.cjs"
-      }
-    },
-    "./web": {
-      "import": {
-        "types": "./dist/types/web.d.mts",
-        "default": "./dist/web.mjs"
-      },
-      "require": {
-        "types": "./dist/types/web.d.cts",
-        "default": "./dist/web.cjs"
-      }
-    },
-    "./web/is-firefox": {
-      "import": {
-        "types": "./dist/types/web/is-firefox.d.mts",
-        "default": "./dist/web/is-firefox.mjs"
-      },
-      "require": {
-        "types": "./dist/types/web/is-firefox.d.cts",
-        "default": "./dist/web/is-firefox.cjs"
-      }
-    },
-    "./web/is-safari": {
-      "import": {
-        "types": "./dist/types/web/is-safari.d.mts",
-        "default": "./dist/web/is-safari.mjs"
-      },
-      "require": {
-        "types": "./dist/types/web/is-safari.d.cts",
-        "default": "./dist/web/is-safari.cjs"
-      }
-    }
-  },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "browser": "./dist/esdora.min.js",
-  "types": "./dist/index.d.mts",
-  "files": [
-    "dist"
-  ],
+  "types": "./dist/types/index.d.mts",
+  "publishConfig": {
+    "access": "public",
+    "directory": "./dist"
+  },
   "scripts": {
-    "build": "npm run update-exports && unbuild && npm run organize-types && npm run build:browser",
+    "build": "unbuild && npm run organize-types && npm run build:browser && npm run generate-dist-package",
     "build:browser": "tsx scripts/build-browser.ts",
     "organize-types": "tsx scripts/organize-types.ts",
-    "dev": "npm run update-exports && unbuild --stub",
-    "update-exports": "tsx scripts/update-package.ts",
+    "dev": "unbuild --stub",
+    "generate-dist-package": "tsx scripts/update-package.ts",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
