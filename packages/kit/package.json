@@ -15,6 +15,9 @@
   "bugs": "https://github.com/esdora-js/esdora/issues",
   "keywords": [],
   "sideEffects": false,
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.mts",
   "publishConfig": {
     "access": "public",
     "directory": "./dist"
