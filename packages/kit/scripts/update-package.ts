@@ -1,12 +1,54 @@
 #!/usr/bin/env tsx
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { generatePackageExports } from './generate-entries.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+
+/**
+ * 自动发现 dist 目录中的所有文件和目录，生成 files 字段
+ */
+function generateFilesField(distPath: string): string[] {
+  const files: string[] = []
+
+  if (!existsSync(distPath)) {
+    return files
+  }
+
+  const items = readdirSync(distPath)
+
+  for (const item of items) {
+    const itemPath = join(distPath, item)
+    const stat = statSync(itemPath)
+
+    if (stat.isDirectory()) {
+      // 添加目录名
+      files.push(item)
+    }
+    else if (item !== 'package.json') {
+      // 添加文件，但排除 package.json（避免循环引用）
+      files.push(item)
+    }
+  }
+
+  // 按文件类型和名称排序，确保一致性
+  return files.sort((a, b) => {
+    // 文件模式（*.xxx）排在前面
+    const aIsPattern = a.includes('*')
+    const bIsPattern = b.includes('*')
+
+    if (aIsPattern && !bIsPattern)
+      return -1
+    if (!aIsPattern && bIsPattern)
+      return 1
+
+    // 其他按字母顺序排序
+    return a.localeCompare(b)
+  })
+}
 
 /**
  * 生成完整的 package.json 到 dist 目录
@@ -50,19 +92,19 @@ function generateDistPackageJson() {
   distPackageJson.browser = distPackageJson.browser?.replace('./dist/', './')
   distPackageJson.types = distPackageJson.types?.replace('./dist/', './')
 
-  // 更新 files 字段，指向当前目录的所有内容
-  distPackageJson.files = [
-    '*.mjs',
-    '*.cjs',
-    '*.js',
-    '*.map',
-    'types',
-    'function',
-    'promise',
-    'validate',
-    'web',
-    '_internal',
-  ]
+  // 复制 README.md 到 dist 目录
+  const readmePath = join(__dirname, '../README.md')
+  const distReadmePath = join(distPath, 'README.md')
+  if (existsSync(readmePath)) {
+    copyFileSync(readmePath, distReadmePath)
+    console.log('✅ Copied README.md to dist directory')
+  }
+  else {
+    console.warn('⚠️  README.md not found in source directory')
+  }
+
+  // 自动生成 files 字段，包含 dist 目录中的所有内容
+  distPackageJson.files = generateFilesField(distPath)
 
   // 设置动态生成的 exports
   distPackageJson.exports = newExports
