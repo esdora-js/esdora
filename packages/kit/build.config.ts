@@ -9,7 +9,7 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
     output: {
-      preserveModules: true,
+      preserveModules: false, // 不保留模块结构，只生成入口点文件
     },
     esbuild: {
       target: 'es2020',

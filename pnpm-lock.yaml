@@ -142,7 +142,7 @@ importers:
         version: 19.8.1
       '@esdora/kit':
         specifier: workspace:*
-        version: link:packages/kit/dist
+        version: link:packages/kit
       '@types/node':
         specifier: 'catalog:'
         version: 24.2.0
@@ -256,10 +256,9 @@ importers:
     dependencies:
       '@esdora/kit':
         specifier: workspace:*
-        version: link:../kit/dist
+        version: link:../kit
 
-  packages/kit:
-    publishDirectory: ./dist
+  packages/kit: {}
 
 packages:
 
