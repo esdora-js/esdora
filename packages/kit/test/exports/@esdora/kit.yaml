@@ -19,17 +19,7 @@
   createSafe: function
   _JSON: object
   treePathAnalyze: function
-./function/has-circular-reference:
-  checkCircularReference: function
-./function/safe:
-  safe: function
-  createSafe: function
-  _JSON: object
-./function/tree-path-analyze:
-  treePathAnalyze: function
 ./promise:
-  to: function
-./promise/to:
   to: function
 ./validate:
   isAlnum: function
@@ -38,21 +28,6 @@
   isEmail: function
   isEmailStrict: function
   isPhone: function
-./validate/is-alnum:
-  isAlnum: function
-./validate/is-alpha:
-  isAlpha: function
-./validate/is-digit:
-  isDigit: function
-./validate/is-email:
-  isEmail: function
-  isEmailStrict: function
-./validate/is-phone:
-  isPhone: function
 ./web:
   isFirefox: function
-  isSafari: function
-./web/is-firefox:
-  isFirefox: function
-./web/is-safari:
   isSafari: function
