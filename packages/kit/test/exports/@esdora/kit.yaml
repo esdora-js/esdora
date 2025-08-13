@@ -1,12 +1,12 @@
 .:
-  checkCircularReference: function
   safe: function
   createSafe: function
   _JSON: object
-  treePathAnalyze: function
   to: function
+  getLeafPath: function
   isAlnum: function
   isAlpha: function
+  isCircular: function
   isDigit: function
   isEmail: function
   isEmailStrict: function
@@ -14,16 +14,17 @@
   isFirefox: function
   isSafari: function
 ./function:
-  checkCircularReference: function
   safe: function
   createSafe: function
   _JSON: object
-  treePathAnalyze: function
 ./promise:
   to: function
+./tree:
+  getLeafPath: function
 ./validate:
   isAlnum: function
   isAlpha: function
+  isCircular: function
   isDigit: function
   isEmail: function
   isEmailStrict: function

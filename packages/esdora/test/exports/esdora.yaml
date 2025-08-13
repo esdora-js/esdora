@@ -1,9 +1,10 @@
 .:
   _JSON: object
-  checkCircularReference: function
   createSafe: function
+  getLeafPath: function
   isAlnum: function
   isAlpha: function
+  isCircular: function
   isDigit: function
   isEmail: function
   isEmailStrict: function
@@ -12,4 +13,3 @@
   isSafari: function
   safe: function
   to: function
-  treePathAnalyze: function
