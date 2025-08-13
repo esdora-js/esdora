@@ -1,4 +1,4 @@
-# treePathAnalyze
+# getLeafPath
 
 <!-- 1. 简介：一句话核心功能描述 -->
 
@@ -28,7 +28,7 @@ const tree = {
   ],
 }
 
-treePathAnalyze(tree)
+getLeafPath(tree)
 // => [['root', 'A', 'A1'], ['root', 'A', 'A2', 'A2a'], ['root', 'A', 'A2', 'A2b'], ['root', 'B']]
 ```
 
@@ -43,7 +43,7 @@ const customTree = {
   ],
 }
 
-treePathAnalyze(customTree, { keyField: 'name', childrenField: 'items' })
+getLeafPath(customTree, { keyField: 'name', childrenField: 'items' })
 // => [['root', 'A', 'A1'], ['root', 'B']]
 ```
 
@@ -61,7 +61,7 @@ const tree = {
   ],
 }
 
-treePathAnalyze(tree)
+getLeafPath(tree)
 // => [['root', 'A', 'C'], ['root', 'B', 'C']]
 ```
 
@@ -83,7 +83,7 @@ treePathAnalyze(tree)
  * @param {string} [options.childrenField] - 包含子节点数组的字段名。
  * @returns {T[][]} 一个二维数组。每个内部数组都是一条从根节点到叶子节点的完整路径。如果根节点无效或未找到任何路径，则返回空数组。
  */
-function treePathAnalyze<T>(root: TreeNode<T>, options?: TreePathsOptions): T[][]
+function getLeafPath<T>(root: TreeNode<T>, options?: TreePathsOptions): T[][]
 ```
 
 <!-- 4. 注意事项与边界情况：建立用户信任 -->
@@ -100,4 +100,4 @@ function treePathAnalyze<T>(root: TreeNode<T>, options?: TreePathsOptions): T[][
 
 ## 相关链接
 
-- **源码**: [`src/tree/tree-path-analyze/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/function/tree-path-analyzer/index.ts)
+- **源码**: [`src/tree/get-leaf-path/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/get-leaf-path/index.ts)

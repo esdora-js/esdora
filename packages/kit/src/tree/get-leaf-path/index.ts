@@ -90,7 +90,7 @@ interface TreePathsOptions {
  * // 函数会安全终止。由于不存在通往叶子的有限路径，因此结果为空数组。
  * // 输出: []
  */
-export function treePathAnalyze<T>(
+export function getLeafPath<T>(
   root: TreeNode<T>,
   options: TreePathsOptions = {},
 ): T[][] {
