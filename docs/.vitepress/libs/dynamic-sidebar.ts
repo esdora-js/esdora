@@ -22,21 +22,25 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         text: '参考',
         items: [
           {
-            text: '验证类',
-            items: getSidebarItem(baseDir, 'kit/reference/validate'),
+            text: '函数类 (Function)',
+            items: getSidebarItem(baseDir, 'kit/reference/function'),
           },
           {
-            text: '浏览器类',
-            items: getSidebarItem(baseDir, 'kit/reference/web'),
-          },
-          {
-            text: 'Promise类',
+            text: 'Promise类 (Promise)',
             items: getSidebarItem(baseDir, 'kit/reference/promise'),
           },
           {
-            text: '函数类',
-            items: getSidebarItem(baseDir, 'kit/reference/function'),
+            text: '树类 (Tree)',
+            items: getSidebarItem(baseDir, 'kit/reference/tree'),
           },
+          {
+            text: '验证类 (Validate)',
+            items: getSidebarItem(baseDir, 'kit/reference/validate'),
+          },
+          // {
+          //   text: '浏览器类 (Web)',
+          //   items: getSidebarItem(baseDir, 'kit/reference/web'),
+          // },
         ],
       },
     ],

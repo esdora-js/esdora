@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { treePathAnalyze } from '.'
+import { getLeafPath } from '.'
 
 // --- 测试数据 ---
 // 简单树
@@ -54,15 +54,15 @@ const customTree = {
   ],
 }
 
-describe('treePathAnalyze', () => {
+describe('getLeafPath', () => {
   describe('常规功能测试', () => {
     it('应正确处理只有一级的树', () => {
-      const paths = treePathAnalyze(simpleTree)
+      const paths = getLeafPath(simpleTree)
       expect(paths).toEqual([['root', 'A'], ['root', 'B']])
     })
 
     it('应正确处理具有多级嵌套的复杂树', () => {
-      const paths = treePathAnalyze(complexTree)
+      const paths = getLeafPath(complexTree)
       expect(paths).toHaveLength(5)
       expect(paths).toEqual([
         ['root', 'A', 'A1'],
@@ -74,12 +74,12 @@ describe('treePathAnalyze', () => {
     })
 
     it('应正确处理只有单个节点的树', () => {
-      const paths = treePathAnalyze(singleNodeTree)
+      const paths = getLeafPath(singleNodeTree)
       expect(paths).toEqual([['alone']])
     })
 
     it('应支持自定义 keyField 和 childrenField', () => {
-      const paths = treePathAnalyze(customTree, {
+      const paths = getLeafPath(customTree, {
         keyField: 'name',
         childrenField: 'items',
       })
@@ -93,15 +93,15 @@ describe('treePathAnalyze', () => {
   describe('边缘情况与容错性测试', () => {
     it('应将 children 为空数组的节点视为叶子节点', () => {
       const tree = { id: 'root', children: [] }
-      const paths = treePathAnalyze(tree)
+      const paths = getLeafPath(tree)
       expect(paths).toEqual([['root']])
     })
 
     it('应将 children 字段为 null 或 undefined 的节点视为叶子节点', () => {
       const treeWithNullChildren = { id: 'root', children: null }
       const treeWithUndefinedChildren = { id: 'root', children: undefined }
-      expect(treePathAnalyze(treeWithNullChildren as any)).toEqual([['root']])
-      expect(treePathAnalyze(treeWithUndefinedChildren)).toEqual([['root']])
+      expect(getLeafPath(treeWithNullChildren as any)).toEqual([['root']])
+      expect(getLeafPath(treeWithUndefinedChildren)).toEqual([['root']])
     })
 
     it('应能忽略子节点数组中的无效值 (null, undefined, 非对象)', () => {
@@ -109,7 +109,7 @@ describe('treePathAnalyze', () => {
         id: 'root',
         children: [{ id: 'A' }, null, { id: 'B' }, undefined, 'a string', 123],
       }
-      const paths = treePathAnalyze(tree as any)
+      const paths = getLeafPath(tree as any)
       expect(paths).toEqual([
         ['root', 'A'],
         ['root', 'B'],
@@ -125,16 +125,16 @@ describe('treePathAnalyze', () => {
           { id: 'C', children: [{ id: 'C1' }] },
         ],
       }
-      const paths = treePathAnalyze(tree)
+      const paths = getLeafPath(tree)
       expect(paths).toEqual([['root', 'C', 'C1']])
     })
 
     it('当传入的根节点无效时应返回空数组', () => {
-      expect(treePathAnalyze(null as any)).toEqual([])
-      expect(treePathAnalyze(undefined as any)).toEqual([])
-      expect(treePathAnalyze('a string' as any)).toEqual([])
-      expect(treePathAnalyze(123 as any)).toEqual([])
-      expect(treePathAnalyze([] as any)).toEqual([]) // 数组作为根节点，但没有keyField
+      expect(getLeafPath(null as any)).toEqual([])
+      expect(getLeafPath(undefined as any)).toEqual([])
+      expect(getLeafPath('a string' as any)).toEqual([])
+      expect(getLeafPath(123 as any)).toEqual([])
+      expect(getLeafPath([] as any)).toEqual([]) // 数组作为根节点，但没有keyField
     })
 
     it('应正确处理数字和 0 作为 key', () => {
@@ -145,7 +145,7 @@ describe('treePathAnalyze', () => {
           { id: 2, children: [{ id: 20 }] },
         ],
       }
-      const paths = treePathAnalyze(tree)
+      const paths = getLeafPath(tree)
       expect(paths).toEqual([
         [0, 1],
         [0, 2, 20],
@@ -163,7 +163,7 @@ describe('treePathAnalyze', () => {
           { id: 'B', children: [sharedNode] },
         ],
       }
-      const paths = treePathAnalyze(tree)
+      const paths = getLeafPath(tree)
       expect(paths).toEqual([
         ['root', 'A', 'C'],
         ['root', 'B', 'C'],
@@ -176,7 +176,7 @@ describe('treePathAnalyze', () => {
       nodeA.children.push(nodeB) // 创建 A -> B -> A 的循环
 
       const tree = { id: 'root', children: [nodeA] }
-      const paths = treePathAnalyze(tree)
+      const paths = getLeafPath(tree)
       expect(paths).toEqual([])
     })
 
@@ -185,7 +185,7 @@ describe('treePathAnalyze', () => {
       nodeA.children.push(nodeA) // 创建 A -> A 的循环
 
       const tree = { id: 'root', children: [nodeA] }
-      const paths = treePathAnalyze(tree)
+      const paths = getLeafPath(tree)
       expect(paths).toEqual([])
     })
   })
@@ -213,7 +213,7 @@ describe('treePathAnalyze', () => {
         ],
       }
 
-      treePathAnalyze(treeWithInvalidChildren)
+      getLeafPath(treeWithInvalidChildren)
 
       // 断言 console.warn 被调用了两次
       expect(warnSpy).toHaveBeenCalledTimes(2)
@@ -230,7 +230,7 @@ describe('treePathAnalyze', () => {
 
     it('当节点缺少 keyField 时应发出警告', () => {
       const tree = { id: 'root', children: [{ name: 'no-id' }] }
-      treePathAnalyze(tree)
+      getLeafPath(tree)
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('[@esdora/kit] 节点缺少有效的标识符 (key: "id")'),
@@ -244,7 +244,7 @@ describe('treePathAnalyze', () => {
       nodeA.children.push(nodeA)
       const tree = { id: 'root', children: [nodeA] }
 
-      treePathAnalyze(tree)
+      getLeafPath(tree)
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('[@esdora/kit] 检测到循环引用'),
@@ -255,7 +255,7 @@ describe('treePathAnalyze', () => {
     })
 
     it('当根节点无效时应发出警告', () => {
-      treePathAnalyze(null as any)
+      getLeafPath(null as any)
       expect(warnSpy).toHaveBeenCalledTimes(1)
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('[@esdora/kit] 无效的根节点'),

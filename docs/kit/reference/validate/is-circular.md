@@ -1,4 +1,4 @@
-# checkCircularReference
+# isCircular
 
 检查一个值（如对象或数组）中是否存在循环引用，并可选择性地返回第一个被发现的循环路径。
 
@@ -9,30 +9,30 @@
 此函数可以检测各种形式的循环引用。
 
 ```typescript
-import { checkCircularReference } from '@esdora/kit'
+import { isCircular } from '@esdora/kit'
 
 // 1. 直接自引用
 const obj1 = { name: 'A' }
 obj1.self = obj1
-checkCircularReference(obj1)
+isCircular(obj1)
 // => true
 
 // 2. 相互引用
 const objA = {}
 const objB = { ref: objA }
 objA.ref = objB
-checkCircularReference(objA)
+isCircular(objA)
 // => true
 
 // 3. 数组中的循环引用
 const arr = [1, 2]
 arr.push(arr)
-checkCircularReference(arr)
+isCircular(arr)
 // => true
 
 // 4. 无循环的普通对象
 const normalObj = { a: { b: { c: 1 } } }
-checkCircularReference(normalObj)
+isCircular(normalObj)
 // => false
 ```
 
@@ -41,7 +41,7 @@ checkCircularReference(normalObj)
 通过在 `options` 中设置 `getPath: true`，函数会在找到循环时返回其路径，否则返回 `null`。
 
 ```typescript
-import { checkCircularReference } from '@esdora/kit'
+import { isCircular } from '@esdora/kit'
 
 const user = {
   name: 'Alice',
@@ -54,12 +54,12 @@ const user = {
 // 创建一个从深层节点指回上层节点的循环
 user.profile.details.user = user.profile
 
-const path = checkCircularReference(user, { getPath: true })
+const path = isCircular(user, { getPath: true })
 // => ['profile', 'details', 'user', "[Circular Reference -> 'profile']"]
 
 // 无循环时返回 null
 const normalUser = { name: 'Bob' }
-const noPath = checkCircularReference(normalUser, { getPath: true })
+const noPath = isCircular(normalUser, { getPath: true })
 // => null
 ```
 
@@ -80,9 +80,9 @@ const noPath = checkCircularReference(normalUser, { getPath: true })
  *          - `boolean`: 表示是否存在循环引用。
  *          - `string[] | null`: 如果找到循环，返回其路径数组；否则返回 `null`。
  */
-export function checkCircularReference(value: unknown, options: { getPath: true }): string[] | null
-export function checkCircularReference(value: unknown, options?: { getPath: false }): boolean
-export function checkCircularReference(value: unknown): boolean
+export function isCircular(value: unknown, options: { getPath: true }): string[] | null
+export function isCircular(value: unknown, options?: { getPath: false }): boolean
+export function isCircular(value: unknown): boolean
 ```
 
 ## 注意事项与边界情况
@@ -94,4 +94,4 @@ export function checkCircularReference(value: unknown): boolean
 
 ## 相关链接
 
-- **源码**: [`packages/kit/src/function/has-circular-reference/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/function/has-circular-reference/index.ts)
+- **源码**: [`src/validate/is-circular/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/validate/is-circular/index.ts)

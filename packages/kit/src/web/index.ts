@@ -1,2 +1,1 @@
-export * from './is-firefox'
-export * from './is-safari'
+// 浏览器类（依赖于浏览器环境）

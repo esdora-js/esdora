@@ -45,6 +45,16 @@
         "default": "./dist/promise.cjs"
       }
     },
+    "./tree": {
+      "import": {
+        "types": "./dist/types/tree.d.mts",
+        "default": "./dist/tree.mjs"
+      },
+      "require": {
+        "types": "./dist/types/tree.d.cts",
+        "default": "./dist/tree.cjs"
+      }
+    },
     "./validate": {
       "import": {
         "types": "./dist/types/validate.d.mts",

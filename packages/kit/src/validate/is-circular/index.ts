@@ -71,9 +71,9 @@ function _findPath(value: unknown): string[] | null {
 }
 
 // 使用函数重载来定义不同的调用签名，这非常清晰
-export function checkCircularReference(value: unknown, options: { getPath: true }): string[] | null
-export function checkCircularReference(value: unknown, options?: { getPath: false }): boolean
-export function checkCircularReference(value: unknown): boolean
+export function isCircular(value: unknown, options: { getPath: true }): string[] | null
+export function isCircular(value: unknown, options?: { getPath: false }): boolean
+export function isCircular(value: unknown): boolean
 
 /**
  * 检查对象中是否存在循环引用，并可选择性地返回循环路径。
@@ -85,7 +85,7 @@ export function checkCircularReference(value: unknown): boolean
  *                         - 如果为 `false` 或未提供，返回 boolean。
  * @returns boolean 或 string[] | null。
  */
-export function checkCircularReference(value: unknown, options?: { getPath: boolean }): boolean | string[] | null {
+export function isCircular(value: unknown, options?: { getPath: boolean }): boolean | string[] | null {
   const getPath = options?.getPath ?? false
 
   if (getPath) {
