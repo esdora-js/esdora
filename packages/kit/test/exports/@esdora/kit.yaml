@@ -10,8 +10,8 @@
   isDigit: function
   isEmail: function
   isEmailStrict: function
-  isPhone: function
   isFirefox: function
+  isPhone: function
   isSafari: function
 ./function:
   safe: function
@@ -28,7 +28,7 @@
   isDigit: function
   isEmail: function
   isEmailStrict: function
-  isPhone: function
-./web:
   isFirefox: function
+  isPhone: function
   isSafari: function
+./web: {}
