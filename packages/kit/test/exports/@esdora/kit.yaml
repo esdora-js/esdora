@@ -13,22 +13,3 @@
   isFirefox: function
   isPhone: function
   isSafari: function
-./function:
-  safe: function
-  createSafe: function
-  _JSON: object
-./promise:
-  to: function
-./tree:
-  getLeafPath: function
-./validate:
-  isAlnum: function
-  isAlpha: function
-  isCircular: function
-  isDigit: function
-  isEmail: function
-  isEmailStrict: function
-  isFirefox: function
-  isPhone: function
-  isSafari: function
-./web: {}

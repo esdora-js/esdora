@@ -24,56 +24,6 @@
         "types": "./dist/types/index.d.cts",
         "default": "./dist/index.cjs"
       }
-    },
-    "./function": {
-      "import": {
-        "types": "./dist/types/function.d.mts",
-        "default": "./dist/function.mjs"
-      },
-      "require": {
-        "types": "./dist/types/function.d.cts",
-        "default": "./dist/function.cjs"
-      }
-    },
-    "./promise": {
-      "import": {
-        "types": "./dist/types/promise.d.mts",
-        "default": "./dist/promise.mjs"
-      },
-      "require": {
-        "types": "./dist/types/promise.d.cts",
-        "default": "./dist/promise.cjs"
-      }
-    },
-    "./tree": {
-      "import": {
-        "types": "./dist/types/tree.d.mts",
-        "default": "./dist/tree.mjs"
-      },
-      "require": {
-        "types": "./dist/types/tree.d.cts",
-        "default": "./dist/tree.cjs"
-      }
-    },
-    "./validate": {
-      "import": {
-        "types": "./dist/types/validate.d.mts",
-        "default": "./dist/validate.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate.d.cts",
-        "default": "./dist/validate.cjs"
-      }
-    },
-    "./web": {
-      "import": {
-        "types": "./dist/types/web.d.mts",
-        "default": "./dist/web.mjs"
-      },
-      "require": {
-        "types": "./dist/types/web.d.cts",
-        "default": "./dist/web.cjs"
-      }
     }
   },
   "main": "./dist/index.mjs",
