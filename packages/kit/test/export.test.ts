@@ -1,20 +1,21 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import yaml from 'yaml'
 
 /**
- * 获取模块的导出信息，模拟 vitest-package-exports 的行为
- * 但支持私有包，并生成完整的子模块导出信息
+ * 获取模块的导出信息，直接读取 package.json 中的 exports 配置
  */
 async function getKitExports() {
-  const { generatePackageExports } = await import('../scripts/generate-entries')
+  // 读取 package.json 中的 exports 配置
+  const packageJsonPath = join(__dirname, '../package.json')
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
+  const packageExports = packageJson.exports || {}
 
-  // 使用现有的 generatePackageExports 函数来获取完整的导出信息
-  const packageExports = generatePackageExports()
-
-  // 转换为 vitest-package-exports 的格式
+  // 转换为测试格式
   const result: Record<string, Record<string, string>> = {}
 
-  for (const [exportPath] of Object.entries(packageExports)) {
+  for (const exportPath of Object.keys(packageExports)) {
     // 动态导入每个模块来获取实际的导出
     try {
       let importPath: string
@@ -55,8 +56,7 @@ async function getKitExports() {
 
 /**
  * 测试 kit 包的所有导出
- * 生成与 esdora 包一致的 YAML 格式快照
- * 由于 kit 包是私有的，我们使用自定义逻辑但保持相同的输出格式
+ * 直接读取 package.json 中的 exports 配置，确保测试与实际配置一致
  */
 describe('exports-snapshot', () => {
   it('@esdora/kit', async () => {
