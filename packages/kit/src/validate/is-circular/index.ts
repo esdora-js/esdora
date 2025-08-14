@@ -70,20 +70,79 @@ function _findPath(value: unknown): string[] | null {
   return traverse(value, [])
 }
 
-// 使用函数重载来定义不同的调用签名，这非常清晰
-export function isCircular(value: unknown, options: { getPath: true }): string[] | null
-export function isCircular(value: unknown, options?: { getPath: false }): boolean
-export function isCircular(value: unknown): boolean
-
 /**
- * 检查对象中是否存在循环引用，并可选择性地返回循环路径。
- * 这是一个调度函数，根据选项调用不同的底层实现。
- *
+ * 检查是否存在循环引用，并返回其路径。
  * @param value 要检查的值。
- * @param options 配置对象。
- * @param options.getPath - 如果为 `true`，返回循环路径或 null。
- *                         - 如果为 `false` 或未提供，返回 boolean。
- * @returns boolean 或 string[] | null。
+ * @param options 配置对象，必须将 getPath 设为 true。
+ * @returns 如果找到循环引用，则返回表示路径的字符串数组；否则返回 null。
+ */
+export function isCircular(value: unknown, options: { getPath: true }): string[] | null
+/**
+ * 检查是否存在循环引用，返回布尔值。
+ * @param value 要检查的值。
+ * @param options 可选的配置对象，getPath 应为 false 或未定义。
+ * @returns 如果存在循环引用，则返回 true；否则返回 false。
+ */
+export function isCircular(value: unknown, options?: { getPath: false }): boolean
+/**
+ * 检查是否存在循环引用，返回布尔值。
+ * @param value 要检查的值。
+ * @example isCircular({ a: 1 }) // => false
+ * @returns 如果存在循环引用，则返回 true；否则返回 false。
+ */
+export function isCircular(value: unknown): boolean
+/**
+ * 检查一个值（通常是对象或数组）中是否存在循环引用，并可选择性地返回第一个检测到的循环路径。
+ *
+ * @remarks
+ * 该函数提供两种操作模式，通过 `options.getPath` 参数来切换：
+ *
+ * 1.  **布尔检查模式 (默认):** 当 `getPath` 为 `false` 或未提供时，函数仅返回一个布尔值。
+ *     此模式性能更高，因为它在内部使用 `WeakSet` 来高效地检测循环，不会记录路径。
+ *
+ * 2.  **路径查找模式:** 当 `getPath` 为 `true` 时，函数会尝试定位并返回第一个循环引用的路径。
+ *     此模式在调试循环引用问题时非常有用，但会比布尔检查消耗更多的内存和时间。
+ *
+ * @param value - 要检查的值，可以是任何 JavaScript 类型。
+ * @param options - 一个可选的配置对象，用于控制函数的行为。
+ * @param options.getPath - 一个布尔值，用于决定函数的行为和返回类型。
+ *                          - `true`: 启用路径查找模式。
+ *                          - `false` (或未提供): 使用默认的布尔检查模式。
+ *
+ * @returns
+ * - 如果 `getPath` 为 `true`，则返回一个字符串数组表示循环路径，如果不存在循环则返回 `null`。
+ * - 如果 `getPath` 为 `false` 或未提供，则返回一个布尔值，`true` 表示存在循环，`false` 表示不存在。
+ *
+ * @example
+ * ```typescript
+ * // 示例 1: 默认的布尔检查模式
+ * const obj1 = { a: {} };
+ * obj1.a.b = obj1; // 创建一个循环引用
+ *
+ * isCircular(obj1);
+ * // => true
+ *
+ * const obj2 = { a: { b: {} } };
+ * isCircular(obj2);
+ * // => false
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // 示例 2: 启用路径查找模式
+ * const obj = { name: 'Dora', parent: null };
+ * const child = { name: 'Pocket', parent: obj };
+ * obj.parent = child; // 创建一个父子间的循环引用
+ *
+ * const path = isCircular(obj, { getPath: true });
+ * // path 的值为: ['parent', 'parent', "[Circular Reference -> 'root']"]
+ *
+ * const nonCircular = { a: 1 };
+ * isCircular(nonCircular, { getPath: true });
+ * // => null
+ * ```
+ *
+ * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/kit/reference/validate/is-circular | 官方文档页面}。
  */
 export function isCircular(value: unknown, options?: { getPath: boolean }): boolean | string[] | null {
   const getPath = options?.getPath ?? false
