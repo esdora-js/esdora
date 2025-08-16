@@ -25,7 +25,8 @@ async function getKitExports() {
       else {
         // 移除开头的 './' 并构建导入路径
         const cleanPath = exportPath.replace(/^\.\//, '')
-        importPath = `../src/${cleanPath}/index`
+        // 直接使用 cleanPath，因为 experimental.ts 文件直接存在于 src 目录下
+        importPath = `../src/${cleanPath}`
       }
 
       const moduleExports = await import(importPath)
@@ -57,13 +58,19 @@ async function getKitExports() {
 /**
  * 测试 kit 包的所有导出
  * 直接读取 package.json 中的 exports 配置，确保测试与实际配置一致
+ * 为每个入口文件单独生成快照文件，便于维护和追踪变化
  */
 describe('exports-snapshot', () => {
-  it('@esdora/kit', async () => {
+  it('@esdora/kit - all exports', async () => {
     const exports = await getKitExports()
 
-    // 生成 YAML 格式的快照，与 esdora 包保持一致
-    await expect(yaml.stringify(exports))
-      .toMatchFileSnapshot(`./exports/@esdora/kit.yaml`)
+    // 为每个导出路径生成单独的快照文件
+    for (const [exportPath, moduleExports] of Object.entries(exports)) {
+      const normalizedPath = exportPath === '.' ? 'index' : exportPath.replace(/^\.\//, '')
+      const snapshotPath = `./exports/@esdora/kit-${normalizedPath}.yaml`
+
+      await expect(yaml.stringify(moduleExports))
+        .toMatchFileSnapshot(snapshotPath)
+    }
   })
 })
