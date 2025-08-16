@@ -11,7 +11,7 @@
   <p>
     <a href="https://npmjs.org/package/@esdora/kit"><img src="https://img.shields.io/npm/v/@esdora/kit.svg?style=flat-square" alt="NPM Version"></a>
     <a href="https://npmjs.org/package/@esdora/kit"><img src="https://img.shields.io/npm/dm/@esdora/kit.svg?style=flat-square" alt="NPM Downloads"></a>
-    <a href="https://github.com/esdora-js/esdora/blob/main/LICENSE.md"><img src="https://img.shields.io/npm/l/@esdora/kit.svg?style=flat-square" alt="License"></a>
+    <a href="https://github.com/esdora-js/esdora/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@esdora/kit.svg?style=flat-square" alt="License"></a>
     <a href="https://codecov.io/gh/esdora-js/esdora/branch/main"><img src="https://img.shields.io/codecov/c/github/esdora-js/esdora.svg?style=flat-square&flag=kit" alt="Codecov for kit"></a>
   </p>
 
@@ -74,4 +74,4 @@ if (checkCircularReference(userProfile)) {
 
 ## 📜 许可证
 
-[MIT](https://github.com/esdora-js/esdora/blob/main/LICENSE.md) &copy; Esdora
+[MIT](https://github.com/esdora-js/esdora/blob/main/LICENSE) &copy; Esdora
