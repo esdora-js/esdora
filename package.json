@@ -11,6 +11,7 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "build:kit": "pnpm -C packages/kit run build",
+    "stub": "pnpm -r run stub --if-present",
     "lint": "eslint --cache .",
     "lint:fix": "eslint --fix .",
     "docs": "pnpm -C docs run docs:dev",
@@ -26,7 +27,7 @@
     "prepublishOnly": "turbo build",
     "update:deps": "npx taze -r -w",
     "catalog": "pnpx codemod pnpm/catalog",
-    "postinstall": "lefthook install",
+    "postinstall": "lefthook install && pnpm -C internal/build-tools run stub",
     "clean": "node ./scripts/clean.mjs"
   },
   "devDependencies": {

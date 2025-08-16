@@ -258,11 +258,34 @@ importers:
         specifier: 'catalog:'
         version: 3.5.18(typescript@5.9.2)
 
+  internal/build-tools:
+    dependencies:
+      esbuild:
+        specifier: 'catalog:'
+        version: 0.25.9
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.4
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.3.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      unbuild:
+        specifier: 'catalog:'
+        version: 3.6.1(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
+
   packages/color:
     dependencies:
       color:
         specifier: ^5.0.0
         version: 5.0.0
+    devDependencies:
+      '@esdora/build-tools':
+        specifier: workspace:*
+        version: link:../../internal/build-tools
 
   packages/esdora:
     dependencies:
@@ -270,7 +293,11 @@ importers:
         specifier: workspace:*
         version: link:../kit
 
-  packages/kit: {}
+  packages/kit:
+    devDependencies:
+      '@esdora/build-tools':
+        specifier: workspace:*
+        version: link:../../internal/build-tools
 
 packages:
 

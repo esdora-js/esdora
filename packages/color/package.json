@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsx scripts/build.ts",
+    "build": "node scripts/build.js",
     "dev": "unbuild --stub",
     "prepublishOnly": "npm run build",
     "test": "vitest",
@@ -43,5 +43,8 @@
   },
   "dependencies": {
     "color": "^5.0.0"
+  },
+  "devDependencies": {
+    "@esdora/build-tools": "workspace:*"
   }
 }
