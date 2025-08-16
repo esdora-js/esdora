@@ -4,20 +4,20 @@ on:
   push:
     branches:
       - main
+    # 关键：只在 .changeset 目录有新文件时触发
     paths:
       - '.changeset/**'
 
 jobs:
   version:
-    # --- 修正后的核心部分 ---
-    # 将 concurrency 移到了 job (version) 的内部，并确保 runs-on 存在
+    # 确保并发控制，避免同时创建多个版本PR
     concurrency: ${{ github.workflow }}-${{ github.ref }}
     runs-on: ubuntu-latest
-    # --- 结束修正 ---
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
+          # 需要 fetch-depth: 0 才能让 Changesets 正确获取所有历史记录来生成版本
           fetch-depth: 0
 
       - name: Setup pnpm
@@ -32,6 +32,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      # 这是一个关键步骤，设置 git 用户信息，否则 action 无法推送 commit
       - name: Configure Git User
         run: |
           git config --global user.name "github-actions[bot]"
@@ -41,8 +42,10 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
+          # 运行 version 命令，它会消耗 changeset 文件，提升版本号，并更新 CHANGELOG
           version: pnpm changeset version
           title: 'CI: Version Packages'
           commit: 'CI: Version Packages'
         env:
+          # 这是必需的，它允许 action 代表你来创建 PR 和推送 commit
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
