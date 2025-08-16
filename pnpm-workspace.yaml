@@ -7,6 +7,8 @@ packages:
 catalog:
   '@antfu/eslint-config': ^5.2.1
   '@antfu/utils': ^9.2.0
+  '@changesets/changelog-github': ^0.5.1
+  '@changesets/cli': ^2.29.5
   '@commitlint/cli': ^19.8.1
   '@commitlint/config-conventional': ^19.8.1
   '@iconify-json/svg-spinners': ^1.2.4
@@ -19,6 +21,7 @@ catalog:
   '@vueuse/core': ^13.6.0
   bumpp: ^10.2.3
   chokidar: ^4.0.3
+  color: ^5.0.0
   commitlint-plugin-function-rules: ^4.0.2
   cz-git: ^1.12.0
   czg: ^1.12.0

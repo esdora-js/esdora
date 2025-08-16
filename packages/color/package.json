@@ -42,7 +42,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "color": "^5.0.0"
+    "color": "catalog:"
   },
   "devDependencies": {
     "@esdora/build-tools": "workspace:*"

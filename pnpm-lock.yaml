@@ -12,6 +12,12 @@ catalogs:
     '@antfu/utils':
       specifier: ^9.2.0
       version: 9.2.0
+    '@changesets/changelog-github':
+      specifier: ^0.5.1
+      version: 0.5.1
+    '@changesets/cli':
+      specifier: ^2.29.5
+      version: 2.29.6
     '@commitlint/cli':
       specifier: ^19.8.1
       version: 19.8.1
@@ -45,6 +51,9 @@ catalogs:
     chokidar:
       specifier: ^4.0.3
       version: 4.0.3
+    color:
+      specifier: ^5.0.0
+      version: 5.0.0
     commitlint-plugin-function-rules:
       specifier: ^4.0.2
       version: 4.0.2
@@ -135,10 +144,10 @@ importers:
         specifier: 'catalog:'
         version: 9.2.0
       '@changesets/changelog-github':
-        specifier: ^0.5.1
+        specifier: 'catalog:'
         version: 0.5.1
       '@changesets/cli':
-        specifier: ^2.29.6
+        specifier: 'catalog:'
         version: 2.29.6(@types/node@24.3.0)
       '@commitlint/cli':
         specifier: 'catalog:'
@@ -280,7 +289,7 @@ importers:
   packages/color:
     dependencies:
       color:
-        specifier: ^5.0.0
+        specifier: 'catalog:'
         version: 5.0.0
     devDependencies:
       '@esdora/build-tools':
@@ -289,6 +298,9 @@ importers:
 
   packages/esdora:
     dependencies:
+      '@esdora/color':
+        specifier: workspace:*
+        version: link:../color
       '@esdora/kit':
         specifier: workspace:*
         version: link:../kit
