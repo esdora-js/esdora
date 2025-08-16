@@ -24,6 +24,16 @@
         "types": "./dist/types/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./experimental": {
+      "import": {
+        "types": "./dist/types/experimental.d.mts",
+        "default": "./dist/experimental.mjs"
+      },
+      "require": {
+        "types": "./dist/types/experimental.d.cts",
+        "default": "./dist/experimental.cjs"
+      }
     }
   },
   "main": "./dist/index.mjs",
