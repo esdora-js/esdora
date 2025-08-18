@@ -59,25 +59,39 @@ const tree = [
 // 示例1：深度优先前序遍历（默认）- 过滤出 id 为奇数的节点
 const result1 = treeFilter(tree, item => item.id % 2 === 1)
 // result1: [
-//   { id: 1, name: 'Root 1', children: [] },
-//   { id: 3, name: 'Child 2' },
-//   { id: 4, name: 'Root 2', children: [] }
+//   {
+//     id: 1,
+//     name: 'Root 1',
+//     children: [
+//       { id: 3, name: 'Child 2' }
+//     ]
+//   }
 // ]
 
 // 示例2：深度优先后序遍历
 const result2 = treeFilter(tree, item => item.id <= 3, { order: 'post' })
 // result2: [
-//   { id: 2, name: 'Child 1' },
-//   { id: 3, name: 'Child 2' },
-//   { id: 1, name: 'Root 1', children: [{ id: 2, name: 'Child 1' }, { id: 3, name: 'Child 2' }] }
+//   {
+//     id: 1,
+//     name: 'Root 1',
+//     children: [
+//       { id: 2, name: 'Child 1' },
+//       { id: 3, name: 'Child 2' }
+//     ]
+//   }
 // ]
 
 // 示例3：广度优先遍历
 const result3 = treeFilter(tree, item => item.id <= 3, { mode: 'bfs' })
 // result3: [
-//   { id: 1, name: 'Root 1', children: [] },
-//   { id: 2, name: 'Child 1' },
-//   { id: 3, name: 'Child 2' }
+//   {
+//     id: 1,
+//     name: 'Root 1',
+//     children: [
+//       { id: 2, name: 'Child 1' },
+//       { id: 3, name: 'Child 2' }
+//     ]
+//   }
 // ]
 
 // 示例4：自定义子节点属性名
@@ -93,8 +107,13 @@ const customTree = [
 ]
 const result4 = treeFilter(customTree, item => item.id !== 2, { childrenKey: 'subcategories' })
 // result4: [
-//   { id: 1, name: 'Category 1', subcategories: [{ id: 3, name: 'Subcategory 2' }] },
-//   { id: 3, name: 'Subcategory 2' }
+//   {
+//     id: 1,
+//     name: 'Category 1',
+//     subcategories: [
+//       { id: 3, name: 'Subcategory 2' }
+//     ]
+//   }
 // ]
 ```
 
@@ -104,7 +123,7 @@ const result4 = treeFilter(customTree, item => item.id !== 2, { childrenKey: 'su
 - 节点的子节点属性（如 `children` 或自定义属性）如果存在且不是数组，也会抛出 `TypeError`。
 - 仅当过滤函数返回真值时，节点才会被保留在结果中。
 - 返回的新树不会修改原始树结构，所有节点均为浅拷贝。
-- 广度优先模式下，结果节点的子节点数组会被清空，仅保留当前层级。
+- 所有遍历模式（深度优先、广度优先）都保持原有的树形结构和层级关系。
 - 支持自定义子节点属性名，适配多样化树结构。
 
 ## 相关链接
