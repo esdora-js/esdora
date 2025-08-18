@@ -10,7 +10,7 @@ catalog:
   '@commitlint/config-conventional': ^19.8.1
   '@iconify-json/svg-spinners': ^1.2.4
   '@shikijs/vitepress-twoslash': ^3.9.2
-  '@types/node': ^24.2.1
+  '@types/node': ^24.3.0
   '@unocss/reset': ^66.4.2
   '@vitejs/plugin-vue': ^6.0.1
   '@vitest/coverage-v8': ^3.2.4
