@@ -9,15 +9,15 @@ title: treeFilter
 ## 函数签名
 
 ```typescript
-function treeFilter<T extends Record<string, any>, U>(
+function treeFilter<T extends Record<string, any>>(
   array: T[],
-  fn: (item: T) => U,
+  fn: (item: T) => boolean,
   options?: {
     mode?: 'dfs' | 'bfs'
     order?: 'pre' | 'post'
     childrenKey?: string
   }
-): U[]
+): T[]
 ```
 
 ## 参数说明
@@ -31,9 +31,9 @@ function treeFilter<T extends Record<string, any>, U>(
 
 ## 返回值
 
-返回过滤后的树形数组，只包含通过过滤条件的节点，保持原有的树形结构。
+返回过滤后的树形数组，只包含通过过滤条件的节点，保持原有的树形结构。结果为浅拷贝，不影响原始数据。
 
-## 用法示例
+## 示例
 
 ```typescript
 import { treeFilter } from '@esdora/kit'
@@ -58,12 +58,27 @@ const tree = [
 
 // 示例1：深度优先前序遍历（默认）- 过滤出 id 为奇数的节点
 const result1 = treeFilter(tree, item => item.id % 2 === 1)
+// result1: [
+//   { id: 1, name: 'Root 1', children: [] },
+//   { id: 3, name: 'Child 2' },
+//   { id: 4, name: 'Root 2', children: [] }
+// ]
 
 // 示例2：深度优先后序遍历
 const result2 = treeFilter(tree, item => item.id <= 3, { order: 'post' })
+// result2: [
+//   { id: 2, name: 'Child 1' },
+//   { id: 3, name: 'Child 2' },
+//   { id: 1, name: 'Root 1', children: [{ id: 2, name: 'Child 1' }, { id: 3, name: 'Child 2' }] }
+// ]
 
 // 示例3：广度优先遍历
 const result3 = treeFilter(tree, item => item.id <= 3, { mode: 'bfs' })
+// result3: [
+//   { id: 1, name: 'Root 1', children: [] },
+//   { id: 2, name: 'Child 1' },
+//   { id: 3, name: 'Child 2' }
+// ]
 
 // 示例4：自定义子节点属性名
 const customTree = [
@@ -77,11 +92,21 @@ const customTree = [
   }
 ]
 const result4 = treeFilter(customTree, item => item.id !== 2, { childrenKey: 'subcategories' })
+// result4: [
+//   { id: 1, name: 'Category 1', subcategories: [{ id: 3, name: 'Subcategory 2' }] },
+//   { id: 3, name: 'Subcategory 2' }
+// ]
 ```
 
-## 注意事项
+## 注意事项与边界情况
 
-- 输入的 `array` 必须为数组，否则抛出 `TypeError`。
-- 如果节点的子节点属性存在且不为数组，也会抛出 `TypeError`。
-- 只有过滤函数返回真值的节点才会被保留在结果中。
-# (Delete the entire file docs/kit/reference/function/tree-filter.md)
+- 输入参数 `array` 必须为数组，否则会抛出 `TypeError`。
+- 节点的子节点属性（如 `children` 或自定义属性）如果存在且不是数组，也会抛出 `TypeError`。
+- 仅当过滤函数返回真值时，节点才会被保留在结果中。
+- 返回的新树不会修改原始树结构，所有节点均为浅拷贝。
+- 广度优先模式下，结果节点的子节点数组会被清空，仅保留当前层级。
+- 支持自定义子节点属性名，适配多样化树结构。
+
+## 相关链接
+
+- 源码: [`packages/kit/src/tree/filter/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/filter/index.ts)
