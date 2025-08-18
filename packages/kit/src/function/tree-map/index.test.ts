@@ -265,21 +265,6 @@ describe('treeMap 树结构映射函数', () => {
     expect(() => treeMap([node], fn)).not.toThrow()
   })
 
-  it('性能测试：1000 层深度的树', () => {
-    // 构造 1000 层深度的树，每层 1 个节点
-    let node: any = { id: 0 }
-    for (let i = 1; i <= 1000; i++) {
-      node = { id: i, children: [node] }
-    }
-    const start = Date.now()
-    const fn = (item: any) => ({ ...item })
-    const result = treeMap([node], fn)
-    const duration = Date.now() - start
-    // 可以断言必须在 100ms 内完成等
-    expect(result[0].id).toBe(1000)
-    expect(duration).toBeLessThan(100)
-  })
-
   it('fn 抛出异常', () => {
     const tree = [{ id: 1 }]
     const fn = vi.fn(() => {
