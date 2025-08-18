@@ -84,4 +84,4 @@ const result4 = treeFilter(customTree, item => item.id !== 2, { childrenKey: 'su
 - 输入的 `array` 必须为数组，否则抛出 `TypeError`。
 - 如果节点的子节点属性存在且不为数组，也会抛出 `TypeError`。
 - 只有过滤函数返回真值的节点才会被保留在结果中。
-- 返回的新树不会修改原始树结构。
+# (Delete the entire file docs/kit/reference/function/tree-filter.md)
