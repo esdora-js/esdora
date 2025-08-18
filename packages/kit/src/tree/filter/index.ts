@@ -157,16 +157,19 @@ function treeFilterDfsPost<T, U>(
 }
 
 /**
- * 广度优先遍历树结构并过滤节点。
+ * 对树形数组结构执行广度优先搜索（BFS）过滤。
  *
- * @template T 输入数组元素的类型。
- * @template U 过滤后返回元素的类型。
- * @param array 要遍历的树形结构数组。
- * @param fn 用于判断节点是否保留的过滤函数，返回真值则保留该节点。
- * @param childrenKey 子节点属性的键名，通常为 'children'。
- * @returns 过滤后的节点数组，按广度优先顺序排列。
+ * 遍历树中的每个节点，应用提供的过滤函数 `fn`。
+ * 只有当 `fn` 返回真值时，节点才会被包含在结果中。
+ * 子节点通过指定的 `childrenKey` 属性进行遍历。
  *
- * @throws {TypeError} 如果 childrenKey 对应的属性不是数组，则抛出异常。
+ * @typeParam T - 输入树节点的类型。
+ * @typeParam U - 过滤函数返回的类型，也是结果数组的类型。
+ * @param array - 要过滤的树节点根数组。
+ * @param fn - 接收节点并返回真值以决定是否包含在结果中的函数。
+ * @param childrenKey - 每个树节点中包含子节点的属性名。
+ * @returns 过滤后的节点数组，每个节点的子节点数组为空。
+ * @throws {TypeError} 如果 `childrenKey` 属性存在但不是数组，则抛出异常。
  */
 function treeFilterBfs<T, U>(
   array: T[],
