@@ -5,7 +5,7 @@ description: 了解 Dora Pocket 项目的代码提交工作流，包括如何同
 
 # Git 工作流与提交规范
 
-本指南详细介绍了 `Dora Pocket` 项目的日常开发流程和 Git 使用规范。
+本指南详细介绍了 `Dora Pocket` 项目的日常开发流程和 Git 使用规范。我们致力于维护一个清晰、可追溯且高质量的 Git 历史，这需要每位贡献者的共同努力。
 
 ## 日常开发流程
 
@@ -14,7 +14,7 @@ description: 了解 Dora Pocket 项目的代码提交工作流，包括如何同
 
     ```bash
     git checkout main
-    git pull upstream main
+    git pull upstream main --ff-only
     ```
 
 2.  **创建功能分支**
@@ -27,23 +27,14 @@ description: 了解 Dora Pocket 项目的代码提交工作流，包括如何同
 3.  **编码与测试**
     在新分支上进行编码和测试。关于如何编写测试，请参考 [测试指南](./testing-guide)。
 
-4.  **添加 Changeset (如果需要)**
-    **如果你的改动会影响发布包（即修改了 `packages/` 目录下的代码），你需要添加一个 changeset 文件。** 这能帮助我们自动更新版本和生成 `CHANGELOG`。
-
-    ```bash
-    pnpm changeset
-    ```
-
-    然后，根据交互式提示选择受影响的包、变更级别（`Major`, `Minor`, `Patch`）并填写描述。最后，将生成的 `.md` 文件提交到你的 PR 中。
-
-5.  **提交 Pull Request (PR)**
+4.  **提交 Pull Request (PR)**
     将你的功能分支推送到你的 Fork 仓库，然后在 GitHub 上创建 PR。请确保 PR 标题遵循 **Conventional Commit** 规范（例如 `feat(kit): add deepClone function`）。
 
 ---
 
 ## 常见工作流问答 (FAQ)
 
-### Q1: 我的 PR 存在合并冲突，或者需要更新分支，怎么办？
+### Q1: 我的 PR 存在合并冲突，怎么办？
 
 **现象:** PR 页面提示 "This branch has conflicts that must be resolved"。
 
@@ -52,7 +43,7 @@ description: 了解 Dora Pocket 项目的代码提交工作流，包括如何同
 1.  **获取最新的 `main` 分支代码：**
     ```bash
     git checkout main
-    git pull upstream main
+    git pull upstream main --ff-only
     ```
 2.  **切换回你的功能分支，并执行 Rebase：**
     ```bash
@@ -80,6 +71,8 @@ GitHub 会自动将你的新提交添加到现有的 Pull Request 中。
 
 ### Q3: 我不小心在 `main` 分支上直接写了代码并提交了，怎么办？
 
+> 目前已添加hooks限制，正常情况下在main分支上是不允许提交的。
+
 **别慌，这是一个常见的错误！** 按照以下“四步救援法”操作：
 
 1.  **创建新分支来保存你的工作：**
@@ -103,7 +96,29 @@ GitHub 会自动将你的新提交添加到现有的 Pull Request 中。
     ```
 4.  **现在，你可以正常推送这个被救援的分支并创建 PR 了。**
 
-<!-- ... 你可以继续添加 Q4, Q5 ... -->
+### Q4: 我的功能分支开发了很久，在提交PR前是否需要与 `main` 同步？
+
+**回答：是的，这不仅是需要，而且是一个必须执行的最佳实践。**
+
+**为什么必须这样做？**
+
+- **尽早发现并解决冲突：** 在自己的本地环境提前解决冲突，远比在 PR 页面上看到一堆冲突更高效、更专业。
+- **确保功能兼容：** `main` 分支上的新代码可能已经改变了你所依赖的函数。提前同步并测试，可以确保你的新功能在当前的代码库中能正常工作。
+- **简化代码审查：** 审查者可以确信他们审查的代码是基于最新版本的，这为所有人节省了时间。
+
+**操作方法：** 这个流程与解决冲突的流程完全相同，请参考 **Q1** 中的 `rebase` 步骤，将你的分支更新到最新的 `main` 分支之上。
+
+**建议频率：** 对于开发超过一天的分支，**建议每天开始工作前都同步一次**，以避免在最后阶段面对难以解决的巨大冲突。
+
+### Q5: 我可以用 `git merge` 来同步 `main` 分支以避免强制推送吗？
+
+**回答：** 技术上可以，但我们**强烈不推荐**。
+
+使用 `git merge` 会在你的功能分支中产生许多不必要的“合并提交”（例如 `Merge branch 'main' into ...`），这会严重污染 Pull Request 的历史记录，给代码审查带来巨大困难。
+
+我们采用 `rebase` 方案的核心目的，就是为了保持一个线性的、清晰的提交历史，这与项目最终 `Squash and Merge` 的目标完全一致。虽然 `rebase` 需要使用 `--force-with-lease`，但请放心，这仅限于你自己的功能分支，是完全安全且标准的操作。
+
+**请始终使用 `rebase` 来同步你的分支，以保证协作的高效和历史的纯净。**
 
 ---
 

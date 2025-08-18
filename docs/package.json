@@ -1,4 +1,5 @@
 {
+  "name": "esdora-docs",
   "type": "module",
   "private": true,
   "scripts": {

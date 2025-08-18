@@ -2,7 +2,7 @@
   <a name="readme-top"></a>
 
   <!-- 1. Logo -->
-  <img src="./docs/public/logo.svg" alt="Dora Pocket Logo" width="150">
+  <img src="./docs/public/logo-light.svg" alt="Dora Pocket Logo" width="150">
 
   <!-- 2. 项目名称 -->
   <h1>Dora Pocket</h1>

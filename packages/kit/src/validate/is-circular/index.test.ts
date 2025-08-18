@@ -1,50 +1,50 @@
 import { describe, expect, it } from 'vitest'
-import { checkCircularReference } from './index'
+import { isCircular } from './index'
 
-describe('checkCircularReference 循环引用检测函数', () => {
+describe('isCircular 循环引用检测函数', () => {
   describe('基础类型测试', () => {
     it('应该对 null 返回 false', () => {
-      expect(checkCircularReference(null)).toBe(false)
+      expect(isCircular(null)).toBe(false)
     })
 
     it('应该对 undefined 返回 false', () => {
-      expect(checkCircularReference(undefined)).toBe(false)
+      expect(isCircular(undefined)).toBe(false)
     })
 
     it('应该对字符串返回 false', () => {
-      expect(checkCircularReference('hello')).toBe(false)
+      expect(isCircular('hello')).toBe(false)
     })
 
     it('应该对数字返回 false', () => {
-      expect(checkCircularReference(42)).toBe(false)
+      expect(isCircular(42)).toBe(false)
     })
 
     it('应该对布尔值返回 false', () => {
-      expect(checkCircularReference(true)).toBe(false)
-      expect(checkCircularReference(false)).toBe(false)
+      expect(isCircular(true)).toBe(false)
+      expect(isCircular(false)).toBe(false)
     })
 
     it('应该对 Symbol 返回 false', () => {
-      expect(checkCircularReference(Symbol('test'))).toBe(false)
+      expect(isCircular(Symbol('test'))).toBe(false)
     })
 
     it('应该对 BigInt 返回 false', () => {
-      expect(checkCircularReference(BigInt(123))).toBe(false)
+      expect(isCircular(BigInt(123))).toBe(false)
     })
   })
 
   describe('无循环引用的对象测试', () => {
     it('应该对空对象返回 false', () => {
-      expect(checkCircularReference({})).toBe(false)
+      expect(isCircular({})).toBe(false)
     })
 
     it('应该对空数组返回 false', () => {
-      expect(checkCircularReference([])).toBe(false)
+      expect(isCircular([])).toBe(false)
     })
 
     it('应该对简单对象返回 false', () => {
       const obj = { a: 1, b: 'hello', c: true }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该对嵌套对象（无循环）返回 false', () => {
@@ -57,7 +57,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
           },
         },
       }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该对包含数组的对象返回 false', () => {
@@ -67,7 +67,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
           c: [4, 5, { d: 6 }],
         },
       }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该对包含基础类型属性的复杂对象返回 false', () => {
@@ -81,7 +81,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
           arr: [1, 'two', { three: 3 }],
         },
       }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
   })
 
@@ -89,7 +89,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
     it('应该检测到直接的自引用', () => {
       const obj: any = { a: 1 }
       obj.self = obj
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
     })
 
     it('应该检测到深层的循环引用', () => {
@@ -101,13 +101,13 @@ describe('checkCircularReference 循环引用检测函数', () => {
         },
       }
       obj.a.b.c.ref = obj
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
     })
 
     it('应该检测到数组中的循环引用', () => {
       const arr: any = [1, 2, {}]
       arr[2].ref = arr
-      expect(checkCircularReference(arr)).toBe(true)
+      expect(isCircular(arr)).toBe(true)
     })
 
     it('应该检测到复杂的循环引用', () => {
@@ -115,7 +115,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
       const obj2: any = { name: 'obj2' }
       obj1.ref = obj2
       obj2.ref = obj1
-      expect(checkCircularReference(obj1)).toBe(true)
+      expect(isCircular(obj1)).toBe(true)
     })
 
     it('应该检测到多层嵌套中的循环引用', () => {
@@ -129,26 +129,26 @@ describe('checkCircularReference 循环引用检测函数', () => {
         },
       }
       obj.level1.level2.level3.level4.back = obj.level1
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
     })
   })
 
   describe('getPath 选项测试', () => {
     it('基础类型使用 getPath 选项应该返回 null', () => {
-      expect(checkCircularReference(null, { getPath: true })).toBeNull()
-      expect(checkCircularReference('hello', { getPath: true })).toBeNull()
-      expect(checkCircularReference(42, { getPath: true })).toBeNull()
+      expect(isCircular(null, { getPath: true })).toBeNull()
+      expect(isCircular('hello', { getPath: true })).toBeNull()
+      expect(isCircular(42, { getPath: true })).toBeNull()
     })
 
     it('无循环引用的对象使用 getPath 选项应该返回 null', () => {
       const obj = { a: 1, b: { c: 2 } }
-      expect(checkCircularReference(obj, { getPath: true })).toBeNull()
+      expect(isCircular(obj, { getPath: true })).toBeNull()
     })
 
     it('应该返回直接自引用的路径', () => {
       const obj: any = { a: 1 }
       obj.self = obj
-      const path = checkCircularReference(obj, { getPath: true })
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['self', '[Circular Reference -> \'root\']'])
     })
 
@@ -161,7 +161,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
         },
       }
       obj.a.b.c.ref = obj
-      const path = checkCircularReference(obj, { getPath: true })
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['a', 'b', 'c', 'ref', '[Circular Reference -> \'root\']'])
     })
 
@@ -172,14 +172,14 @@ describe('checkCircularReference 循环引用检测函数', () => {
         },
       }
       obj.level1.level2.back = obj.level1
-      const path = checkCircularReference(obj, { getPath: true })
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['level1', 'level2', 'back', '[Circular Reference -> \'level1\']'])
     })
 
     it('应该返回数组中循环引用的路径', () => {
       const arr: any = [1, { nested: {} }]
       arr[1].nested.ref = arr
-      const path = checkCircularReference(arr, { getPath: true })
+      const path = isCircular(arr, { getPath: true })
       expect(path).toEqual(['1', 'nested', 'ref', '[Circular Reference -> \'root\']'])
     })
   })
@@ -188,12 +188,12 @@ describe('checkCircularReference 循环引用检测函数', () => {
     it('显式设置 getPath: false 应该返回布尔值', () => {
       const obj: any = { a: 1 }
       obj.self = obj
-      expect(checkCircularReference(obj, { getPath: false })).toBe(true)
+      expect(isCircular(obj, { getPath: false })).toBe(true)
     })
 
     it('无循环引用时 getPath: false 应该返回 false', () => {
       const obj = { a: 1, b: { c: 2 } }
-      expect(checkCircularReference(obj, { getPath: false })).toBe(false)
+      expect(isCircular(obj, { getPath: false })).toBe(false)
     })
   })
 
@@ -209,9 +209,9 @@ describe('checkCircularReference 循环引用检测函数', () => {
         },
       }
       obj.nested.circular = obj
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
 
-      const path = checkCircularReference(obj, { getPath: true })
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['nested', 'circular', '[Circular Reference -> \'root\']'])
     })
 
@@ -223,8 +223,8 @@ describe('checkCircularReference 循环引用检测函数', () => {
       obj.path1.ref = obj
       obj.path2.ref = obj
 
-      expect(checkCircularReference(obj)).toBe(true)
-      const path = checkCircularReference(obj, { getPath: true })
+      expect(isCircular(obj)).toBe(true)
+      const path = isCircular(obj, { getPath: true })
       // 应该返回第一个找到的路径（Object.entries 的顺序）
       expect(path).toBeDefined()
       expect(Array.isArray(path)).toBe(true)
@@ -246,8 +246,8 @@ describe('checkCircularReference 循环引用检测函数', () => {
       }
       obj.e.f.g.circular = obj.e
 
-      expect(checkCircularReference(obj)).toBe(true)
-      const path = checkCircularReference(obj, { getPath: true })
+      expect(isCircular(obj)).toBe(true)
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['e', 'f', 'g', 'circular', '[Circular Reference -> \'e\']'])
     })
 
@@ -261,7 +261,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
       }
       obj.nested.empty3.ref = obj
 
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
     })
 
     it('应该处理递归中遇到基础类型的情况', () => {
@@ -275,8 +275,8 @@ describe('checkCircularReference 循环引用检测函数', () => {
       }
       obj.a.circular = obj
 
-      expect(checkCircularReference(obj)).toBe(true)
-      const path = checkCircularReference(obj, { getPath: true })
+      expect(isCircular(obj)).toBe(true)
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['a', 'circular', '[Circular Reference -> \'root\']'])
     })
 
@@ -297,8 +297,8 @@ describe('checkCircularReference 循环引用检测函数', () => {
         },
       }
 
-      expect(checkCircularReference(obj)).toBe(false)
-      expect(checkCircularReference(obj, { getPath: true })).toBeNull()
+      expect(isCircular(obj)).toBe(false)
+      expect(isCircular(obj, { getPath: true })).toBeNull()
     })
 
     it('应该测试 options 参数为 undefined 的情况', () => {
@@ -306,10 +306,10 @@ describe('checkCircularReference 循环引用检测函数', () => {
       obj.self = obj
 
       // 不传递 options 参数
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
 
       // 传递 undefined
-      expect(checkCircularReference(obj, undefined)).toBe(true)
+      expect(isCircular(obj, undefined)).toBe(true)
     })
 
     it('应该测试 options.getPath 为 undefined 的情况', () => {
@@ -317,7 +317,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
       obj.self = obj
 
       // getPath 为 undefined，应该默认为 false
-      expect(checkCircularReference(obj, { getPath: undefined as any })).toBe(true)
+      expect(isCircular(obj, { getPath: undefined as any })).toBe(true)
     })
 
     it('应该测试函数重载的类型安全性', () => {
@@ -325,9 +325,9 @@ describe('checkCircularReference 循环引用检测函数', () => {
       obj.self = obj
 
       // 测试不同的重载签名
-      const result1: boolean = checkCircularReference(obj)
-      const result2: boolean = checkCircularReference(obj, { getPath: false })
-      const result3: string[] | null = checkCircularReference(obj, { getPath: true })
+      const result1: boolean = isCircular(obj)
+      const result2: boolean = isCircular(obj, { getPath: false })
+      const result3: string[] | null = isCircular(obj, { getPath: true })
 
       expect(result1).toBe(true)
       expect(result2).toBe(true)
@@ -346,7 +346,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
         current = current.next
       }
 
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该能处理包含大量属性的对象', () => {
@@ -357,11 +357,11 @@ describe('checkCircularReference 循环引用检测函数', () => {
         obj[`prop${i}`] = { value: i }
       }
 
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
 
       // 添加循环引用
       obj.prop50.circular = obj
-      expect(checkCircularReference(obj)).toBe(true)
+      expect(isCircular(obj)).toBe(true)
     })
   })
 
@@ -373,7 +373,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
           anotherDate: new Date(),
         },
       }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该处理 RegExp 对象', () => {
@@ -383,7 +383,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
           anotherRegex: /hello/i,
         },
       }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该处理函数对象', () => {
@@ -393,7 +393,7 @@ describe('checkCircularReference 循环引用检测函数', () => {
           arrow: () => 'arrow',
         },
       }
-      expect(checkCircularReference(obj)).toBe(false)
+      expect(isCircular(obj)).toBe(false)
     })
 
     it('应该处理包含循环引用的特殊对象', () => {
@@ -404,8 +404,8 @@ describe('checkCircularReference 循环引用检测函数', () => {
       }
       obj.circular = obj
 
-      expect(checkCircularReference(obj)).toBe(true)
-      const path = checkCircularReference(obj, { getPath: true })
+      expect(isCircular(obj)).toBe(true)
+      const path = isCircular(obj, { getPath: true })
       expect(path).toEqual(['circular', '[Circular Reference -> \'root\']'])
     })
   })

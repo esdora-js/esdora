@@ -3,7 +3,7 @@
  * @param { Promise } promise
  * @param {object=} errorExt - Additional Information you can pass to the err object
  * @return { Promise }
- * @Reference https://github.com/evanw/esbuild/issues/1048
+ * @Reference https://github.com/scopsy/await-to-js
  */
 export function to<T, U = Error>(
   promise: Promise<T>,

@@ -18,24 +18,32 @@ export default defineConfig({
   cleanUrls: true,
 
   head: [
-    // 基础 meta
-    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
-    ['meta', { name: 'theme-color', content: '#5585EE' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' }],
+    ['link', { rel: 'shortcut icon', href: '/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }],
+    ['link', { rel: 'mask-icon', href: '/logo-mask.svg', color: '#007AFF' }],
+    ['link', { rel: 'manifest', href: '/site.webmanifest' }],
+
+    // --- Theme and Mobile ---
+    ['meta', { name: 'theme-color', content: '#007AFF' }],
     ['meta', { name: 'author', content: 'Esdora' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, viewport-fit=cover' }],
+    ['meta', { name: 'apple-mobile-web-app-title', content: 'Dora Pocket' }], // 保持与 title 一致的风格
 
-    // Open Graph
+    // --- Open Graph (Perfect as is) ---
+    ['meta', { property: 'og:site_name', content: 'Dora Pocket' }], // (建议新增) 补充站点名称
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Dora Pocket - 前端开发的四次元口袋' }],
-    ['meta', { property: 'og:description', content: '一个包罗万象的知识宝库，提供从工具函数、组件到最佳实践的各种前端“道具”。' }], // 稍微精简
-    ['meta', { property: 'og:image', content: 'https://esdora.js.org/og-image.png' }], // 替换为你的域名和图片路径
-    ['meta', { property: 'og:url', content: 'https://esdora.js.org' }], // 替换为你的域名
+    ['meta', { property: 'og:description', content: '一个包罗万象的知识宝库，提供从工具函数、组件到最佳实践的各种前端“道具”。' }],
+    ['meta', { property: 'og:image', content: 'https://esdora.js.org/social-preview.png' }],
+    ['meta', { property: 'og:url', content: 'https://esdora.js.org' }],
 
-    // Twitter Card
+    // --- Twitter Card (Perfect as is) ---
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'Dora Pocket - 前端开发的四次元口袋' }],
     ['meta', { name: 'twitter:description', content: '一个包罗万象的知识宝库，提供从工具函数、组件到最佳实践的各种前端“道具”。' }],
-    ['meta', { name: 'twitter:image', content: 'https://esdora.js.org/og-image.png' }],
+    ['meta', { name: 'twitter:image', content: 'https://esdora.js.org/social-preview.png' }],
   ],
 
   markdown: {
@@ -48,21 +56,16 @@ export default defineConfig({
   vite,
 
   themeConfig: {
-    logo: '/logo.svg',
-    siteTitle: 'Dora Pocket',
+    // 将 logo 从字符串改为对象，VitePress 会自动根据亮/暗模式切换
+    logo: {
+      light: '/logo-light.svg',
+      dark: '/logo-dark.svg',
+      alt: 'Dora Pocket Logo',
+    },
 
     nav: [
       { text: '指南', link: '/guide/getting-started' },
       { text: '工具函数 (Kit)', link: '/kit/' },
-      // {
-      //   text: '百宝箱',
-      //   items: [
-      //     { text: '工具函数 (Kit)', link: '/kit/' },
-      //     { text: 'Vue 组件', link: '/vue/' },
-      //     { text: 'React 组件', link: '/react/' },
-      //   ],
-      // },
-      // { text: '最佳实践', link: '/practices/coming-soon' },
       { text: '参与贡献', link: '/contributing/' },
       { text: '关于我们', link: '/about' },
     ],

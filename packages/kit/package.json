@@ -1,7 +1,7 @@
 {
   "name": "@esdora/kit",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A library of tools commonly used for development",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
@@ -25,44 +25,14 @@
         "default": "./dist/index.cjs"
       }
     },
-    "./function": {
+    "./experimental": {
       "import": {
-        "types": "./dist/types/function.d.mts",
-        "default": "./dist/function.mjs"
+        "types": "./dist/types/experimental.d.mts",
+        "default": "./dist/experimental.mjs"
       },
       "require": {
-        "types": "./dist/types/function.d.cts",
-        "default": "./dist/function.cjs"
-      }
-    },
-    "./promise": {
-      "import": {
-        "types": "./dist/types/promise.d.mts",
-        "default": "./dist/promise.mjs"
-      },
-      "require": {
-        "types": "./dist/types/promise.d.cts",
-        "default": "./dist/promise.cjs"
-      }
-    },
-    "./validate": {
-      "import": {
-        "types": "./dist/types/validate.d.mts",
-        "default": "./dist/validate.mjs"
-      },
-      "require": {
-        "types": "./dist/types/validate.d.cts",
-        "default": "./dist/validate.cjs"
-      }
-    },
-    "./web": {
-      "import": {
-        "types": "./dist/types/web.d.mts",
-        "default": "./dist/web.mjs"
-      },
-      "require": {
-        "types": "./dist/types/web.d.cts",
-        "default": "./dist/web.cjs"
+        "types": "./dist/types/experimental.d.cts",
+        "default": "./dist/experimental.cjs"
       }
     }
   },

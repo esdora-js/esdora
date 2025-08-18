@@ -22,20 +22,24 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         text: '参考',
         items: [
           {
-            text: '验证类',
-            items: getSidebarItem(baseDir, 'kit/reference/validate'),
+            text: '函数类 (Function)',
+            items: getSidebarItem(baseDir, 'kit/reference/function'),
           },
           {
-            text: '浏览器类',
-            items: getSidebarItem(baseDir, 'kit/reference/web'),
-          },
-          {
-            text: 'Promise类',
+            text: 'Promise类 (Promise)',
             items: getSidebarItem(baseDir, 'kit/reference/promise'),
           },
           {
-            text: '函数类',
-            items: getSidebarItem(baseDir, 'kit/reference/function'),
+            text: '树类 (Tree)',
+            items: getSidebarItem(baseDir, 'kit/reference/tree'),
+          },
+          {
+            text: '验证类 (Validate)',
+            items: getSidebarItem(baseDir, 'kit/reference/validate'),
+          },
+          {
+            text: '实验性 (Experimental)',
+            items: getSidebarItem(baseDir, 'kit/reference/experimental'),
           },
         ],
       },
@@ -46,13 +50,14 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         items: [
           { text: '介绍与环境设置', link: '/contributing/' },
           { text: 'Git 工作流与提交规范', link: '/contributing/git-workflow' },
+          { text: '函数设计与实现指南', link: '/contributing/implementation-guide' },
           { text: '测试指南', link: '/contributing/testing-guide' },
           {
             text: '文档编写',
             collapsed: false, // 默认展开
             items: [
               { text: '总览', link: '/contributing/documentation/overview' },
-              { text: 'Kit 函数模板', link: '/contributing/documentation/kit-template' },
+              { text: 'Kit 文档模板', link: '/contributing/documentation/kit-template' },
               // 未来可以添加:
               // { text: 'Hooks 模板', link: '/contributing/documentation/hooks-template' },
               // { text: '文章模板', link: '/contributing/documentation/practices-template' },

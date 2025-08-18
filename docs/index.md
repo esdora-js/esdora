@@ -6,7 +6,7 @@ hero:
   text: "前端开发的四次元口袋"
   tagline: 从实用工具到深度实践，这里有你解决下一个前端难题所需的一切“道具”。
   image:
-    src: /logo.svg
+    src: /logo-light.svg
     alt: Dora Pocket Logo
   actions:
     - theme: brand

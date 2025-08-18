@@ -1,0 +1,14 @@
+safe: function
+createSafe: function
+_JSON: object
+to: function
+getLeafPath: function
+isAlnum: function
+isAlpha: function
+isCircular: function
+isDigit: function
+isEmail: function
+isEmailStrict: function
+isFirefox: function
+isPhone: function
+isSafari: function
