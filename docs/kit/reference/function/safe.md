@@ -140,4 +140,4 @@ function safe<T extends (...args: any[]) => any>(
 
 ## 相关链接
 
-- 源码: `packages/kit/src/function/safe/index.ts`
+- 源码: [`packages/kit/src/function/safe/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/function/safe/index.ts)
