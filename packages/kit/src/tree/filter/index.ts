@@ -25,7 +25,7 @@ export interface TreeFilterOptions {
  *   - mode: 'dfs' | 'bfs'，遍历模式，默认为 'dfs'
  *   - order: 'pre' | 'post'，遍历顺序，仅在 dfs 时有效，默认为 'pre'
  *   - childrenKey: string，子节点属性名，默认为 'children'
- * @returns 过滤后的结果数组，结构与原数组一致，仅包含满足条件的节点。
+ * @returns 过滤后的树形结构数组，保持原有的层级关系，仅包含满足条件的节点。
  * @throws {TypeError} 如果第一个参数不是数组，则抛出类型错误。
  *
  * @example
@@ -34,7 +34,7 @@ export interface TreeFilterOptions {
  *   { id: 1, children: [{ id: 2 }] }
  * ];
  * const result = treeFilter(tree, node => node.id > 1);
- * // result: [{ id: 2 }]
+ * // result: [{ id: 1, children: [{ id: 2 }] }]
  * ```
  */
 export function treeFilter<T extends Record<string, any>>(
@@ -129,8 +129,8 @@ function treeFilterDfsPost<T extends Record<string, any>>(
       throw new TypeError(`Expected ${childrenKey} to be an array`)
     }
     let newItem = item
-    if ((item as Record<string, any>)[childrenKey] && Array.isArray((item as Record<string, any>)[childrenKey])) {
-      const childrenResult = treeFilterDfsPost((item as Record<string, any>)[childrenKey], fn, childrenKey)
+    if (item[childrenKey] && Array.isArray(item[childrenKey])) {
+      const childrenResult = treeFilterDfsPost(item[childrenKey], fn, childrenKey)
       newItem = { ...item, [childrenKey]: childrenResult }
     }
     if (fn(newItem)) {
@@ -151,7 +151,7 @@ function treeFilterDfsPost<T extends Record<string, any>>(
  * @param array - 要过滤的树节点根数组。
  * @param fn - 接收节点并返回 true 以决定是否包含在结果中的函数。
  * @param childrenKey - 每个树节点中包含子节点的属性名。
- * @returns 过滤后的节点数组，每个节点的子节点数组为空。
+ * @returns 过滤后的树结构数组，保持原有的层级关系。
  * @throws {TypeError} 如果 `childrenKey` 属性存在但不是数组，则抛出异常。
  */
 function treeFilterBfs<T extends Record<string, any>>(
@@ -160,9 +160,7 @@ function treeFilterBfs<T extends Record<string, any>>(
   childrenKey: string,
 ): T[] {
   const result: T[] = []
-  const queue: T[] = [...array]
-  while (queue.length > 0) {
-    const item = queue.shift()!
+  for (const item of array) {
     if (
       (item as any)[childrenKey] !== undefined
       && (item as any)[childrenKey] !== null
@@ -171,9 +169,9 @@ function treeFilterBfs<T extends Record<string, any>>(
       throw new TypeError(`Expected ${childrenKey} to be an array`)
     }
     let newItem = item
-    if ((item as Record<string, any>)[childrenKey] && Array.isArray((item as Record<string, any>)[childrenKey])) {
-      queue.push(...(item as Record<string, any>)[childrenKey])
-      newItem = { ...item, [childrenKey]: [] }
+    if (item[childrenKey] && Array.isArray(item[childrenKey])) {
+      const childrenResult = treeFilterBfs(item[childrenKey], fn, childrenKey)
+      newItem = { ...item, [childrenKey]: childrenResult }
     }
     if (fn(newItem)) {
       result.push(newItem)

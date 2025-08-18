@@ -102,9 +102,38 @@ describe('树过滤器 (treeFilter)', () => {
     it('应该在 BFS 模式下过滤树', () => {
       const result = treeFilter(sampleTree, item => item.id <= 2, { mode: 'bfs' })
       expect(result).toEqual([
-        { id: 1, name: 'root1', children: [] },
-        { id: 2, name: 'child1', children: [] },
+        {
+          id: 1,
+          name: 'root1',
+          children: [
+            {
+              id: 2,
+              name: 'child1',
+              children: [],
+            },
+          ],
+        },
       ])
+    })
+
+    it('应该在 BFS 模式下保持树形结构', () => {
+      const result = treeFilter(sampleTree, item => item.id % 2 === 1, { mode: 'bfs' })
+      expect(result).toEqual([
+        {
+          id: 1,
+          name: 'root1',
+          children: [
+            { id: 5, name: 'child2' },
+          ],
+        },
+      ])
+    })
+
+    it('bFS 模式应该和 DFS 模式产生相同的树形结构结果', () => {
+      const filterFn = (item: any) => item.id <= 5
+      const bfsResult = treeFilter(sampleTree, filterFn, { mode: 'bfs' })
+      const dfsResult = treeFilter(sampleTree, filterFn, { mode: 'dfs' })
+      expect(bfsResult).toEqual(dfsResult)
     })
   })
 
