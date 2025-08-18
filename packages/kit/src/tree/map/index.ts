@@ -1,3 +1,5 @@
+import { validateChildrenProperty } from '../../_internal/validate'
+
 /**
  * 配置 treeMap 函数行为的选项。
  *
@@ -60,13 +62,7 @@ function treeMapDfsPre<T, U>(
 ): U[] {
   return array.map((item) => {
     // 类型检查
-    if (
-      (item as any)[childrenKey] !== undefined
-      && (item as any)[childrenKey] !== null
-      && !Array.isArray((item as any)[childrenKey])
-    ) {
-      throw new TypeError(`Expected ${childrenKey} to be an array`)
-    }
+    validateChildrenProperty(item, childrenKey)
 
     let mapped = fn(item)
     if (Array.isArray((item as any)[childrenKey])) {
@@ -94,13 +90,7 @@ function treeMapDfsPost<T, U>(
 ): U[] {
   return array.map((item) => {
     // 类型检查
-    if (
-      (item as any)[childrenKey] !== undefined
-      && (item as any)[childrenKey] !== null
-      && !Array.isArray((item as any)[childrenKey])
-    ) {
-      throw new TypeError(`Expected ${childrenKey} to be an array`)
-    }
+    validateChildrenProperty(item, childrenKey)
 
     let childrenMapped: U[] | undefined
     if (Array.isArray((item as any)[childrenKey])) {
@@ -136,13 +126,7 @@ function treeMapBfs<T, U>(
   while (queue.length) {
     const { node, parentList } = queue.shift()!
 
-    if (
-      node[childrenKey] !== undefined
-      && node[childrenKey] !== null
-      && !Array.isArray(node[childrenKey])
-    ) {
-      throw new TypeError(`Expected ${childrenKey} to be an array`)
-    }
+    validateChildrenProperty(node, childrenKey)
 
     const mapped = fn(node)
     parentList.push(mapped)
