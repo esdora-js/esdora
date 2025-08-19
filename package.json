@@ -33,7 +33,7 @@
     "@antfu/eslint-config": "catalog:",
     "@antfu/utils": "catalog:",
     "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.5",
+    "@changesets/cli": "^2.29.6",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@esdora/kit": "workspace:*",
