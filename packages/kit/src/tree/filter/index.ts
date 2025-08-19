@@ -1,3 +1,5 @@
+import { validateChildrenProperty } from '../../_internal/validate'
+
 /**
  * TreeFilterOptions 配置项说明：
  *
@@ -84,13 +86,8 @@ function treeFilterDfsPre<T extends Record<string, any>>(
 ): T[] {
   const result: T[] = []
   for (const item of array) {
-    if (
-      (item as any)[childrenKey] !== undefined
-      && (item as any)[childrenKey] !== null
-      && !Array.isArray((item as any)[childrenKey])
-    ) {
-      throw new TypeError(`Expected ${childrenKey} to be an array`)
-    }
+    validateChildrenProperty(item, childrenKey)
+
     let newItem = item
     if (item[childrenKey] && Array.isArray(item[childrenKey])) {
       const childrenResult = treeFilterDfsPre(item[childrenKey], fn, childrenKey)
@@ -121,13 +118,8 @@ function treeFilterDfsPost<T extends Record<string, any>>(
 ): T[] {
   const result: T[] = []
   for (const item of array) {
-    if (
-      (item as any)[childrenKey] !== undefined
-      && (item as any)[childrenKey] !== null
-      && !Array.isArray((item as any)[childrenKey])
-    ) {
-      throw new TypeError(`Expected ${childrenKey} to be an array`)
-    }
+    validateChildrenProperty(item, childrenKey)
+
     let newItem = item
     if (item[childrenKey] && Array.isArray(item[childrenKey])) {
       const childrenResult = treeFilterDfsPost(item[childrenKey], fn, childrenKey)
@@ -161,13 +153,8 @@ function treeFilterBfs<T extends Record<string, any>>(
 ): T[] {
   const result: T[] = []
   for (const item of array) {
-    if (
-      (item as any)[childrenKey] !== undefined
-      && (item as any)[childrenKey] !== null
-      && !Array.isArray((item as any)[childrenKey])
-    ) {
-      throw new TypeError(`Expected ${childrenKey} to be an array`)
-    }
+    validateChildrenProperty(item, childrenKey)
+
     let newItem = item
     if (item[childrenKey] && Array.isArray(item[childrenKey])) {
       const childrenResult = treeFilterBfs(item[childrenKey], fn, childrenKey)
