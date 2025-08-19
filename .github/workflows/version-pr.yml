@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # 需要 fetch-depth: 0 才能让 Changesets 正确获取所有历史记录来生成版本
           fetch-depth: 0
