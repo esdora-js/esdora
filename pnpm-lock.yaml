@@ -90,6 +90,9 @@ catalogs:
     typescript:
       specifier: ^5.9.2
       version: 5.9.2
+    unbuild:
+      specifier: ^3.6.1
+      version: 3.6.1
     unocss:
       specifier: ^66.4.2
       version: 66.4.2
@@ -136,7 +139,7 @@ importers:
         version: 0.5.1
       '@changesets/cli':
         specifier: ^2.29.6
-        version: 2.29.6(@types/node@24.2.1)
+        version: 2.29.6(@types/node@24.3.0)
       '@commitlint/cli':
         specifier: 'catalog:'
         version: 19.8.1(@types/node@24.3.0)(typescript@5.9.2)
@@ -195,7 +198,7 @@ importers:
         specifier: 'catalog:'
         version: 5.9.2
       unbuild:
-        specifier: 3.6.1
+        specifier: 'catalog:'
         version: 3.6.1(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
       vite:
         specifier: 'catalog:'
@@ -4169,7 +4172,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@changesets/cli@2.29.6(@types/node@24.2.1)':
+  '@changesets/cli@2.29.6(@types/node@24.3.0)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.12
       '@changesets/assemble-release-plan': 6.0.9
@@ -4185,7 +4188,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.1(@types/node@24.2.1)
+      '@inquirer/external-editor': 1.0.1(@types/node@24.3.0)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.9.0
@@ -4637,12 +4640,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@inquirer/external-editor@1.0.1(@types/node@24.2.1)':
+  '@inquirer/external-editor@1.0.1(@types/node@24.3.0)':
     dependencies:
       chardet: 2.1.0
       iconv-lite: 0.6.3
     optionalDependencies:
-      '@types/node': 24.2.1
+      '@types/node': 24.3.0
 
   '@isaacs/cliui@8.0.2':
     dependencies:
