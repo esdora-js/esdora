@@ -43,6 +43,12 @@ const treeWithCustomChildren = [
   },
 ]
 
+const nullTree = [
+  null,
+  undefined,
+  { id: 1, children: [null, { id: 2 }] },
+] as any[]
+
 describe('treeSome', () => {
   describe('基本功能', () => {
     it('应该在找到满足条件的节点时返回 true', () => {
@@ -62,6 +68,12 @@ describe('treeSome', () => {
 
     it('应该在叶子节点满足条件时返回 true', () => {
       const result = treeSome(simpleTree, node => node.value === 'b')
+      expect(result).toBe(true)
+    })
+    it('广度优先搜索（BFS）时应跳过所有假值项', () => {
+      // 构造 childrenKey 下有 falsy 节点
+      // 检查 id === 2 是否能被找到
+      const result = treeSome(nullTree, node => node && node.id === 2, { mode: 'bfs' })
       expect(result).toBe(true)
     })
   })
@@ -359,5 +371,18 @@ describe('treeSome', () => {
       expect(dfsVisits).toEqual([1, 2]) // DFS 先找到 id=2
       expect(bfsVisits).toEqual([1, 4]) // BFS 先找到 id=4
     })
+  })
+})
+describe('分支覆盖', () => {
+  it('should skip falsy item in bfs', () => {
+    // 构造 childrenKey 下有 falsy 节点
+    const tree: any[] = [
+      null,
+      undefined,
+      { id: 1, children: [null, { id: 2 }] },
+    ]
+    // 检查 id === 2 是否能被找到
+    const result = treeSome(tree, node => node && node.id === 2, { mode: 'bfs' })
+    expect(result).toBe(true)
   })
 })
