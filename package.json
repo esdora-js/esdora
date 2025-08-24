@@ -70,5 +70,8 @@
       "esbuild",
       "lefthook"
     ]
+  },
+  "volta": {
+    "node": "22.18.0"
   }
 }

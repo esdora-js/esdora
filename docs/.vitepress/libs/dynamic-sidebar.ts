@@ -26,6 +26,14 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
             items: getSidebarItem(baseDir, 'kit/reference/function'),
           },
           {
+            text: '验证类 (Is)',
+            items: getSidebarItem(baseDir, 'kit/reference/is'),
+          },
+          {
+            text: '数字类 (Number)',
+            items: getSidebarItem(baseDir, 'kit/reference/number'),
+          },
+          {
             text: 'Promise类 (Promise)',
             items: getSidebarItem(baseDir, 'kit/reference/promise'),
           },
@@ -33,10 +41,7 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
             text: '树类 (Tree)',
             items: getSidebarItem(baseDir, 'kit/reference/tree'),
           },
-          {
-            text: '验证类 (Validate)',
-            items: getSidebarItem(baseDir, 'kit/reference/validate'),
-          },
+
           {
             text: '实验性 (Experimental)',
             items: getSidebarItem(baseDir, 'kit/reference/experimental'),

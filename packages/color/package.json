@@ -42,9 +42,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "color": "catalog:"
+    "@esdora/kit": "workspace:*",
+    "culori": "catalog:"
   },
   "devDependencies": {
-    "@esdora/build-tools": "workspace:*"
+    "@esdora/build-tools": "workspace:*",
+    "@types/culori": "^4.0.0"
   }
 }
