@@ -151,7 +151,7 @@ describe('adjustChroma', () => {
       const colorWithUndefinedChroma = {
         mode: 'oklch' as const,
         l: 0.5,
-        c: undefined,
+        c: 0,
         h: 180,
       }
 

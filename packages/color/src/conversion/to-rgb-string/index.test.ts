@@ -14,13 +14,17 @@ describe('toRgbString', () => {
     })
 
     it('当传入 HSL 对象时，必须转换为 RGB 字符串', () => {
-      const result = toRgbString({ h: 0, s: 100, l: 50 })
-      expect(result).toBe('rgb(255, 0, 0)')
+      const result1 = toRgbString({ h: 0, s: 100, l: 50, mode: 'hsl' })
+      const result2 = toRgbString({ h: 0, s: 100, l: 50 } as any)
+      expect(result1).toBe('rgb(255, 0, 0)')
+      expect(result2).toBe('rgb(255, 0, 0)')
     })
 
     it('当传入 RGB 对象时，必须正确处理', () => {
-      const result = toRgbString({ r: 255, g: 0, b: 0 })
-      expect(result).toBe('rgb(255, 0, 0)')
+      const result1 = toRgbString({ r: 255, g: 0, b: 0, mode: 'rgb' })
+      const result2 = toRgbString({ r: 255, g: 0, b: 0 } as any)
+      expect(result1).toBe('rgb(255, 0, 0)')
+      expect(result2).toBe('rgb(255, 0, 0)')
     })
 
     it('当传入不同颜色时，必须正确转换', () => {

@@ -7,35 +7,35 @@ describe('adjustHue', () => {
       const result = adjustHue('#FF0000', 180)
       expect(result).not.toBe(null)
       expect(result?.mode).toBe('oklch')
-      expect(result?.h).toBeCloseTo(180, 1)
+      expect((result as any)?.h).toBeCloseTo(180, 1)
     })
 
     it('当传入 0 时，必须将色相设置为 0', () => {
       const result = adjustHue('#FF0000', 0)
       expect(result).not.toBe(null)
-      expect(result?.h).toBeCloseTo(0, 1)
+      expect((result as any)?.h).toBeCloseTo(0, 1)
     })
 
     it('当传入 360 时，必须将色相标准化为 0', () => {
       const result = adjustHue('#FF0000', 360)
       expect(result).not.toBe(null)
-      expect(result?.h).toBeCloseTo(0, 1)
+      expect((result as any)?.h).toBeCloseTo(0, 1)
     })
 
     it('当传入超出 360 度的值时，必须正确标准化', () => {
       const result1 = adjustHue('#FF0000', 450) // 450 - 360 = 90
-      expect(result1?.h).toBeCloseTo(90, 1)
+      expect((result1 as any)?.h).toBeCloseTo(90, 1)
 
       const result2 = adjustHue('#FF0000', 720) // 720 - 720 = 0
-      expect(result2?.h).toBeCloseTo(0, 1)
+      expect((result2 as any)?.h).toBeCloseTo(0, 1)
     })
 
     it('当传入负值时，必须正确标准化', () => {
       const result1 = adjustHue('#FF0000', -30) // -30 + 360 = 330
-      expect(result1?.h).toBeCloseTo(330, 1)
+      expect((result1 as any)?.h).toBeCloseTo(330, 1)
 
       const result2 = adjustHue('#FF0000', -390) // -390 + 720 = 330
-      expect(result2?.h).toBeCloseTo(330, 1)
+      expect((result2 as any)?.h).toBeCloseTo(330, 1)
     })
   })
 
@@ -57,16 +57,16 @@ describe('adjustHue', () => {
       const originalResult = adjustHue('#FF0000', h => h)
       expect(originalResult).not.toBe(null)
 
-      const expectedHue = ((originalResult?.h ?? 0) + 30) % 360
-      expect(result?.h).toBeCloseTo(expectedHue, 1)
+      const expectedHue = (((originalResult as any)?.h ?? 0) + 30) % 360
+      expect((result as any)?.h).toBeCloseTo(expectedHue, 1)
     })
 
     it('当函数返回超出范围的值时，必须正确标准化', () => {
       const result1 = adjustHue('#FF0000', () => 450)
-      expect(result1?.h).toBeCloseTo(90, 1)
+      expect((result1 as any)?.h).toBeCloseTo(90, 1)
 
       const result2 = adjustHue('#FF0000', () => -30)
-      expect(result2?.h).toBeCloseTo(330, 1)
+      expect((result2 as any)?.h).toBeCloseTo(330, 1)
     })
   })
 
@@ -75,21 +75,21 @@ describe('adjustHue', () => {
       const result = adjustHue({ r: 255, g: 0, b: 0 } as any, 120)
       expect(result).not.toBe(null)
       expect(result?.mode).toBe('oklch')
-      expect(result?.h).toBeCloseTo(120, 1)
+      expect((result as any)?.h).toBeCloseTo(120, 1)
     })
 
     it('当传入 HSL 字符串时，必须正确调整', () => {
       const result = adjustHue('hsl(0, 100%, 50%)', 240)
       expect(result).not.toBe(null)
       expect(result?.mode).toBe('oklch')
-      expect(result?.h).toBeCloseTo(240, 1)
+      expect((result as any)?.h).toBeCloseTo(240, 1)
     })
 
     it('当传入 culori 颜色对象时，必须正确调整', () => {
       const result = adjustHue({ mode: 'rgb', r: 1, g: 0, b: 0 }, 60)
       expect(result).not.toBe(null)
       expect(result?.mode).toBe('oklch')
-      expect(result?.h).toBeCloseTo(60, 1)
+      expect((result as any)?.h).toBeCloseTo(60, 1)
     })
   })
 

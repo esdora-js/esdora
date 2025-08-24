@@ -92,8 +92,8 @@ function generateMonochromaticPalette(baseHsl: EsdoraColor, count: number, inclu
     const lightness = Math.max(0.1, Math.min(0.9, step * (i + 1)))
     const color: EsdoraColor = {
       mode: 'hsl',
-      h: baseHsl.h ?? 0,
-      s: baseHsl.s ?? 0,
+      h: (baseHsl as any).h ?? 0,
+      s: (baseHsl as any).s ?? 0,
       l: lightness,
       alpha: baseHsl.alpha ?? 1,
     }
@@ -107,9 +107,13 @@ function generateMonochromaticPalette(baseHsl: EsdoraColor, count: number, inclu
       palette.sort((a, b) => {
         const aColor = parseColor(a)
         const bColor = parseColor(b)
+        if (!aColor || !bColor)
+          return 0
         const aHsl = hsl(aColor)
         const bHsl = hsl(bColor)
-        return aHsl.l - bHsl.l
+        if (!aHsl || !bHsl)
+          return 0
+        return ((aHsl as any).l ?? 0) - ((bHsl as any).l ?? 0)
       })
     }
   }
@@ -122,12 +126,12 @@ function generateAnalogousPalette(baseHsl: EsdoraColor, count: number, includeBa
   const step = 60 / (count - 1) // 类似色通常在60度范围内
 
   for (let i = 0; i < count; i++) {
-    const hue = ((baseHsl.h ?? 0) + (i - Math.floor(count / 2)) * step + 360) % 360
+    const hue = (((baseHsl as any).h ?? 0) + (i - Math.floor(count / 2)) * step + 360) % 360
     const color: EsdoraColor = {
       mode: 'hsl',
       h: hue,
-      s: baseHsl.s ?? 0,
-      l: baseHsl.l ?? 0,
+      s: (baseHsl as any).s ?? 0,
+      l: (baseHsl as any).l ?? 0,
       alpha: baseHsl.alpha ?? 1,
     }
     palette.push(formatHex(color))
@@ -149,12 +153,12 @@ function generateComplementaryPalette(baseHsl: EsdoraColor, count: number, inclu
   }
 
   // 互补色（色相相差180度）
-  const complementaryHue = ((baseHsl.h ?? 0) + 180) % 360
+  const complementaryHue = (((baseHsl as any).h ?? 0) + 180) % 360
   const complementaryColor: EsdoraColor = {
     mode: 'hsl',
     h: complementaryHue,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
   palette.push(formatHex(complementaryColor))
@@ -163,14 +167,14 @@ function generateComplementaryPalette(baseHsl: EsdoraColor, count: number, inclu
   const remaining = count - palette.length
   for (let i = 0; i < remaining; i++) {
     const isBase = i % 2 === 0
-    const hue = isBase ? (baseHsl.h ?? 0) : complementaryHue
-    const lightness = (baseHsl.l ?? 0) + (i + 1) * 0.15 * (i % 2 === 0 ? 1 : -1)
+    const hue = isBase ? ((baseHsl as any).h ?? 0) : complementaryHue
+    const lightness = ((baseHsl as any).l ?? 0) + (i + 1) * 0.15 * (i % 2 === 0 ? 1 : -1)
     const clampedLightness = Math.max(0.1, Math.min(0.9, lightness))
 
     const color: EsdoraColor = {
       mode: 'hsl',
       h: hue,
-      s: baseHsl.s ?? 0,
+      s: (baseHsl as any).s ?? 0,
       l: clampedLightness,
       alpha: baseHsl.alpha ?? 1,
     }
@@ -188,21 +192,21 @@ function generateTriadicPalette(baseHsl: EsdoraColor, includeBase: boolean): str
   }
 
   // 三角色（色相相差120度）
-  const hue1 = ((baseHsl.h ?? 0) + 120) % 360
-  const hue2 = ((baseHsl.h ?? 0) + 240) % 360
+  const hue1 = (((baseHsl as any).h ?? 0) + 120) % 360
+  const hue2 = (((baseHsl as any).h ?? 0) + 240) % 360
 
   const color1: EsdoraColor = {
     mode: 'hsl',
     h: hue1,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
   const color2: EsdoraColor = {
     mode: 'hsl',
     h: hue2,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
 
@@ -220,29 +224,29 @@ function generateTetradicPalette(baseHsl: EsdoraColor, includeBase: boolean): st
   }
 
   // 四角色（色相相差90度）
-  const hue1 = ((baseHsl.h ?? 0) + 90) % 360
-  const hue2 = ((baseHsl.h ?? 0) + 180) % 360
-  const hue3 = ((baseHsl.h ?? 0) + 270) % 360
+  const hue1 = (((baseHsl as any).h ?? 0) + 90) % 360
+  const hue2 = (((baseHsl as any).h ?? 0) + 180) % 360
+  const hue3 = (((baseHsl as any).h ?? 0) + 270) % 360
 
   const color1: EsdoraColor = {
     mode: 'hsl',
     h: hue1,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
   const color2: EsdoraColor = {
     mode: 'hsl',
     h: hue2,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
   const color3: EsdoraColor = {
     mode: 'hsl',
     h: hue3,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
 
@@ -261,22 +265,22 @@ function generateSplitComplementaryPalette(baseHsl: EsdoraColor, includeBase: bo
   }
 
   // 分裂互补色（互补色的两侧各30度）
-  const complementaryHue = ((baseHsl.h ?? 0) + 180) % 360
+  const complementaryHue = (((baseHsl as any).h ?? 0) + 180) % 360
   const hue1 = (complementaryHue - 30 + 360) % 360
   const hue2 = (complementaryHue + 30) % 360
 
   const color1: EsdoraColor = {
     mode: 'hsl',
     h: hue1,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
   const color2: EsdoraColor = {
     mode: 'hsl',
     h: hue2,
-    s: baseHsl.s ?? 0,
-    l: baseHsl.l ?? 0,
+    s: (baseHsl as any).s ?? 0,
+    l: (baseHsl as any).l ?? 0,
     alpha: baseHsl.alpha ?? 1,
   }
 

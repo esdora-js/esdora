@@ -12,13 +12,13 @@ describe('adjustSaturation', () => {
     it('should handle function that returns 0', () => {
       const result = adjustSaturation('#ff0000', () => 0)
       expect(result).toBeDefined()
-      expect(result?.s).toBe(0)
+      expect((result as any)?.s).toBe(0)
     })
 
     it('should handle function that returns 1', () => {
       const result = adjustSaturation('#ff0000', () => 1)
       expect(result).toBeDefined()
-      expect(result?.s).toBe(1)
+      expect((result as any)?.s).toBe(1)
     })
   })
 
@@ -26,19 +26,19 @@ describe('adjustSaturation', () => {
     it('should adjust saturation using number', () => {
       const result = adjustSaturation('#ff0000', 0.5)
       expect(result).toBeDefined()
-      expect(result?.s).toBe(0.5)
+      expect((result as any)?.s).toBe(0.5)
     })
 
     it('should clamp values above 1', () => {
       const result = adjustSaturation('#ff0000', 1.5)
       expect(result).toBeDefined()
-      expect(result?.s).toBe(1)
+      expect((result as any)?.s).toBe(1)
     })
 
     it('should clamp values below 0', () => {
       const result = adjustSaturation('#ff0000', -0.5)
       expect(result).toBeDefined()
-      expect(result?.s).toBe(0)
+      expect((result as any)?.s).toBe(0)
     })
   })
 
