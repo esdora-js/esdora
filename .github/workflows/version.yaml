@@ -65,4 +65,4 @@ jobs:
           branch: chore/changeset-release
           author: 'esdora-bot[bot] <158852345+esdora-bot[bot]@users.noreply.github.com>'
           committer: 'esdora-bot[bot] <158852345+esdora-bot[bot]@users.noreply.github.com>'
-          delete-branch: true```
+          delete-branch: true
