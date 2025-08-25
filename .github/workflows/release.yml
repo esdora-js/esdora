@@ -1,19 +1,19 @@
-name: Create Version PR
+name: Release Packages
 
 on:
   push:
     branches:
       - main
-    paths:
-      - '.changeset/**'
 
 jobs:
-  version:
-    # --- 修正后的核心部分 ---
-    # 将 concurrency 移到了 job (version) 的内部，并确保 runs-on 存在
-    concurrency: ${{ github.workflow }}-${{ github.ref }}
+  release:
     runs-on: ubuntu-latest
-    # --- 结束修正 ---
+    if: contains(github.event.head_commit.message, 'release version packages')
+    permissions:
+      contents: write
+
+    # -----------------------------------------------------------------
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -28,21 +28,16 @@ jobs:
         with:
           node-version: lts/*
           cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Configure Git User
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Build Packages
+        run: pnpm --filter './packages/*' build
 
-      - name: Create Version PR or Update Existing One
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          version: pnpm changeset version
-          title: 'CI: Version Packages'
-          commit: 'CI: Version Packages'
+      - name: Publish to npm
+        run: pnpm changeset publish
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
