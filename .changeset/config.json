@@ -1,9 +1,10 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
   "changelog": [
-    "@changesets/changelog-git",
+    "@changesets/changelog-github",
     { "repo": "esdora-js/esdora" }
   ],
+  "commit": false,
   "fixed": [],
   "linked": [],
   "access": "public",
