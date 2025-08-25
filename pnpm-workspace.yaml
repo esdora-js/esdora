@@ -42,7 +42,7 @@ catalog:
   unplugin-vue-components: ^29.0.0
   vite: ^7.1.3
   vite-tsconfig-paths: ^5.1.4
-  vitepress: 2.0.0-alpha.11
+  vitepress: 2.0.0-alpha.12
   vitepress-plugin-group-icons: ^1.6.3
   vitest: ^3.2.4
   vitest-package-exports: ^0.1.1
