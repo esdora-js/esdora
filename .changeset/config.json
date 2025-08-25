@@ -1,12 +1,8 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
   "changelog": [
-    "@changesets/changelog-github",
+    "@changesets/changelog-git",
     { "repo": "esdora-js/esdora" }
-  ],
-  "commit": [
-    "@changesets/cli/commit", 
-    { "skipCI": "skip", "empty": true }
   ],
   "fixed": [],
   "linked": [],
