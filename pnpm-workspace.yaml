@@ -26,7 +26,7 @@ catalog:
   cz-git: ^1.12.0
   czg: ^1.12.0
   esbuild: ^0.25.9
-  eslint: ^9.33.0
+  eslint: ^9.34.0
   eslint-plugin-format: ^1.0.1
   fast-glob: ^3.3.3
   floating-vue: ^5.2.2
@@ -34,7 +34,7 @@ catalog:
   pinia: ^3.0.3
   pnpm: ^10.15.0
   tinyexec: ^1.0.1
-  tsx: ^4.20.4
+  tsx: ^4.20.5
   turbo: ^2.5.6
   typescript: ^5.9.2
   unbuild: ^3.6.1
@@ -46,5 +46,5 @@ catalog:
   vitepress-plugin-group-icons: ^1.6.3
   vitest: ^3.2.4
   vitest-package-exports: ^0.1.1
-  vue: ^3.5.19
+  vue: ^3.5.20
   yaml: ^2.8.1
