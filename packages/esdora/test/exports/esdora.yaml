@@ -1,15 +1,3 @@
 .:
-  _JSON: object
-  createSafe: function
-  getLeafPath: function
-  isAlnum: function
-  isAlpha: function
-  isCircular: function
-  isDigit: function
-  isEmail: function
-  isEmailStrict: function
-  isFirefox: function
-  isPhone: function
-  isSafari: function
-  safe: function
-  to: function
+  color: object
+  kit: object

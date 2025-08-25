@@ -44,12 +44,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsx scripts/build.ts",
+    "build": "node scripts/build.js",
     "dev": "unbuild --stub",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@esdora/build-tools": "workspace:*"
   }
 }

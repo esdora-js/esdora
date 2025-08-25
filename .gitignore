@@ -17,3 +17,5 @@ cache
 .env
 .env.local
 .env.*.local
+
+bin/*

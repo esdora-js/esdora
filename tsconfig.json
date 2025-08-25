@@ -5,7 +5,8 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "kit": ["./packages/kit/src/index.ts"]
+      "kit": ["./packages/kit/src/index.ts"],
+      "color": ["./packages/color/src/index.ts"]
     },
     "resolveJsonModule": true,
     "strict": true,
