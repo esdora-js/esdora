@@ -16,9 +16,18 @@ jobs:
       contents: write
 
     steps:
+      - name: Generate Token for Bot
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          installation-id: ${{ secrets.BOT_INSTALLATION_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
       - name: Checkout Code
         uses: actions/checkout@v5
         with:
+          token: ${{ steps.generate_token.outputs.token }} # 使用动态生成的 token
           fetch-depth: 0
 
       - name: Setup pnpm
@@ -41,4 +50,4 @@ jobs:
         run: pnpm changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
