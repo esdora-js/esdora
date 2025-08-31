@@ -1,5 +1,11 @@
 # @esdora/color
 
+## 0.3.0
+
+### Minor Changes
+
+- [#89](https://github.com/esdora-js/esdora/pull/89) [`c73dc77`](https://github.com/esdora-js/esdora/commit/c73dc7772c72429db91145367a89d6c4dfc62a96) Thanks [@kkfive](https://github.com/kkfive)! - fix: 导出culori所有的方法
+
 ## 0.2.0
 
 ### Minor Changes
