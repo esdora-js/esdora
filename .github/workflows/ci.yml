@@ -85,7 +85,6 @@ jobs:
           echo "files=$coverage_files" >> $GITHUB_OUTPUT
 
       - name: Upload coverage reports to Codecov
-        if: steps.coverage.outputs.files != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
