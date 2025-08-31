@@ -49,6 +49,24 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         ],
       },
     ],
+    '/color/': [
+      {
+        text: '指南',
+        items: [
+          { text: '介绍', link: '/color/' },
+          { text: '食用方法', link: '/color/usage' },
+        ],
+      },
+      {
+        text: '参考',
+        items: [
+          {
+            text: '分析类 (Analysis)',
+            items: getSidebarItem(baseDir, 'color/reference/analysis'),
+          },
+        ],
+      },
+    ],
     '/contributing/': [
       {
         text: '贡献指南',
