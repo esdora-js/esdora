@@ -15,3 +15,5 @@ export * from './generation'
 
 // 便利层
 export * from './manipulation'
+
+export * from 'culori'
