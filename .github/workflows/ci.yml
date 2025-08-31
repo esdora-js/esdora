@@ -1,21 +1,42 @@
 name: CI
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
-      - develop
       - main
+    paths:
+      - 'packages/**'
+      - .github/workflows/ci.yml
+      - pnpm-lock.yaml
+      - package.json
+      - tsconfig.base.json
   pull_request:
     branches:
-      - develop
       - main
+    paths:
+      - 'packages/**'
+      - .github/workflows/ci.yml
+      - pnpm-lock.yaml
+      - package.json
+      - tsconfig.base.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 env:
   NODE_OPTIONS: --max-old-space-size=4096
+  CI: true
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -31,7 +52,9 @@ jobs:
       - run: pnpm run typecheck
 
   test:
+    needs: [lint]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
 
     strategy:
       matrix:
@@ -62,7 +85,6 @@ jobs:
           echo "files=$coverage_files" >> $GITHUB_OUTPUT
 
       - name: Upload coverage reports to Codecov
-        if: steps.coverage.outputs.files != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
