@@ -29,3 +29,11 @@ ignore:
   - '**/examples/**'
   - '**/*.config.*'
   - '**/*.d.ts'
+
+flags:
+  color:
+    paths:
+      - packages/color/
+  kit:
+    paths:
+      - packages/kit/

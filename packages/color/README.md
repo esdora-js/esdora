@@ -23,7 +23,7 @@
 
 ## ✨ 理念
 
-该库实际上是[color](https://www.npmjs.com/package/color)库的二次封装，以及有可能会增加一些快捷方法
+该库是基于 [culori](https://www.npmjs.com/package/culori) 进行二次封装
 
 ## 🚀 安装
 
@@ -42,11 +42,11 @@ yarn add @esdora/color
 
 ## 💡 使用
 
-在你的项目中，直接从 `@esdora/color` 导入你需要的函数即可，该包会导出[color](https://www.npmjs.com/package/color)的一切。
+在你的项目中，直接从 `@esdora/color` 导入你需要的函数即可，该包会导出[culori](https://www.npmjs.com/package/culori)的一切。
 
 ## 📖 完整文档
 
-参考[color](https://www.npmjs.com/package/color)
+参考[culori](https://www.npmjs.com/package/culori)和[我们的文档](https://esdora.js.org/color/)
 
 ## 🤝 参与贡献
 

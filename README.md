@@ -1,6 +1,5 @@
 <div align="center">
   <a name="readme-top"></a>
-
   <!-- 1. Logo -->
   <img src="./docs/public/logo-light.svg" alt="Dora Pocket Logo" width="150">
 
@@ -46,9 +45,11 @@
 
 本项目是一个 **monorepo**，目前包含以下核心“道具箱”：
 
-| 包名                            | 版本                                                                                                                    | 描述                                         |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| [`@esdora/kit`](./packages/kit) | [![NPM version](https://img.shields.io/npm/v/@esdora/kit.svg?style=flat-square)](https://npmjs.org/package/@esdora/kit) | 🛠️ 一套零依赖、类型安全的 TS/JS 工具函数库。 |
+| 包名                                | 版本                                                                                                                        | 描述                                         |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| [`esdora`](./packages/esdora)       | [![NPM version](https://img.shields.io/npm/v/esdora.svg?style=flat-square)](https://npmjs.org/package/esdora)               |                                              |
+| [`@esdora/kit`](./packages/kit)     | [![NPM version](https://img.shields.io/npm/v/@esdora/kit.svg?style=flat-square)](https://npmjs.org/package/@esdora/kit)     | 🛠️ 一套零依赖、类型安全的 TS/JS 工具函数库。 |
+| [`@esdora/color`](./packages/color) | [![NPM version](https://img.shields.io/npm/v/@esdora/color.svg?style=flat-square)](https://npmjs.org/package/@esdora/color) | 🎨 一个用于处理颜色相关的库                  |
 
 ## ✨ 核心理念
 
