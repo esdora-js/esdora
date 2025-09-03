@@ -11,7 +11,7 @@ description: Dora Pocket - 前端开发的四次元口袋的入门指南。了�
 
 ## 安装
 
-我们推荐安装主包 `esdora`，它整合了所有模块的功能，并能被现代打包工具完美地进行 Tree-shaking，确保最终产物体积最小。
+您可以选择直接安装主包 `esdora`，它整合了所有模块的功能，并能被现代打包工具完美地进行 Tree-shaking，确保最终产物体积最小。
 
 ```bash
 # 使用 pnpm (推荐)
@@ -24,7 +24,7 @@ npm install esdora
 yarn add esdora
 ```
 
-如果你只想使用某个特定的功能包，也可以按需安装。
+当然如果你只想使用某个特定的功能包，也可以按需安装。
 例如，只安装零依赖的工具集：
 `pnpm add @esdora/kit`
 
