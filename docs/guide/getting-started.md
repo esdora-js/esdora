@@ -1,38 +1,82 @@
 ---
 title: 快速上手
-description: Dora Pocket - 前端开发的四次元口袋的入门指南。了解项目包含的各个模块，并找到你的第一个“道具”。
+description: Dora Pocket - 前端开发的四次元口袋的入门指南。了解如何安装和使用 Dora Pocket 的核心模块。
 ---
 
 # 快速上手
 
 欢迎来到 **Dora Pocket**！🎉
 
-正如其名，我们致力于将这里打造成每一位前端开发者都想拥有的“四次元口袋”。每当你遇到棘手的开发问题或寻求更优的解决方案时，都能从这里掏出得心应手的“道具”。
+本指南将带你完成项目的安装，并展示如何使用我们最核心的“道具”。
 
-## 口袋里有什么？
+## 安装
 
-`Dora Pocket` 是一个不断丰富的“道具箱”集合。目前，它包含以下核心模块：
+我们推荐安装主包 `esdora`，它整合了所有模块的功能，并能被现代打包工具完美地进行 Tree-shaking，确保最终产物体积最小。
 
-### 🛠️ 工具函数 (@esdora/kit)
+```bash
+# 使用 pnpm (推荐)
+pnpm add esdora
 
-一套经过严格测试、类型安全且零依赖的 TypeScript/JavaScript 工具函数。它专注于提供那些在特定场景下极具价值、能够解决具体痛点，或是对现有原生 API 进行更友好封装的函数。
+# 使用 npm
+npm install esdora
 
-[**前往 @esdora/kit 指南 →**](/kit/)
+# 使用 yarn
+yarn add esdora
+```
 
----
+如果你只想使用某个特定的功能包，也可以按需安装。
+例如，只安装零依赖的工具集：
+`pnpm add @esdora/kit`
 
-### 🪝 框架实用 Hooks (规划中)
+## 使用示例
 
-未来，我们计划推出一系列精心设计的 Vue 和 React Hooks。它们将同样遵循“补充，而非替代”的原则，专注于解决特定场景下的复杂状态逻辑，让你的组件代码更清晰、更易于维护。
+下面，我们将展示两个最能体现 `Dora Pocket` 价值的例子。
 
----
+### 示例 1: 你的零依赖工具箱
 
-### 📖 前端最佳实践 (规划中)
+`@esdora/kit` 专注于提供那些原生 JavaScript 没有、但在日常开发中极其有用的工具函数。
 
-除了代码工具，我们还将沉淀和分享那些在实战中被证明行之有效的解决方案。内容将涵盖从工程化配置、性能优化到代码架构等多个方面，助你写出更优雅、更健壮的代码。
+**场景：安全地执行一个可能会因为无效输入而崩溃的函数。**
 
-## 加入我们
+```typescript
+import { safe } from 'esdora'
 
-`Dora Pocket` 是一个开放且由社区驱动的项目。我们相信最好的“道具”来自于真实的开发场景。
+// 一个可能会抛出错误的函数
+const unsafeParse = (json: string) => JSON.parse(json)
 
-如果你有兴趣为这个“四次元口袋”添砖加瓦，我们非常欢迎！请阅读我们的 **[贡献指南](/contributing/)**，了解如何参与到我们的建设中来。
+// 使用 safe() 进行包装，提供一个错误处理器
+const safeParse = safe(unsafeParse, (err) => {
+  console.error('解析失败:', err.message)
+})
+
+const result = safeParse('{invalid json}')
+// => undefined, 并在控制台打印错误信息
+```
+
+### 示例 2: 你的专业色彩处理引擎
+
+`@esdora/color` 基于业界最快、最科学的 `culori` 引擎，让你能轻松处理所有颜色。
+
+**场景：为一个按钮的主题色，生成一个视觉上更自然的悬浮 (hover) 颜色。**
+
+```typescript
+import { darken } from 'esdora'
+
+const primaryColor = '#3498db' // 我们的主题蓝
+
+// darken 会在 OKLCH 色彩空间中进行计算，
+// 生成一个比简单地在 HSL 中降低亮度更符合视觉感知的深色。
+// 它还能智能地处理百分比。
+const hoverColor = darken(primaryColor, 10)
+// => '#2378b2'
+
+// 现在你可以将 hoverColor 直接应用到你的 CSS 中
+// element.style.setProperty('--hover-color', hoverColor);
+```
+
+## 下一步
+
+现在你已经感受到了 `Dora Pocket` 的威力。我们邀请你：
+
+- 前往 **[模块总览](/packages/)** 页面，深入探索我们提供的所有“道具”。
+- 阅读我们的 **[贡献指南](/contributing/)**，一起参与建设，为这个“四次元口袋”添加你自己的“道具”。

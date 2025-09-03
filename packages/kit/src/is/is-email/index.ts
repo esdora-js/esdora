@@ -26,7 +26,7 @@ import { REGEX_EMAIL, REGEX_EMAIL_STRICT } from '../../_internal/constant'
  * // => false
  * ```
  *
- * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/kit/reference/validate/is-email | 官方文档页面}。
+ * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/packages/kit/reference/validate/is-email | 官方文档页面}。
  */
 export function isEmail(email: string): boolean {
   return REGEX_EMAIL.test(email)
@@ -62,7 +62,7 @@ export function isEmail(email: string): boolean {
  * // => false
  * ```
  *
- * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/kit/reference/validate/is-email | 官方文档页面}。
+ * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/packages/kit/reference/validate/is-email | 官方文档页面}。
  */
 export function isEmailStrict(email: string): boolean {
   return REGEX_EMAIL_STRICT.test(email)

@@ -28,7 +28,7 @@
 - **存放位置：** 必须位于 `src/experimental/` 目录下。
 - **命名约定：** 函数名必须加上 `_unstable_` 前缀，例如 `_unstable_deepSort`。
 - **TSDoc 注释：** 必须在 TSDoc 中添加 `@experimental` 标签，并明确说明其不稳定性。
-- **导出方式：** 只能从专门的实验性入口（如 `@esdora/kit/experimental`）导出。
+- **导出方式：** 只能从专门的实验性入口（如 `@esdora/packages/kit/experimental`）导出。
 
 #### 2. API 的“毕业”
 
