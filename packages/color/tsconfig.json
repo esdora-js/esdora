@@ -6,7 +6,7 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@": ["./src"],
-      "@esdora/kit": ["../kit/src/index.ts"]
+      "@esdora/kit": ["../packages/kit/src/index.ts"]
     },
     "resolveJsonModule": true,
     "strict": true,
