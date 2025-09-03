@@ -64,6 +64,22 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
             text: '分析类 (Analysis)',
             items: getSidebarItem(baseDir, 'color/reference/analysis'),
           },
+          {
+            text: '引擎层 (Composition)',
+            items: getSidebarItem(baseDir, 'color/reference/composition'),
+          },
+          {
+            text: '转换/格式化层 (Conversion)',
+            items: getSidebarItem(baseDir, 'color/reference/conversion'),
+          },
+          {
+            text: '生成层 (Generation)',
+            items: getSidebarItem(baseDir, 'color/reference/generation'),
+          },
+          {
+            text: '便利层 (Manipulation)',
+            items: getSidebarItem(baseDir, 'color/reference/manipulation'),
+          },
         ],
       },
     ],
