@@ -13,23 +13,23 @@ hero:
       text: 快速上手 →
       link: /guide/getting-started
     - theme: alt
-      text: 浏览工具函数
-      link: /kit/
+      text: 为什么选择我们？
+      link: /guide/philosophy
 
 features:
-  - icon: 🛠️
-    title: TypeScript 工具集 (@esdora/kit)
-    details: 一套经过严格测试、类型安全且零依赖的 TypeScript/JavaScript 工具函数，作为对 Lodash 等基础库的补充，开箱即用。
-
-  - icon: 🪝
-    title: 框架实用 Hooks
-    details: 精心设计的 Vue 和 React Hooks，专注于解决特定场景下的复杂逻辑。（规划中）
-
-  - icon: 📖
-    title: 前端最佳实践
-    details: 从网络请求封装到代码架构，我们为你总结并提炼了经得起实战考验的前端解决方案。（规划中）
+  - icon: 💡
+    title: 纯函数式设计
+    details: 所有 API 都以纯函数的形式提供。无副作用、易于测试、完美支持 Tree-shaking，确保你的项目轻盈、可靠。
 
   - icon: 🚀
-    title: 社区驱动的知识库
-    details: 这是一个由开发者共同构建的“活”文档。我们相信最好的“道具”来自于真实的开发场景，并期待你的加入。
+    title: 性能至上
+    details: 核心模块绝对零依赖。对于颜色、日期等专业领域，我们只选用业界最快、最科学的底层引擎，并为你封装好。
+
+  - icon: 🛡️
+    title: 极致可靠与安全
+    details: 我们对质量有着不容妥协的追求。所有函数都经过 100% 的单元测试覆盖，并遵循严格的错误处理规范，确保你的应用在生产环境中稳定、可预测地运行。
+
+  - icon: 😊
+    title: 痴迷于开发者体验 (DX)
+    details: 从宽容的 API 设计、清晰的函数重载，到详尽的 TSDoc 中文注释，我们痴迷于每一个能让开发者更快乐、更高效的细节。
 ---
