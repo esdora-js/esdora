@@ -43,7 +43,7 @@ description: 了解如何为 Dora Pocket 项目编写和运行单元测试，以
 1.  **文件位置**: 测试文件应与源文件放在**同一目录**下，并以 **`.test.ts`** 结尾。
 
     ```
-    - /packages/kit/src/function/clamp/
+    - /packages/packages/kit/src/function/clamp/
       - index.ts      (源文件)
       - index.test.ts (测试文件)
     ```

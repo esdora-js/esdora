@@ -10,12 +10,12 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
   const baseDir = path.dirname(docsRoot)
 
   return {
-    '/kit/': [
+    '/packages/kit/': [
       {
         text: '指南',
         items: [
-          { text: '介绍', link: '/kit/' },
-          { text: '食用方法', link: '/kit/usage' },
+          { text: '介绍', link: '/packages/kit/' },
+          { text: '食用方法', link: '/packages/kit/usage' },
         ],
       },
       {
@@ -23,38 +23,38 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         items: [
           {
             text: '函数类 (Function)',
-            items: getSidebarItem(baseDir, 'kit/reference/function'),
+            items: getSidebarItem(baseDir, 'packages/kit/reference/function'),
           },
           {
             text: '验证类 (Is)',
-            items: getSidebarItem(baseDir, 'kit/reference/is'),
+            items: getSidebarItem(baseDir, 'packages/kit/reference/is'),
           },
           {
             text: '数字类 (Number)',
-            items: getSidebarItem(baseDir, 'kit/reference/number'),
+            items: getSidebarItem(baseDir, 'packages/kit/reference/number'),
           },
           {
             text: 'Promise类 (Promise)',
-            items: getSidebarItem(baseDir, 'kit/reference/promise'),
+            items: getSidebarItem(baseDir, 'packages/kit/reference/promise'),
           },
           {
             text: '树类 (Tree)',
-            items: getSidebarItem(baseDir, 'kit/reference/tree'),
+            items: getSidebarItem(baseDir, 'packages/kit/reference/tree'),
           },
 
           {
             text: '实验性 (Experimental)',
-            items: getSidebarItem(baseDir, 'kit/reference/experimental'),
+            items: getSidebarItem(baseDir, 'packages/kit/reference/experimental'),
           },
         ],
       },
     ],
-    '/color/': [
+    '/packages/color/': [
       {
         text: '指南',
         items: [
-          { text: '介绍', link: '/color/' },
-          { text: '食用方法', link: '/color/usage' },
+          { text: '介绍', link: '/packages/color/' },
+          { text: '食用方法', link: '/packages/color/usage' },
         ],
       },
       {
@@ -62,23 +62,23 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         items: [
           {
             text: '分析类 (Analysis)',
-            items: getSidebarItem(baseDir, 'color/reference/analysis'),
+            items: getSidebarItem(baseDir, 'packages/color/reference/analysis'),
           },
           {
             text: '引擎层 (Composition)',
-            items: getSidebarItem(baseDir, 'color/reference/composition'),
+            items: getSidebarItem(baseDir, 'packages/color/reference/composition'),
           },
           {
             text: '转换/格式化层 (Conversion)',
-            items: getSidebarItem(baseDir, 'color/reference/conversion'),
+            items: getSidebarItem(baseDir, 'packages/color/reference/conversion'),
           },
           {
             text: '生成层 (Generation)',
-            items: getSidebarItem(baseDir, 'color/reference/generation'),
+            items: getSidebarItem(baseDir, 'packages/color/reference/generation'),
           },
           {
             text: '便利层 (Manipulation)',
-            items: getSidebarItem(baseDir, 'color/reference/manipulation'),
+            items: getSidebarItem(baseDir, 'packages/color/reference/manipulation'),
           },
         ],
       },

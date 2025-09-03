@@ -36,7 +36,7 @@ import { REGEX_DIGIT } from '../../_internal/constant'
  * // => false
  * ```
  *
- * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/kit/reference/validate/is-digit | 官方文档页面}。
+ * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/packages/kit/reference/validate/is-digit | 官方文档页面}。
  */
 export function isDigit(str: string): boolean {
   return REGEX_DIGIT.test(str)
