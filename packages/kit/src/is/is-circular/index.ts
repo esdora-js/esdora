@@ -142,7 +142,7 @@ export function isCircular(value: unknown): boolean
  * // => null
  * ```
  *
- * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/kit/reference/validate/is-circular | 官方文档页面}。
+ * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/packages/kit/reference/validate/is-circular | 官方文档页面}。
  */
 export function isCircular(value: unknown, options?: { getPath: boolean }): boolean | string[] | null {
   const getPath = options?.getPath ?? false

@@ -29,7 +29,7 @@ import { REGEX_UA_SAFARI } from '../../_internal/constant/regex'
  * // => false
  * ```
  *
- * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/kit/reference/validate/is-safari | 官方文档页面}。
+ * @see 若要了解更多信息，请访问 {@link https://esdora.js.org/packages/kit/reference/validate/is-safari | 官方文档页面}。
  */
 export function isSafari(ua: string): boolean {
   return REGEX_UA_SAFARI.test(ua)

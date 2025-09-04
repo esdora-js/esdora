@@ -46,7 +46,7 @@ yarn add @esdora/color
 
 ## 📖 完整文档
 
-参考[culori](https://www.npmjs.com/package/culori)和[我们的文档](https://esdora.js.org/color/)
+参考[culori](https://www.npmjs.com/package/culori)和[我们的文档](https://esdora.js.org/packages/color/)
 
 ## 🤝 参与贡献
 
