@@ -5,14 +5,14 @@ packages:
   - examples/*
   - internal/*
 catalog:
-  '@antfu/eslint-config': ^5.2.1
+  '@antfu/eslint-config': ^5.2.2
   '@antfu/utils': ^9.2.0
   '@changesets/changelog-github': ^0.5.1
   '@changesets/cli': ^2.29.6
   '@commitlint/cli': ^19.8.1
   '@commitlint/config-conventional': ^19.8.1
   '@iconify-json/svg-spinners': ^1.2.4
-  '@shikijs/vitepress-twoslash': ^3.12.1
+  '@shikijs/vitepress-twoslash': ^3.12.2
   '@types/node': ^24.3.0
   '@unocss/reset': ^66.5.0
   '@vitejs/plugin-vue': ^6.0.1
