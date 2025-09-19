@@ -109,7 +109,7 @@ catalogs:
       specifier: ^29.0.0
       version: 29.0.0
     vite:
-      specifier: ^7.1.6
+      specifier: ^7.1.5
       version: 7.1.6
     vite-tsconfig-paths:
       specifier: ^5.1.4
