@@ -2,7 +2,7 @@
   "type": "module",
   "version": "0.1.1",
   "private": true,
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.17.0",
   "engines": {
     "node": ">=22.16.0",
     "pnpm": ">=10.13.1"
@@ -70,8 +70,5 @@
       "esbuild",
       "lefthook"
     ]
-  },
-  "volta": {
-    "node": "22.18.0"
   }
 }
