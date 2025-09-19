@@ -73,14 +73,16 @@ function _findPath(value: unknown): string[] | null {
 /**
  * 检查是否存在循环引用，并返回其路径。
  * @param value 要检查的值。
- * @param options 配置对象，必须将 getPath 设为 true。
+ * @param options 配置对象。
+ * @param options.getPath 设置为 true 以启用路径查找模式。
  * @returns 如果找到循环引用，则返回表示路径的字符串数组；否则返回 null。
  */
 export function isCircular(value: unknown, options: { getPath: true }): string[] | null
 /**
  * 检查是否存在循环引用，返回布尔值。
  * @param value 要检查的值。
- * @param options 可选的配置对象，getPath 应为 false 或未定义。
+ * @param options 可选的配置对象。
+ * @param options.getPath 设置为 false 或未定义时使用布尔检查模式。
  * @returns 如果存在循环引用，则返回 true；否则返回 false。
  */
 export function isCircular(value: unknown, options?: { getPath: false }): boolean
