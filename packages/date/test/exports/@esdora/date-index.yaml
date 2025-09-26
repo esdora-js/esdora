@@ -1,3 +1,4 @@
+DATE_FORMAT: object
 analyzeTimeRange: function
 add: function
 addBusinessDays: function
