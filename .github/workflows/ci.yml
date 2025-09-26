@@ -77,16 +77,34 @@ jobs:
       - run: pnpm run build
       - run: pnpm run test:coverage
 
-      # Upload coverage reports to Codecov
       - name: Find coverage files
         id: coverage
         run: |
-          coverage_files=$(find ./packages -name "coverage-final.json" -type f | tr '\n' ',' | sed 's/,$//')
-          echo "files=$coverage_files" >> $GITHUB_OUTPUT
+          files=()
+          flags=()
+          for f in $(find ./packages -name "coverage-final.json" -type f); do
+            files+=("$f")
+            # 提取 package 名作为 flag：packages/<pkg>/coverage/coverage-final.json -> <pkg>
+            flags+=("$(basename $(dirname $(dirname "$f")))")
+          done
 
-      - name: Upload coverage reports to Codecov
+          # 输出成 GitHub Actions 输出变量（逗号分隔）
+          echo "files=$(IFS=,; echo "${files[*]}")" >> $GITHUB_OUTPUT
+          echo "flags=$(IFS=,; echo "${flags[*]}")" >> $GITHUB_OUTPUT
+
+      - name: Upload coverage reports to Codecov (per-package flags)
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ steps.coverage.outputs.files }}
+          flags: ${{ steps.coverage.outputs.flags }}
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Upload coverage reports to Codecov (default)
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ steps.coverage.outputs.files }}
           fail_ci_if_error: false
+          verbose: true
