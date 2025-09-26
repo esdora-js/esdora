@@ -4,6 +4,7 @@ packages:
   - packages/*
   - examples/*
   - internal/*
+
 catalog:
   '@antfu/eslint-config': ^5.3.0
   '@antfu/utils': ^9.2.0
@@ -12,7 +13,8 @@ catalog:
   '@commitlint/cli': ^19.8.1
   '@commitlint/config-conventional': ^19.8.1
   '@iconify-json/svg-spinners': ^1.2.4
-  '@shikijs/vitepress-twoslash': ^3.12.2
+  '@shikijs/vitepress-twoslash': 3.12.2
+  '@types/culori': ^4.0.1
   '@types/node': ^24.5.2
   '@unocss/reset': ^66.5.1
   '@vitejs/plugin-vue': ^6.0.1
@@ -25,6 +27,7 @@ catalog:
   culori: ^4.0.2
   cz-git: ^1.12.0
   czg: ^1.12.0
+  date-fns: ^4.1.0
   esbuild: ^0.25.10
   eslint: ^9.35.0
   eslint-plugin-format: ^1.0.1

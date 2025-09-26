@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@esdora/color": "workspace:*",
+    "@esdora/date": "workspace:*",
     "@esdora/kit": "workspace:*"
   }
 }

@@ -68,6 +68,7 @@ export default defineConfig({
       { text: '工具函数', items: [
         { text: '工具函数 (Kit)', link: '/packages/kit/' },
         { text: '颜色工具 (Color)', link: '/packages/color/' },
+        { text: '日期工具 (Date)', link: '/packages/date/' },
       ] },
       { text: '参与贡献', link: '/contributing/' },
       { text: '关于我们', link: '/about' },

@@ -83,6 +83,19 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         ],
       },
     ],
+    '/packages/date/': [
+      {
+        text: '指南',
+        items: [
+          { text: '介绍', link: '/packages/date/' },
+          { text: '食用方法', link: '/packages/date/usage' },
+        ],
+      },
+      {
+        text: '参考',
+        items: getSidebarItem(baseDir, 'packages/date/reference/convenience'),
+      },
+    ],
     '/contributing/': [
       {
         text: '贡献指南',

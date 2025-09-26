@@ -1,13 +1,10 @@
 <div align="center">
   <a name="readme-top"></a>
 
-  <!-- 1. 包名 -->
   <h1>@esdora/color</h1>
 
-  <!-- 2. 简短描述，连接到主品牌 -->
   <p><strong>Dora Pocket 的颜色处理包</strong></p>
 
-  <!-- 3. 徽章，聚焦于本包 -->
   <p>
     <a href="https://npmjs.org/package/@esdora/color"><img src="https://img.shields.io/npm/v/@esdora/color.svg?style=flat-square" alt="NPM Version"></a>
     <a href="https://npmjs.org/package/@esdora/color"><img src="https://img.shields.io/npm/dm/@esdora/color.svg?style=flat-square" alt="NPM Downloads"></a>

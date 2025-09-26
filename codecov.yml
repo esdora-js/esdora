@@ -37,3 +37,6 @@ flags:
   kit:
     paths:
       - packages/kit/
+  date:
+    paths:
+      - packages/date/

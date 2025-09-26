@@ -1,8 +1,8 @@
 {
-  "name": "@esdora/color",
+  "name": "@esdora/date",
   "type": "module",
-  "version": "0.3.0",
-  "description": "Color conversion and manipulation with CSS string support",
+  "version": "0.0.0",
+  "description": "A modern, immutable date utility library, powered by date-fns for reliability and enhanced with unique convenience functions.",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
   "funding": "https://github.com/esdora-js/esdora",
@@ -24,6 +24,26 @@
         "types": "./dist/types/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./fp": {
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/fp.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/fp.cjs"
+      }
+    },
+    "./locale": {
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/locale.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/locale.cjs"
+      }
     }
   },
   "main": "./dist/index.mjs",
@@ -43,10 +63,9 @@
   },
   "dependencies": {
     "@esdora/kit": "workspace:*",
-    "culori": "catalog:"
+    "date-fns": "catalog:"
   },
   "devDependencies": {
-    "@esdora/build-tools": "workspace:*",
-    "@types/culori": "catalog:"
+    "@esdora/build-tools": "workspace:*"
   }
 }
