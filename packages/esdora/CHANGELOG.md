@@ -1,5 +1,12 @@
 # esdora
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`59da674`](https://github.com/esdora-js/esdora/commit/59da674301fb7f669d46a0d04798f08eecd7317d)]:
+  - @esdora/date@0.1.0
+
 ## 0.2.1
 
 ### Patch Changes
