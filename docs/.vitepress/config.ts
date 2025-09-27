@@ -74,7 +74,7 @@ export default defineConfig({
           { text: '日期工具 (Date)', link: '/packages/date/' },
         ],
       },
-      { text: '四次元宝典', link: '/playbook/' },
+      { text: '四次元宝典', link: 'https://esdora.js.org/playbook/', target: '_blank' },
       { text: '参与贡献', link: '/contributing/' },
       { text: '关于我们', link: '/about' },
     ],
