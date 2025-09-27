@@ -65,11 +65,16 @@ export default defineConfig({
 
     nav: [
       { text: '指南', link: '/guide/getting-started' },
-      { text: '工具函数', items: [
-        { text: '工具函数 (Kit)', link: '/packages/kit/' },
-        { text: '颜色工具 (Color)', link: '/packages/color/' },
-        { text: '日期工具 (Date)', link: '/packages/date/' },
-      ] },
+      {
+        text: '工具函数',
+        // link: '/packages',
+        items: [
+          { text: '工具函数 (Kit)', link: '/packages/kit/' },
+          { text: '颜色工具 (Color)', link: '/packages/color/' },
+          { text: '日期工具 (Date)', link: '/packages/date/' },
+        ],
+      },
+      { text: '四次元宝典', link: '/playbook/' },
       { text: '参与贡献', link: '/contributing/' },
       { text: '关于我们', link: '/about' },
     ],
