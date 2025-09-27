@@ -1,10 +1,10 @@
 # 食用方法
 
-esdora-kit 可以通过[@esdora/color](https://www.npmjs.com/package/@esdora/color)安装，你也可以通过 从 [浏览器](#浏览器) 导入 的方式在浏览器中使用 es-toolkit。
+@esdora/color 可以通过[@esdora/color](https://www.npmjs.com/package/@esdora/color)安装
 
 ## Node.js
 
-esdora-kit 支持 Node.js 18及更高版本。使用以下命令安装 esdora：
+@esdora/color 支持 Node.js 18及更高版本。使用以下命令安装：
 
 :::code-group
 

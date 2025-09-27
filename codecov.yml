@@ -34,6 +34,21 @@ flags:
   color:
     paths:
       - packages/color/
+    status:
+      project:
+        default:
+          target: auto
   kit:
     paths:
       - packages/kit/
+    status:
+      project:
+        default:
+          target: auto
+  date:
+    paths:
+      - packages/date/
+    status:
+      project:
+        default:
+          target: auto

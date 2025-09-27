@@ -5,9 +5,8 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "kit": ["./packages/kit/src/index.ts"],
-      "color": ["./packages/color/src/index.ts"],
-      "date": ["./packages/date/src/index.ts"]
+      "@": ["./src"],
+      "@esdora/kit": ["../packages/kit/src/index.ts"]
     },
     "resolveJsonModule": true,
     "strict": true,

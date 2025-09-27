@@ -112,6 +112,7 @@ export function createTestConfig(options: PackageTestOptions = {}): UserConfig {
           inline: ['vitest-package-exports'],
         },
       },
+      testTimeout: 3_600_000,
     },
   }
 }

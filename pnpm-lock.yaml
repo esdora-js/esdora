@@ -28,8 +28,11 @@ catalogs:
       specifier: ^1.2.4
       version: 1.2.4
     '@shikijs/vitepress-twoslash':
-      specifier: ^3.12.2
+      specifier: 3.12.2
       version: 3.12.2
+    '@types/culori':
+      specifier: ^4.0.1
+      version: 4.0.1
     '@types/node':
       specifier: ^24.5.2
       version: 24.5.2
@@ -63,6 +66,9 @@ catalogs:
     czg:
       specifier: ^1.12.0
       version: 1.12.0
+    date-fns:
+      specifier: ^4.1.0
+      version: 4.1.0
     esbuild:
       specifier: ^0.25.10
       version: 0.25.10
@@ -299,14 +305,30 @@ importers:
         specifier: workspace:*
         version: link:../../internal/build-tools
       '@types/culori':
-        specifier: ^4.0.1
+        specifier: 'catalog:'
         version: 4.0.1
+
+  packages/date:
+    dependencies:
+      '@esdora/kit':
+        specifier: workspace:*
+        version: link:../kit
+      date-fns:
+        specifier: 'catalog:'
+        version: 4.1.0
+    devDependencies:
+      '@esdora/build-tools':
+        specifier: workspace:*
+        version: link:../../internal/build-tools
 
   packages/esdora:
     dependencies:
       '@esdora/color':
         specifier: workspace:*
         version: link:../color
+      '@esdora/date':
+        specifier: workspace:*
+        version: link:../date
       '@esdora/kit':
         specifier: workspace:*
         version: link:../kit
@@ -1875,6 +1897,9 @@ packages:
 
   dataloader@1.4.0:
     resolution: {integrity: sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -5902,6 +5927,8 @@ snapshots:
   dargs@8.1.0: {}
 
   dataloader@1.4.0: {}
+
+  date-fns@4.1.0: {}
 
   de-indent@1.0.2: {}
 
