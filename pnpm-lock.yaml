@@ -332,6 +332,10 @@ importers:
       '@esdora/kit':
         specifier: workspace:*
         version: link:../kit
+    devDependencies:
+      '@esdora/build-tools':
+        specifier: workspace:*
+        version: link:../../internal/build-tools
 
   packages/kit:
     devDependencies:
