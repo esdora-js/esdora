@@ -13,7 +13,7 @@ catalog:
   '@commitlint/cli': ^19.8.1
   '@commitlint/config-conventional': ^19.8.1
   '@iconify-json/svg-spinners': ^1.2.4
-  '@shikijs/vitepress-twoslash': 3.12.2
+  '@shikijs/vitepress-twoslash': 3.13.0
   '@types/culori': ^4.0.1
   '@types/node': ^24.5.2
   '@unocss/reset': ^66.5.2
