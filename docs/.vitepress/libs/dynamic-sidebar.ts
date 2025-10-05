@@ -41,6 +41,10 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
             text: '树类 (Tree)',
             items: getSidebarItem(baseDir, 'packages/kit/reference/tree'),
           },
+          {
+            text: '链接类 (Url)',
+            items: getSidebarItem(baseDir, 'packages/kit/reference/url'),
+          },
 
           {
             text: '实验性 (Experimental)',

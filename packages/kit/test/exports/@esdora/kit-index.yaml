@@ -8,8 +8,10 @@ isDigit: function
 isEmail: function
 isEmailStrict: function
 isFirefox: function
+isMpSchema: function
 isPhone: function
 isSafari: function
 clamp: function
 to: function
 getLeafPath: function
+getQueryParams: function
