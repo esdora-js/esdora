@@ -1,5 +1,11 @@
 # @esdora/kit
 
+## 0.3.0
+
+### Minor Changes
+
+- [#128](https://github.com/esdora-js/esdora/pull/128) [`a8f3a02`](https://github.com/esdora-js/esdora/commit/a8f3a0224d2384a37bb702d53d39c51c8730f4e8) Thanks [@kkfive](https://github.com/kkfive)! - feat: 增加 isMpSchema、getQueryParams 函数
+
 ## 0.2.0
 
 ### Minor Changes
