@@ -10,7 +10,7 @@ catalog:
   '@antfu/utils': ^9.2.1
   '@changesets/changelog-github': ^0.5.1
   '@changesets/cli': ^2.29.7
-  '@commitlint/cli': ^19.8.1
+  '@commitlint/cli': ^20.1.0
   '@commitlint/config-conventional': ^20.0.0
   '@iconify-json/svg-spinners': ^1.2.4
   '@shikijs/vitepress-twoslash': 3.13.0
