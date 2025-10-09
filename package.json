@@ -27,7 +27,7 @@
     "prepublishOnly": "turbo build",
     "update:deps": "npx taze -r -w",
     "catalog": "pnpx codemod pnpm/catalog",
-    "postinstall": "lefthook install && pnpm -C internal/build-tools run stub",
+    "postinstall": "lefthook install",
     "clean": "node ./scripts/clean.mjs"
   },
   "devDependencies": {
@@ -37,7 +37,6 @@
     "@changesets/cli": "catalog:",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
-    "@esdora/kit": "workspace:*",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
@@ -51,24 +50,13 @@
     "lefthook": "catalog:",
     "pnpm": "catalog:",
     "tinyexec": "catalog:",
+    "tsdown": "catalog:",
     "tsx": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",
-    "unbuild": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
     "vitest-package-exports": "catalog:",
     "yaml": "catalog:"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "allowedVersions": {
-        "eslint": "*"
-      }
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lefthook"
-    ]
   }
 }

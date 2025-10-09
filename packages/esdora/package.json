@@ -48,8 +48,5 @@
     "@esdora/color": "workspace:*",
     "@esdora/date": "workspace:*",
     "@esdora/kit": "workspace:*"
-  },
-  "devDependencies": {
-    "@esdora/build-tools": "workspace:*"
   }
 }
