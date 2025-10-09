@@ -17,42 +17,39 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/index.mjs"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/types/index.d.cts",
+        "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
     },
     "./experimental": {
       "import": {
-        "types": "./dist/types/experimental.d.mts",
-        "default": "./dist/experimental.mjs"
+        "types": "./dist/experimental.d.ts",
+        "default": "./dist/experimental.js"
       },
       "require": {
-        "types": "./dist/types/experimental.d.cts",
+        "types": "./dist/experimental.d.cts",
         "default": "./dist/experimental.cjs"
       }
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "browser": "./dist/esdora.min.js",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "browser": "./dist/esdora-kit.min.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "node scripts/build.js",
-    "dev": "unbuild --stub",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@esdora/build-tools": "workspace:*"
   }
 }

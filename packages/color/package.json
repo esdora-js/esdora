@@ -17,24 +17,24 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/index.mjs"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/types/index.d.cts",
+        "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "node scripts/build.js",
-    "dev": "unbuild --stub",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -42,11 +42,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@esdora/kit": "workspace:*",
+    "@esdora/kit": "workspace:",
     "culori": "catalog:"
   },
   "devDependencies": {
-    "@esdora/build-tools": "workspace:*",
     "@types/culori": "catalog:"
   }
 }

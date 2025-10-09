@@ -7,6 +7,11 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   },
+  "dependencies": {
+    "@esdora/color": "workspace:*",
+    "@esdora/date": "workspace:*",
+    "@esdora/kit": "workspace:*"
+  },
   "devDependencies": {
     "@iconify-json/svg-spinners": "catalog:",
     "@shikijs/vitepress-twoslash": "catalog:",

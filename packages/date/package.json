@@ -17,8 +17,8 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/index.mjs"
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
       },
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -27,8 +27,8 @@
     },
     "./fp": {
       "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/fp.mjs"
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/fp.js"
       },
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -37,8 +37,8 @@
     },
     "./locale": {
       "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/locale.mjs"
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/locale.js"
       },
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -46,15 +46,15 @@
       }
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "node scripts/build.js",
-    "dev": "unbuild --stub",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -64,8 +64,5 @@
   "dependencies": {
     "@esdora/kit": "workspace:*",
     "date-fns": "catalog:"
-  },
-  "devDependencies": {
-    "@esdora/build-tools": "workspace:*"
   }
 }
