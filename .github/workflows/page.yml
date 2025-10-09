@@ -30,17 +30,17 @@ jobs:
         with:
           fetch-depth: 0 # 需要完整的 git 历史记录以获取最后修改时间
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
