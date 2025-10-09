@@ -1,5 +1,14 @@
 # @esdora/date
 
+## 0.1.2
+
+### Patch Changes
+
+- [#137](https://github.com/esdora-js/esdora/pull/137) [`665c3df`](https://github.com/esdora-js/esdora/commit/665c3df193a2cb9714662a8fedd25b15c42caea8) Thanks [@kkfive](https://github.com/kkfive)! - build: 重构为tsdown构建
+
+- Updated dependencies [[`665c3df`](https://github.com/esdora-js/esdora/commit/665c3df193a2cb9714662a8fedd25b15c42caea8)]:
+  - @esdora/kit@0.4.0
+
 ## 0.1.1
 
 ### Patch Changes

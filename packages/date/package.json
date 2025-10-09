@@ -1,7 +1,7 @@
 {
   "name": "@esdora/date",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A modern, immutable date utility library, powered by date-fns for reliability and enhanced with unique convenience functions.",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",

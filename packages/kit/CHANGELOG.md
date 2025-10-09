@@ -1,5 +1,11 @@
 # @esdora/kit
 
+## 0.4.0
+
+### Minor Changes
+
+- [#137](https://github.com/esdora-js/esdora/pull/137) [`665c3df`](https://github.com/esdora-js/esdora/commit/665c3df193a2cb9714662a8fedd25b15c42caea8) Thanks [@kkfive](https://github.com/kkfive)! - feat: 新增判断安卓 ios 鸿蒙函数
+
 ## 0.3.0
 
 ### Minor Changes
