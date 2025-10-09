@@ -1,5 +1,14 @@
 # esdora
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [[`665c3df`](https://github.com/esdora-js/esdora/commit/665c3df193a2cb9714662a8fedd25b15c42caea8), [`665c3df`](https://github.com/esdora-js/esdora/commit/665c3df193a2cb9714662a8fedd25b15c42caea8)]:
+  - @esdora/color@0.3.2
+  - @esdora/date@0.1.2
+  - @esdora/kit@0.4.0
+
 ## 0.2.3
 
 ### Patch Changes

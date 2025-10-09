@@ -1,7 +1,7 @@
 {
   "name": "@esdora/kit",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A library of tools commonly used for development",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
