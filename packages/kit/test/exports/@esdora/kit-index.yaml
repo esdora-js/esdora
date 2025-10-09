@@ -3,11 +3,14 @@ createSafe: function
 _JSON: object
 isAlnum: function
 isAlpha: function
+isAndroid: function
 isCircular: function
 isDigit: function
 isEmail: function
 isEmailStrict: function
 isFirefox: function
+isHarmony: function
+isIos: function
 isMpSchema: function
 isPhone: function
 isSafari: function

@@ -12,7 +12,6 @@
  * 19519255642
  */
 export const REGEX_CN_PHONE_STRICT = /^(?:(?:\+|00)86)?1(?:3\d|4[5-79]|5[0-35-9]|6[5-7]|7[0-8]|8\d|9[0125-9])\d{8}$/
-
 /**
  * 严格的邮箱验证规则
  */
@@ -21,15 +20,6 @@ export const REGEX_EMAIL_STRICT = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@
  * 简易版邮箱验证
  */
 export const REGEX_EMAIL = /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i
-
-/**
- * UA Safari浏览器
- */
-export const REGEX_UA_SAFARI = /version\/[\d._].*safari/i
-/**
- * UA Firefox浏览器
- */
-export const REGEX_UA_FIREFOX = /^(?!.*Seamonkey)(?=.*Firefox).*/i
 /**
  * 字母和数字
  */
@@ -42,3 +32,32 @@ export const REGEX_ALPHA = /^[a-z]+$/i
  * 仅包含数字
  */
 export const REGEX_DIGIT = /^\d+$/
+
+/**
+ * UA Safari浏览器
+ */
+export const REGEX_UA_SAFARI = /version\/[\d._].*safari/i
+/**
+ * UA Firefox浏览器
+ */
+export const REGEX_UA_FIREFOX = /^(?!.*Seamonkey)(?=.*Firefox).*/i
+/**
+ * ipad ua
+ */
+export const REGEX_UA_IPAD = /(iPad).*OS\s([\d_]+)/
+/**
+ * ipad ua
+ */
+export const REGEX_UA_IPOD = /(iPod)(.*OS\s([\d_]+))?/
+/**
+ * iphone ua (iPad也会匹配到这个ua)
+ */
+export const REGEX_UA_IPHONE = /(iPhone\sOS)\s([\d_]+)/
+/**
+ * android ua
+ */
+export const REGEX_UA_ANDROID = /(Android);?[\s/]+([\d.]+)?/
+/**
+ * 鸿蒙 ua
+ */
+export const REGEX_UA_HARMONY = /(HarmonyOS|OpenHarmony|ArkWeb)/

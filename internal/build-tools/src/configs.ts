@@ -1,5 +1,5 @@
 import type { BuildConfig } from 'unbuild'
-import type { UserConfig } from 'vitest/config'
+import type { ViteUserConfig } from 'vitest/config'
 
 export interface PackageBuildOptions {
   /** 入口文件，默认为 ['src/index'] */
@@ -61,7 +61,7 @@ export function createBuildConfig(options: PackageBuildOptions = {}): BuildConfi
 /**
  * 生成 vitest 配置
  */
-export function createTestConfig(options: PackageTestOptions = {}): UserConfig {
+export function createTestConfig(options: PackageTestOptions = {}): ViteUserConfig {
   const {
     coverageThresholds = {
       branches: 80,
