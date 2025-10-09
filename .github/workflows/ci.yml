@@ -38,44 +38,58 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
           run_install: false
-      - uses: actions/setup-node@v5
-        with:
-          node-version: lts/*
-          cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run lint
-      - run: pnpm run typecheck
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run lint
+        run: pnpm run lint
+
+      - name: Run typecheck
+        run: pnpm run typecheck
 
   test:
     needs: [lint]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     timeout-minutes: 15
-
-    strategy:
-      matrix:
-        node: [lts/*]
-        os: [ubuntu-latest]
-      fail-fast: false
-
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
           run_install: false
-      - name: Set node ${{ matrix.node }}
+
+      - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: ${{ matrix.node }}
+          node-version-file: .nvmrc
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
-      - run: pnpm run test:coverage
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Run tests with coverage
+        run: pnpm run test:coverage
 
       - name: Find coverage files
         id: coverage
@@ -84,27 +98,15 @@ jobs:
           flags=()
           for f in $(find ./packages -name "coverage-final.json" -type f); do
             files+=("$f")
-            # 提取 package 名作为 flag：packages/<pkg>/coverage/coverage-final.json -> <pkg>
             flags+=("$(basename $(dirname $(dirname "$f")))")
           done
-
-          # 输出成 GitHub Actions 输出变量（逗号分隔）
           echo "files=$(IFS=,; echo "${files[*]}")" >> $GITHUB_OUTPUT
           echo "flags=$(IFS=,; echo "${flags[*]}")" >> $GITHUB_OUTPUT
 
-      - name: Upload coverage reports to Codecov (per-package flags)
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ steps.coverage.outputs.files }}
           flags: ${{ steps.coverage.outputs.flags }}
           fail_ci_if_error: false
-          verbose: true
-
-      - name: Upload coverage reports to Codecov (default)
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ steps.coverage.outputs.files }}
-          fail_ci_if_error: false
-          verbose: true

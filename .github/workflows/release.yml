@@ -29,15 +29,17 @@ jobs:
         with:
           token: ${{ steps.generate_token.outputs.token }} # 使用动态生成的 token
           fetch-depth: 0
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: lts/*
+          node-version-file: .nvmrc
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
