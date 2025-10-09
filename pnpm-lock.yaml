@@ -10,7 +10,7 @@ catalogs:
       specifier: ^5.4.1
       version: 5.4.1
     '@antfu/utils':
-      specifier: ^9.2.1
+      specifier: ^9.3.0
       version: 9.3.0
     '@changesets/changelog-github':
       specifier: ^0.5.1
@@ -49,7 +49,7 @@ catalogs:
       specifier: ^13.9.0
       version: 13.9.0
     bumpp:
-      specifier: ^10.2.3
+      specifier: ^10.3.1
       version: 10.3.1
     chokidar:
       specifier: ^4.0.3
@@ -91,7 +91,7 @@ catalogs:
       specifier: ^3.0.3
       version: 3.0.3
     pnpm:
-      specifier: ^10.18.0
+      specifier: ^10.18.1
       version: 10.18.1
     tinyexec:
       specifier: ^1.0.1

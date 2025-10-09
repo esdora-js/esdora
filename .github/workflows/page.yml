@@ -38,8 +38,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: lts/*
+          node-version-file: .nvmrc
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
