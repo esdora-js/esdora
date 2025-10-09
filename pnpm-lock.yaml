@@ -34,7 +34,7 @@ catalogs:
       specifier: ^4.0.1
       version: 4.0.1
     '@types/node':
-      specifier: ^24.6.2
+      specifier: ^24.7.0
       version: 24.7.0
     '@unocss/reset':
       specifier: ^66.5.2
