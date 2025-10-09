@@ -24,7 +24,6 @@
     ·
     <a href="https://github.com/esdora-js/esdora/issues/new/choose">功能请求</a>
   </p>
-
 </div>
 
 ---
@@ -44,7 +43,7 @@
 | [`esdora`](./packages/esdora)       | [![NPM version](https://img.shields.io/npm/v/esdora.svg?style=flat-square)](https://npmjs.org/package/esdora)               | [![NPM downloads for esdora](https://img.shields.io/npm/dm/esdora.svg?style=flat-square)](https://npmjs.org/package/esdora)                      | 一个汇总下面所有包的“总包”                   |
 | [`@esdora/kit`](./packages/kit)     | [![NPM version](https://img.shields.io/npm/v/@esdora/kit.svg?style=flat-square)](https://npmjs.org/package/@esdora/kit)     | [![NPM downloads for @esdora/kit](https://img.shields.io/npm/dm/@esdora/kit.svg?style=flat-square)](https://npmjs.org/package/@esdora/kit)       | 🛠️ 一套零依赖、类型安全的 TS/JS 工具函数库。 |
 | [`@esdora/color`](./packages/color) | [![NPM version](https://img.shields.io/npm/v/@esdora/color.svg?style=flat-square)](https://npmjs.org/package/@esdora/color) | [![NPM downloads for @esdora/color](https://img.shields.io/npm/dm/@esdora/color.svg?style=flat-square)](https://npmjs.org/package/@esdora/color) | 🎨 一个用于处理颜色相关的库                  |
-| `@esdora/date`                      | [![NPM version](https://img.shields.io/npm/v/@esdora/date.svg?style=flat-square)](https://npmjs.org/package/@esdora/date)   | [![NPM downloads for @esdora/date](https://img.shields.io/npm/dm/@esdora/date.svg?style=flat-square)](https://npmjs.org/package/@esdora/date)    | 📅 一个用于处理时间相关的库                  |
+| [`@esdora/date`](./packages/date)   | [![NPM version](https://img.shields.io/npm/v/@esdora/date.svg?style=flat-square)](https://npmjs.org/package/@esdora/date)   | [![NPM downloads for @esdora/date](https://img.shields.io/npm/dm/@esdora/date.svg?style=flat-square)](https://npmjs.org/package/@esdora/date)    | 📅 一个用于处理时间相关的库                  |
 
 ## ✨ 核心理念
 
