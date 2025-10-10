@@ -37,7 +37,7 @@ catalog:
   floating-vue: ^5.2.2
   lefthook: ^1.13.6
   pinia: ^3.0.3
-  pnpm: ^10.18.1
+  pnpm: ^10.18.2
   tinyexec: ^1.0.1
   tsdown: ^0.15.6
   tsx: ^4.20.6
