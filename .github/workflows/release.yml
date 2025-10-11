@@ -60,8 +60,8 @@ jobs:
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          NPM_CONFIG_PROVENANCE: true
-          NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
+          # NPM_CONFIG_PROVENANCE: true
+          # NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
 
       - name: Trigger docs deploy
         if: steps.changesets.outputs.published == 'true'
