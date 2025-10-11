@@ -65,7 +65,7 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
 
       - name: Trigger docs deploy
-        if: steps.changesets.outputs.published == 'true'
+        # if: steps.changesets.outputs.published == 'true'
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
