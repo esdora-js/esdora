@@ -1,5 +1,11 @@
 # esdora
 
+## 0.2.5
+
+### Patch Changes
+
+- [#141](https://github.com/esdora-js/esdora/pull/141) [`404ed61`](https://github.com/esdora-js/esdora/commit/404ed610a5c8fade11b76f87ca53e1a9a1dcfd39) Thanks [@kkfive](https://github.com/kkfive)! - fix: 导出函数丢失
+
 ## 0.2.4
 
 ### Patch Changes
