@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  actions: write
 
 jobs:
   release:
@@ -67,7 +68,7 @@ jobs:
       - name: Trigger docs deploy
         # if: steps.changesets.outputs.published == 'true'
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
         run: |
           VERSION_STRING=$(echo $PUBLISHED_PACKAGES | jq -r '. | map("\(.name)@\(.version)") | join(", ")')
