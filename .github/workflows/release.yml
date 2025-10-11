@@ -18,6 +18,7 @@ jobs:
 
     permissions:
       contents: write
+      id-token: write
 
     steps:
       - name: Generate Token for Bot
@@ -56,6 +57,7 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: pnpm ci:publish
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: 'true'
