@@ -1,7 +1,7 @@
 {
   "name": "esdora",
   "type": "module",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A comprehensive collection of development tools and utilities - Meta package that aggregates all Esdora packages",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
