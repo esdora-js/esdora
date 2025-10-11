@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   release:
@@ -12,8 +13,7 @@ jobs:
     if: |
       github.event_name == 'push' &&
       github.ref == 'refs/heads/main' &&
-      contains(github.event.head_commit.message, 'chore(release): publish new version') &&
-      github.event.head_commit.author.name == 'github-actions[bot]'
+      contains(github.event.head_commit.message, 'chore(release): publish new version')
 
     permissions:
       contents: write
@@ -24,7 +24,6 @@ jobs:
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
-          installation-id: ${{ secrets.BOT_INSTALLATION_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
 
       - name: Checkout Code
@@ -56,7 +55,6 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: pnpm ci:publish
-          create-git-release: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: 'true'
