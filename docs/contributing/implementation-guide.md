@@ -59,3 +59,65 @@
 - **元包 `esdora`:**
   - `esdora` 包作为所有功能的统一入口。
   - 它通过**命名空间导出**的方式 (`import * as kit from '@esdora/kit'`) 来聚合所有子包，以避免命名冲突并保持 API 结构清晰。
+
+## 新包的创建与发布
+
+当一个新功能需要引入第三方依赖时，或者它本身是一个相对独立的功能集合，就应该创建一个新的包。以下是将一个新包从创建到实现自动化发布的完整流程。
+
+### 1. 创建与初始化
+
+1.  **创建目录**: 在 `packages/` 目录下，以新包的名称创建一个新的文件夹。
+2.  **初始化 `package.json`**: 在新目录中，创建一个标准的 `package.json` 文件，确保包含 `name` (例如 `@esdora/new-package`), `version`, `description` 等关键字段。
+3.  **配置构建与测试**: 参照现有包（如 `@esdora/color`）的结构，添加 `tsconfig.json`, `vitest.config.ts` 等构建和测试配置文件。
+
+### 2. 首次发布：引导流程
+
+由于 npm 不允许为一个不存在的包预先配置 OIDC 可信发布，因此新包的**首次发布**需要一个手动的引导过程。
+
+**核心思路：** 使用一个临时的 `NPM_TOKEN` 进行第一次发布，然后在 npm 上为这个已存在的包配置 OIDC，最后立即销毁该临时 Token。
+
+**操作步骤：**
+
+1.  **生成临时 Token**:
+    - 访问 [npmjs.com](https://www.npmjs.com/)，登录您的账户。
+    - 进入 **Access Tokens** 页面，选择 **Generate New Token** -> **Granular Access Token**。
+    - **权限 (Permissions)**: 选择 `Read and Write`。
+    - **适用范围 (Scope)**: 限制此 Token 仅对您所在的 `@esdora` 组织生效。
+    - **安全 (Security)**: 为了安全，建议开启双因素认证 (2FA)。
+    - 生成后，**立即复制这个 Token**，因为页面刷新后将无法再次看到。
+
+2.  **配置 GitHub Secret**:
+    - 在 `esdora-js/esdora` 仓库的 **Settings** -> **Secrets and variables** -> **Actions** 页面。
+    - 创建一个名为 `NPM_TOKEN` 的新的仓库 Secret，并将上一步生成的 Token 粘贴进去。
+
+3.  **触发发布**:
+    - 此时，`release.yml` 工作流在发布步骤中如果检测到 `NPM_TOKEN`，会优先使用它来发布。
+    - **注意**: 如果您的 npm 组织开启了发布保护，请确保在首次发布前，暂时将包的发布权限设置为 `Require two-factor authentication or an automation or granular access token`，以允许临时令牌生效。
+    - 按照正常的 `changeset` 流程，创建一个包含新包的版本变更，然后合并到 `main` 分支，这将触发发布流程，并将您的新包首次推送到 npm。
+
+### 3. 配置 OIDC 可信发布
+
+首次发布成功后，您的包就已经存在于 npm 注册表上。现在，我们可以为其配置 OIDC。
+
+1.  **登录 npm**: 访问 [npmjs.com](https://www.npmjs.com/) 并登录。
+2.  **找到新包**: 在您的包列表中，找到刚刚发布的新包，并进入其管理页面。
+3.  **进入设置**: 点击 **Settings** 标签页。
+4.  **提升安全级别**: 在 **Publishing access** 部分，选择最严格的 **`Require two-factor authentication and disallow tokens (recommended)`** 选项。
+    - **重要提示**: 根据 npm 官方说明，此选项与 OIDC 可信发布者完全兼容。启用后，将禁止使用传统的 `NPM_TOKEN` 进行发布，从而极大地提升了账户安全性。
+5.  **配置可信发布者**:
+    - 在页面左侧找到 **Trusted Publisher** 菜单。
+    - **发布者 (Publisher)**: 选择 `GitHub Actions`。
+    - **GitHub 组织 (Organization)**: 填写 `esdora-js`。
+    - **GitHub 仓库 (Repository)**: 填写 `esdora`。
+    - **工作流文件名 (Workflow filename)**: 填写 `release.yml`。
+    - **环境名 (Environment name)**: (可选) 填写用于发布的 GitHub Actions 环境名。这是一个高级安全选项，用于在发布前引入人工审批流程。对于大多数项目，可以留空。
+    - 保存配置。
+
+### 4. 清理工作：移除临时 Token
+
+在 OIDC 配置完成并确认可以正常工作后（例如，在下一次发布中），**必须立即执行以下清理操作**：
+
+- 回到 GitHub 仓库的 **Secrets** 设置页面。
+- **彻底删除**之前创建的 `NPM_TOKEN`。
+
+至此，您的新包已经完全接入了安全、无密码的 OIDC 发布流程。后续的所有发布都将由 GitHub Actions 自动完成，无需任何手动干预。

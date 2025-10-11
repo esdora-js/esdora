@@ -2,7 +2,7 @@
   "type": "module",
   "version": "0.1.1",
   "private": true,
-  "packageManager": "pnpm@10.18.1",
+  "packageManager": "pnpm@10.18.2",
   "engines": {
     "node": ">=22.16.0",
     "pnpm": ">=10.13.1"
@@ -17,7 +17,6 @@
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "docs:preview": "pnpm -C docs run docs:preview",
-    "release": "bumpp -r && pnpm build && pnpm publish -r --access public",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
     "test:ui": "turbo test:ui",
@@ -28,11 +27,11 @@
     "update:deps": "npx taze -r -w",
     "catalog": "pnpx codemod pnpm/catalog",
     "postinstall": "lefthook install",
+    "ci:publish": "pnpm changeset publish",
     "clean": "node ./scripts/clean.mjs"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
-    "@antfu/utils": "catalog:",
     "@changesets/changelog-github": "catalog:",
     "@changesets/cli": "catalog:",
     "@commitlint/cli": "catalog:",
@@ -40,11 +39,9 @@
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
-    "bumpp": "catalog:",
     "commitlint-plugin-function-rules": "catalog:",
     "cz-git": "catalog:",
     "czg": "catalog:",
-    "esbuild": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-format": "catalog:",
     "lefthook": "catalog:",

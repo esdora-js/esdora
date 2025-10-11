@@ -1,16 +1,12 @@
 name: Deploy Documentation
 
 on:
-  # 当推送到 main 分支时触发
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/**'
-      - .github/workflows/page.yml
-
-  # 允许手动触发工作流
   workflow_dispatch:
+    inputs:
+      version:
+        description: The version to deploy
+        required: false
+        default: latest
 
 # 只允许一个并发部署，跳过正在运行和最新排队之间的运行
 concurrency:
@@ -60,7 +56,7 @@ jobs:
           # 构建产物目录
           publish_dir: ./docs/.vitepress/dist
           # 提交信息
-          commit_message: 'docs: deploy documentation from ${{ github.sha }}'
+          commit_message: 'docs: deploy ${{ github.event.inputs.version }}'
           # 用户信息
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
