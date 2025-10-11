@@ -59,7 +59,7 @@ jobs:
           publish: pnpm ci:publish
           createGithubReleases: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           NPM_CONFIG_PROVENANCE: 'true'
 
       - name: Trigger docs deploy
