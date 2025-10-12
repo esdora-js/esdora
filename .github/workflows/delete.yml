@@ -3,9 +3,13 @@ name: Delete Workflow Runs
 on:
   workflow_dispatch:
 
+permissions:
+  actions: write
+
 jobs:
-  docker:
+  delete-workflow-runs:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
