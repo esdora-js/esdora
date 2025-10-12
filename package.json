@@ -27,7 +27,7 @@
     "update:deps": "npx taze -r -w",
     "catalog": "pnpx codemod pnpm/catalog",
     "postinstall": "lefthook install",
-    "ci:publish": "pnpm changeset publish",
+    "ci:publish": "pnpm changeset publish --provenance",
     "clean": "node ./scripts/clean.mjs"
   },
   "devDependencies": {

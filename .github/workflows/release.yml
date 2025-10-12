@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  actions: write
 
 jobs:
   release:
@@ -60,9 +61,12 @@ jobs:
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Trigger docs deploy
-        if: steps.changesets.outputs.published == 'true'
+        # if: steps.changesets.outputs.published == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
