@@ -1,5 +1,11 @@
 # esdora
 
+## 0.2.6
+
+### Patch Changes
+
+- [#149](https://github.com/esdora-js/esdora/pull/149) [`e495035`](https://github.com/esdora-js/esdora/commit/e4950356092717c5dbb7ef2c4c6887529eb6d1dc) Thanks [@kkfive](https://github.com/kkfive)! - fix: 导出路径错误
+
 ## 0.2.5
 
 ### Patch Changes
