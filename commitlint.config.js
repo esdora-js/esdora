@@ -12,6 +12,7 @@ const allowedScopes = [
   'dev',
   'deploy',
   'other',
+  'release',
 ]
 
 // precomputed scope
@@ -145,7 +146,6 @@ const userConfig = {
         'chore',
         'revert',
         'types',
-        'release',
       ],
     ],
   },
