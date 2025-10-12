@@ -1,5 +1,11 @@
 # @esdora/date
 
+## 0.1.3
+
+### Patch Changes
+
+- [#156](https://github.com/esdora-js/esdora/pull/156) [`c8b89c1`](https://github.com/esdora-js/esdora/commit/c8b89c163ae6271b57dd73ebc9c320868ce2d388) Thanks [@kkfive](https://github.com/kkfive)! - fix(@esdora/date): 修正日期格式常量以匹配date-fns规范
+
 ## 0.1.2
 
 ### Patch Changes
