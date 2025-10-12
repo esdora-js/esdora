@@ -63,30 +63,51 @@ jobs:
             echo 'Merging this PR will trigger the release workflow to publish packages to npm.'
             echo ''
 
-            # 检查是否有 changeset 文件需要处理
-            if [ -n "$(find .changeset -name '*.md' -not -name 'README.md' 2>/dev/null)" ]; then
-              echo '## 📋 Changes to be released'
+            # 检查是否有文件变更（版本更新和 CHANGELOG 更新）
+            if git diff --name-only HEAD | grep -E "(package\.json|CHANGELOG\.md)" > /dev/null; then
+              echo '## 📦 Version Updates'
               echo ''
 
-              # 按字母顺序显示 changeset 文件（与 changesets 处理顺序一致）
-              find .changeset -name '*.md' -not -name 'README.md' | sort | while IFS= read -r changeset_file; do
-                if [ -f "$changeset_file" ]; then
-                  # 解析 frontmatter 获取包名和变更类型
-                  packages=$(awk '/^---$/ {fm++; next} fm == 1 && /^".*":/ {gsub(/[":]/,"",$1); print "**" $1 "** (" $2 ")"}' "$changeset_file")
-                  description=$(awk '/^---$/ {fm++; next} fm >= 2 && NF > 0 {print}' "$changeset_file")
+              # 显示版本变更的包
+              git diff --name-only HEAD | grep "package\.json" | while IFS= read -r package_file; do
+                if [ -f "$package_file" ]; then
+                  package_dir=$(dirname "$package_file")
+                  package_name=$(jq -r '.name' "$package_file" 2>/dev/null || echo "unknown")
+                  old_version=$(git show HEAD:"$package_file" | jq -r '.version' 2>/dev/null || echo "unknown")
+                  new_version=$(jq -r '.version' "$package_file" 2>/dev/null || echo "unknown")
 
-                  if [ -n "$packages" ] && [ -n "$description" ]; then
-                    echo "### $packages"
-                    echo ''
-                    echo "$description"
-                    echo ''
+                  if [ "$old_version" != "$new_version" ] && [ "$old_version" != "unknown" ] && [ "$new_version" != "unknown" ]; then
+                    echo "- **$package_name**: $old_version → $new_version"
                   fi
                 fi
               done
-            else
-              echo '## 📦 Version Updates'
+
               echo ''
-              echo 'This PR contains version bumps and changelog updates for packages with pending changes.'
+              echo '## 📋 Changelog Updates'
+              echo ''
+
+              # 显示 CHANGELOG 的新增内容
+              git diff --name-only HEAD | grep "CHANGELOG\.md" | while IFS= read -r changelog_file; do
+                if [ -f "$changelog_file" ]; then
+                  package_dir=$(dirname "$changelog_file")
+                  package_name=$(jq -r '.name' "$package_dir/package.json" 2>/dev/null || echo "$(basename "$package_dir")")
+
+                  echo "### $package_name"
+                  echo ''
+
+                  # 提取新增的 CHANGELOG 内容（第一个版本块）
+                  git diff HEAD "$changelog_file" | grep "^+" | grep -v "^+++" | sed 's/^+//' | head -20 | while IFS= read -r line; do
+                    if [ -n "$line" ]; then
+                      echo "$line"
+                    fi
+                  done
+                  echo ''
+                fi
+              done
+            else
+              echo '## 📦 No Changes'
+              echo ''
+              echo 'No version updates or changelog changes detected.'
             fi
 
             echo ''
