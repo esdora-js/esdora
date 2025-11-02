@@ -164,17 +164,17 @@ describe('树过滤器 (treeFilter)', () => {
   describe('错误处理', () => {
     it('在 DFS 前序遍历中当子节点不是数组时应该抛出错误', () => {
       const invalidTree = [{ id: 1, children: 'invalid' }]
-      expect(() => treeFilter(invalidTree, () => true)).toThrow('Expected children to be an array')
+      expect(() => treeFilter(invalidTree, () => true)).toThrow('Expected \'children\' to be an array')
     })
 
     it('在 DFS 后序遍历中当子节点不是数组时应该抛出错误', () => {
       const invalidTree = [{ id: 1, children: 'invalid' }]
-      expect(() => treeFilter(invalidTree, () => true, { order: 'post' })).toThrow('Expected children to be an array')
+      expect(() => treeFilter(invalidTree, () => true, { order: 'post' })).toThrow('Expected \'children\' to be an array')
     })
 
     it('在 BFS 中当子节点不是数组时应该抛出错误', () => {
       const invalidTree = [{ id: 1, children: 'invalid' }]
-      expect(() => treeFilter(invalidTree, () => true, { mode: 'bfs' })).toThrow('Expected children to be an array')
+      expect(() => treeFilter(invalidTree, () => true, { mode: 'bfs' })).toThrow('Expected \'children\' to be an array')
     })
 
     it('应该处理 null 子节点', () => {

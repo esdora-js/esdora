@@ -51,7 +51,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('当子节点属性是数字时应抛出 TypeError', () => {
@@ -63,7 +63,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('当子节点属性是对象时应抛出 TypeError', () => {
@@ -75,7 +75,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('当子节点属性是布尔值时应抛出 TypeError', () => {
@@ -87,7 +87,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('应支持自定义子节点属性名', () => {
@@ -107,7 +107,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'items')
-    }).toThrow('Expected items to be an array')
+    }).toThrow(/Expected 'items' to be an array/)
   })
 
   it('应支持不同的对象类型', () => {
