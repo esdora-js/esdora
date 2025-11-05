@@ -105,14 +105,10 @@ function generateMonochromaticPalette(baseHsl: EsdoraColor, count: number, inclu
     if (!palette.includes(baseHex)) {
       palette.push(baseHex)
       palette.sort((a, b) => {
-        const aColor = parseColor(a)
-        const bColor = parseColor(b)
-        if (!aColor || !bColor)
-          return 0
+        const aColor = parseColor(a)!
+        const bColor = parseColor(b)!
         const aHsl = hsl(aColor)
         const bHsl = hsl(bColor)
-        if (!aHsl || !bHsl)
-          return 0
         return ((aHsl as any).l ?? 0) - ((bHsl as any).l ?? 0)
       })
     }

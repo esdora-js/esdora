@@ -908,4 +908,148 @@ describe('treeMap 树结构映射函数', () => {
       })
     })
   })
+
+  describe('bFS 模式下缺失覆盖的测试用例', () => {
+    it('bFS 模式下启用 path context', () => {
+      const tree = [
+        { id: 1, children: [{ id: 2 }, { id: 3 }] },
+        { id: 4, children: [{ id: 5 }] },
+      ]
+      const paths: any[] = []
+
+      treeMap(tree, (item, ctx) => {
+        if (ctx?.path) {
+          paths.push([...ctx.path])
+        }
+        return item
+      }, {
+        mode: 'bfs',
+        context: { path: true },
+      })
+
+      // 验证 path 被正确设置
+      expect(paths).toEqual([
+        [1], // 根节点1
+        [4], // 根节点4
+        [1, 2], // 节点1的子节点2
+        [1, 3], // 节点1的子节点3
+        [4, 5], // 节点4的子节点5
+      ])
+    })
+
+    it('bFS 模式下用户设置 children 为非数组值', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({
+        ...item,
+        children: 'not-an-array' as any,
+      }), {
+        mode: 'bfs',
+      })
+
+      expect(result).toEqual([{ id: 1, children: 'not-an-array' }])
+    })
+
+    it('bFS 模式下用户设置 children 为新数组', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({
+        ...item,
+        children: [{ id: 999 }], // 新数组，不递归处理
+      }), {
+        mode: 'bfs',
+      })
+
+      expect(result).toEqual([{ id: 1, children: [{ id: 999 }] }])
+    })
+
+    it('bFS 模式下用户设置 children 为 null', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({
+        ...item,
+        children: null,
+      }), {
+        mode: 'bfs',
+      })
+
+      expect(result).toEqual([{ id: 1, children: null }])
+    })
+
+    it('bFS 模式下用户设置 children 为 undefined', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({
+        ...item,
+        children: undefined,
+      }), {
+        mode: 'bfs',
+      })
+
+      expect(result).toEqual([{ id: 1, children: undefined }])
+    })
+
+    it('bFS 模式下用户设置 children 为空数组', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({
+        ...item,
+        children: [],
+      }), {
+        mode: 'bfs',
+      })
+
+      expect(result).toEqual([{ id: 1, children: [] }])
+    })
+
+    it('bFS 模式下复杂场景：children 引用相同但用户已处理', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, (item, ctx) => {
+        if (item.id === 1) {
+          return {
+            ...item,
+            children: ctx?.originalChildren, // 保持原始引用
+          }
+        }
+        return item
+      }, {
+        mode: 'bfs',
+      })
+
+      // 由于返回了 ctx.originalChildren，应该递归处理子节点
+      expect(result).toEqual([{ id: 1, children: [{ id: 2 }] }])
+    })
+
+    it('bFS 模式下启用 parent context', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+      const parents: any[] = []
+
+      treeMap(tree, (item, ctx) => {
+        parents.push(ctx?.parent)
+        return item
+      }, {
+        mode: 'bfs',
+        context: { parent: true },
+      })
+
+      // 验证 parent 被正确设置
+      expect(parents[0]).toBeUndefined() // 根节点没有父节点
+      expect(parents[1]).toEqual({ id: 1, children: [{ id: 2 }] })
+    })
+
+    it('bFS 模式下用户返回原始children引用（相同引用）', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, (item) => {
+        // 返回原始对象，包括原始children引用
+        return item
+      }, {
+        mode: 'bfs',
+      })
+
+      // 应该递归处理子节点
+      expect(result).toEqual([{ id: 1, children: [{ id: 2 }] }])
+    })
+  })
 })
