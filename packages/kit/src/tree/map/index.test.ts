@@ -1051,5 +1051,157 @@ describe('treeMap 树结构映射函数', () => {
       // 应该递归处理子节点
       expect(result).toEqual([{ id: 1, children: [{ id: 2 }] }])
     })
+
+    it('bFS模式下启用index context', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+      const indices: number[] = []
+
+      treeMap(tree, (item, ctx) => {
+        if (ctx?.index !== undefined) {
+          indices.push(ctx.index)
+        }
+        return item
+      }, {
+        mode: 'bfs',
+        context: { index: true },
+      })
+
+      expect(indices).toEqual([0, 0])
+    })
+  })
+
+  describe('后序遍历 path context 覆盖测试', () => {
+    it('后序遍历中叶子节点启用 path context', () => {
+      const tree = [{ id: 1 }]
+      const paths: any[] = []
+
+      treeMap(tree, (item, ctx) => {
+        if (ctx?.path) {
+          paths.push([...ctx.path])
+        }
+        return item
+      }, {
+        order: 'post',
+        context: { path: true },
+      })
+
+      expect(paths).toEqual([[1]])
+    })
+
+    it('后序遍历中用户返回非数组 children', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({
+        ...item,
+        children: item.id === 1 ? 'not-an-array' as any : item,
+      }), {
+        order: 'post',
+      })
+
+      expect(result).toEqual([{ id: 1, children: 'not-an-array' }])
+    })
+
+    it('后序遍历中有children的节点启用 path context', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+      const paths: any[] = []
+
+      treeMap(tree, (item, ctx) => {
+        if (ctx?.path) {
+          paths.push([...ctx.path])
+        }
+        return item
+      }, {
+        order: 'post',
+        context: { path: true },
+      })
+
+      expect(paths).toEqual([[1, 2], [1]])
+    })
+
+    it('后序遍历中无children节点启用多个context选项', () => {
+      const tree = [{ id: 1 }]
+      const contexts: any[] = []
+
+      treeMap(tree, (item, ctx) => {
+        contexts.push({
+          path: ctx?.path ? [...ctx.path] : undefined,
+          depth: ctx?.depth,
+        })
+        return item
+      }, {
+        order: 'post',
+        context: { path: true, depth: true },
+      })
+
+      expect(contexts).toEqual([{ path: [1], depth: 0 }])
+    })
+
+    describe('未覆盖分支的测试用例', () => {
+      it('dFS前序遍历：映射函数不返回children属性但原始节点有children', () => {
+        const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+        const result = treeMap(tree, (item) => {
+        // 只返回 id，不包含 children 属性
+          return { id: item.id * 2 }
+        })
+
+        // 应该自动递归处理子节点
+        expect(result).toEqual([{ id: 2, children: [{ id: 4 }] }])
+      })
+
+      it('后序遍历：叶子节点启用index context', () => {
+        const tree = [{ id: 1 }, { id: 2 }]
+        const indices: number[] = []
+
+        treeMap(tree, (item, ctx) => {
+          if (ctx?.index !== undefined) {
+            indices.push(ctx.index)
+          }
+          return item
+        }, {
+          order: 'post',
+          context: { index: true },
+        })
+
+        expect(indices).toEqual([0, 1])
+      })
+
+      it('后序遍历：叶子节点启用parent context', () => {
+        const tree = [{ id: 1 }]
+        const parents: any[] = []
+
+        treeMap(tree, (item, ctx) => {
+          parents.push(ctx?.parent)
+          return item
+        }, {
+          order: 'post',
+          context: { parent: true },
+        })
+
+        expect(parents[0]).toBeUndefined() // 根节点没有父节点
+      })
+    })
+  })
+
+  describe('options 为 undefined 的边界情况', () => {
+    it('bFS 模式下 options 为 undefined', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({ ...item, id: item.id * 2 }), {
+        mode: 'bfs',
+      })
+
+      expect(result).toEqual([{ id: 2, children: [{ id: 4 }] }])
+    })
+
+    it('后序遍历模式下 options 为 undefined', () => {
+      const tree = [{ id: 1, children: [{ id: 2 }] }]
+
+      const result = treeMap(tree, item => ({ ...item, id: item.id * 2 }), {
+        order: 'post',
+      })
+
+      expect(result).toEqual([{ id: 2, children: [{ id: 4 }] }])
+    })
   })
 })

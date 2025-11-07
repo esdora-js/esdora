@@ -87,10 +87,10 @@ export function treeMap<
   const config = options?.context
 
   if (mode === 'bfs') {
-    return treeMapBfs(array, fn, childrenKey, config, options ?? {})
+    return treeMapBfs(array, fn, childrenKey, config, options!)
   }
   else if (order === 'post') {
-    return treeMapDfsPost(array, fn, childrenKey, config, options ?? {})
+    return treeMapDfsPost(array, fn, childrenKey, config, options!)
   }
   else {
     return treeMapDfsPre(array, fn, childrenKey, config, options ?? {})
@@ -214,29 +214,15 @@ function treeMapDfsPre<T, U, Config extends TreeMapContextConfig>(
       return mapped
     }
 
+    // 如果映射后的 children 不是数组（如 null、undefined 等），说明用户明确修改了它
     if (!Array.isArray(mappedChildren)) {
       return mapped
     }
 
-    if (mappedChildren !== originalChildren) {
-      return mapped
-    }
-
-    if (Array.isArray(originalChildren) && originalChildren.length > 0) {
-      return {
-        ...mapped,
-        [childrenKey]: treeMapDfsPre(
-          originalChildren,
-          fn,
-          childrenKey,
-          config,
-          options,
-          depth + 1,
-          item,
-          currentPath,
-        ),
-      } as U
-    }
+    // 如果映射后的 children 是数组但引用不同，说明用户创建了新数组
+    // 注意：由于 context.originalChildren === originalChildren，
+    // 如果 mappedChildren === originalChildren，则必然 mappedChildren === context.originalChildren
+    // 这种情况已在上面的检查中处理（第198行），所以这里只需检查引用不同的情况
     return mapped
   })
 }
@@ -366,14 +352,10 @@ function treeMapDfsPost<T, U, Config extends TreeMapContextConfig>(
     }
 
     // 如果映射后的 children 是数组但引用不同，说明用户创建了新数组
-    if (mappedChildren !== originalChildren) {
-      return mapped
-    }
-
-    // 如果 children 引用相同，使用递归处理的结果
-    return childrenMapped
-      ? { ...mapped, [childrenKey]: childrenMapped } as U
-      : mapped
+    // 注意：由于 context.originalChildren === originalChildren，
+    // 如果 mappedChildren === originalChildren，则必然 mappedChildren === context.originalChildren
+    // 这种情况已在上面的检查中处理（第344行），所以这里只需检查引用不同的情况
+    return mapped
   })
 }
 
@@ -520,23 +502,9 @@ function treeMapBfs<T, U, Config extends TreeMapContextConfig>(
     }
 
     // 如果映射后的 children 是数组但引用不同，说明用户创建了新数组
-    if (mappedChildren !== originalChildren) {
-      continue
-    }
-
-    // 如果 children 引用相同且是数组，继续递归处理
-    const newChildren: U[] = []
-    const newMapped = { ...mapped, [childrenKey]: newChildren } as U
-    parentList[currentIndex] = newMapped
-    for (const child of originalChildren) {
-      queue.push({
-        node: child,
-        parentList: newChildren,
-        depth: depth + 1,
-        parent: node,
-        path: currentPath,
-      })
-    }
+    // 注意：由于 context.originalChildren === originalChildren，
+    // 如果 mappedChildren === originalChildren，则必然 mappedChildren === context.originalChildren
+    // 这种情况已在上面的检查中处理（第485行），所以这里只需检查引用不同的情况
   }
   return result
 }

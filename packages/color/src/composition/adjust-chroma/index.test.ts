@@ -163,5 +163,23 @@ describe('adjustChroma', () => {
       expect(result).not.toBe(null)
       expect((result as any)?.c).toBe(0.2)
     })
+    it('当色度值为 undefined 时使用函数调整器,必须触发 ?? 0 默认值分支', () => {
+      // 创建一个 OKLCH 颜色对象,明确将 c 设置为 undefined
+      const colorWithUndefinedChroma: any = {
+        mode: 'oklch',
+        l: 0.5,
+        c: undefined,
+        h: 180,
+        alpha: 1,
+      }
+
+      const result = adjustChroma(colorWithUndefinedChroma, (currentChroma) => {
+        // 验证 oklchColor.c ?? 0 的默认值分支被触发
+        expect(currentChroma).toBe(0)
+        return currentChroma + 0.1
+      })
+      expect(result).not.toBe(null)
+      expect((result as any)?.c).toBe(0.1)
+    })
   })
 })

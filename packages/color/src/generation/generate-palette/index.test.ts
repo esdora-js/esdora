@@ -376,5 +376,30 @@ describe('generatePalette', () => {
       expect(result).toHaveLength(3)
       expect(result!.every(color => color.startsWith('#'))).toBe(true)
     })
+
+    it('应该正确处理排序时两个颜色的亮度值都为 undefined 的情况', () => {
+      // 创建一个特殊的颜色,其亮度值为 undefined
+      // 这个测试确保排序函数中两个 ?? 0 默认值分支都被触发
+      const edgeCaseColor = {
+        mode: 'hsl',
+        h: 120,
+        s: 0.5,
+        l: undefined, // 亮度值为 undefined
+        alpha: 1,
+      } as any
+
+      // 使用 includeBase: true 和特定的 count 来触发排序逻辑
+      // 当基础颜色不在生成的调色板中时,会触发排序
+      // 排序函数会比较两个颜色,如果两个颜色的亮度值都为 undefined,
+      // 则会触发 ((aHsl as any).l ?? 0) - ((bHsl as any).l ?? 0) 中两个 ?? 0 的默认值分支
+      const result = generatePalette(edgeCaseColor, {
+        type: 'monochromatic',
+        count: 5,
+        includeBase: true,
+      })
+
+      expect(result).toHaveLength(5)
+      expect(result!.every(color => color.startsWith('#'))).toBe(true)
+    })
   })
 })

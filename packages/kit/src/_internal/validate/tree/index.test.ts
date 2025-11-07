@@ -139,4 +139,24 @@ describe('validateChildrenProperty', () => {
       validateChildrenProperty(node, 'children')
     }).not.toThrow()
   })
+
+  it('错误信息应包含节点的 name（当没有 id 时）', () => {
+    const node = { name: 'test-node', children: 'invalid' }
+
+    expect(() => {
+      validateChildrenProperty(node, 'children')
+    }).toThrow(/node with name: test-node/)
+  })
+
+  it('错误信息应该不包含节点信息（当既没有 id 也没有 name 时）', () => {
+    const node = { someOtherProp: 'value', children: 'invalid' }
+
+    expect(() => {
+      validateChildrenProperty(node, 'children')
+    }).toThrow(TypeError)
+
+    expect(() => {
+      validateChildrenProperty(node, 'children')
+    }).toThrow(/Expected 'children' to be an array, but got string/)
+  })
 })
