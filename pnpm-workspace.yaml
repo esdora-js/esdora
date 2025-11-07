@@ -15,7 +15,7 @@ catalog:
   '@commitlint/cli': ^20.1.0
   '@commitlint/config-conventional': ^20.0.0
   '@iconify-json/svg-spinners': ^1.2.4
-  '@shikijs/vitepress-twoslash': 3.13.0
+  '@shikijs/vitepress-twoslash': 3.15.0
   '@types/culori': ^4.0.1
   '@types/node': ^24.10.0
   '@unocss/reset': ^66.5.5
@@ -36,7 +36,7 @@ catalog:
   pinia: ^3.0.4
   pnpm: ^10.20.0
   tinyexec: ^1.0.2
-  tsdown: ^0.15.12
+  tsdown: ^0.16.1
   tsx: ^4.20.6
   turbo: ^2.6.0
   typescript: ^5.9.3
