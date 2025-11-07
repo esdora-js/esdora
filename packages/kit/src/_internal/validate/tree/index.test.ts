@@ -51,7 +51,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('当子节点属性是数字时应抛出 TypeError', () => {
@@ -63,7 +63,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('当子节点属性是对象时应抛出 TypeError', () => {
@@ -75,7 +75,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('当子节点属性是布尔值时应抛出 TypeError', () => {
@@ -87,7 +87,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'children')
-    }).toThrow('Expected children to be an array')
+    }).toThrow(/Expected 'children' to be an array/)
   })
 
   it('应支持自定义子节点属性名', () => {
@@ -107,7 +107,7 @@ describe('validateChildrenProperty', () => {
 
     expect(() => {
       validateChildrenProperty(node, 'items')
-    }).toThrow('Expected items to be an array')
+    }).toThrow(/Expected 'items' to be an array/)
   })
 
   it('应支持不同的对象类型', () => {
@@ -138,5 +138,25 @@ describe('validateChildrenProperty', () => {
     expect(() => {
       validateChildrenProperty(node, 'children')
     }).not.toThrow()
+  })
+
+  it('错误信息应包含节点的 name（当没有 id 时）', () => {
+    const node = { name: 'test-node', children: 'invalid' }
+
+    expect(() => {
+      validateChildrenProperty(node, 'children')
+    }).toThrow(/node with name: test-node/)
+  })
+
+  it('错误信息应该不包含节点信息（当既没有 id 也没有 name 时）', () => {
+    const node = { someOtherProp: 'value', children: 'invalid' }
+
+    expect(() => {
+      validateChildrenProperty(node, 'children')
+    }).toThrow(TypeError)
+
+    expect(() => {
+      validateChildrenProperty(node, 'children')
+    }).toThrow(/Expected 'children' to be an array, but got string/)
   })
 })

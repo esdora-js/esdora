@@ -16,5 +16,8 @@ isPhone: function
 isSafari: function
 clamp: function
 to: function
+treeFilter: function
 getLeafPath: function
+treeMap: function
+treeSome: function
 getQueryParams: function

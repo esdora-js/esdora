@@ -29,6 +29,8 @@ ignore:
   - '**/examples/**'
   - '**/*.config.*'
   - '**/*.d.ts'
+  - '**/*.test-d.ts'
+  - '**/types.ts'
 
 flags:
   color:
