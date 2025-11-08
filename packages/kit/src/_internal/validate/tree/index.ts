@@ -21,11 +21,26 @@ export function validateChildrenProperty<T>(
   item: T,
   childrenKey: string,
 ): void {
+  const childrenValue = (item as any)[childrenKey]
+
   if (
-    (item as any)[childrenKey] !== undefined
-    && (item as any)[childrenKey] !== null
-    && !Array.isArray((item as any)[childrenKey])
+    childrenValue !== undefined
+    && childrenValue !== null
+    && !Array.isArray(childrenValue)
   ) {
-    throw new TypeError(`Expected ${childrenKey} to be an array`)
+    // 构建更详细的错误信息
+    const itemInfo = (item as any).id !== undefined
+      ? ` (node with id: ${(item as any).id})`
+      : (item as any).name !== undefined
+          ? ` (node with name: ${(item as any).name})`
+          : ''
+
+    const actualType = typeof childrenValue === 'object'
+      ? `object (${Object.prototype.toString.call(childrenValue).slice(8, -1)})`
+      : typeof childrenValue
+
+    throw new TypeError(
+      `Expected '${childrenKey}' to be an array${itemInfo}, but got ${actualType}`,
+    )
   }
 }
