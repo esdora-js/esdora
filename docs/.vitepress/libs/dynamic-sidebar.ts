@@ -100,6 +100,24 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         items: getSidebarItem(baseDir, 'packages/date/reference/convenience'),
       },
     ],
+    '/packages/biz/': [
+      {
+        text: '指南',
+        items: [
+          { text: '介绍', link: '/packages/biz/' },
+          { text: '食用方法', link: '/packages/biz/usage' },
+        ],
+      },
+      {
+        text: '参考',
+        items: [
+          {
+            text: '查询工具 (Query)',
+            items: getSidebarItem(baseDir, 'packages/biz/reference/query'),
+          },
+        ],
+      },
+    ],
     '/contributing/': [
       {
         text: '贡献指南',
@@ -114,9 +132,21 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
             items: [
               { text: '总览', link: '/contributing/documentation/overview' },
               { text: 'Kit 文档模板', link: '/contributing/documentation/kit-template' },
-              // 未来可以添加:
-              // { text: 'Hooks 模板', link: '/contributing/documentation/hooks-template' },
-              // { text: '文章模板', link: '/contributing/documentation/practices-template' },
+            ],
+          },
+          {
+            text: '文档规范系统',
+            collapsed: false,
+            items: [
+              { text: '概览', link: '/contributing/documentation/' },
+              { text: '术语表', link: '/contributing/documentation/glossary' },
+              { text: '架构设计', link: '/contributing/documentation/architecture' },
+              { text: 'AI 模型调度策略', link: '/contributing/documentation/ai-model-strategy' },
+              { text: 'API 文档模板', link: '/contributing/documentation/api-template' },
+              { text: '架构文档模板', link: '/contributing/documentation/architecture-template' },
+              { text: '用户指南模板', link: '/contributing/documentation/guide-template' },
+              { text: '质量检查清单', link: '/contributing/documentation/quality-checklist' },
+              { text: '使用指南', link: '/contributing/documentation/usage-guide' },
             ],
           },
         ],
