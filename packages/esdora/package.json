@@ -45,6 +45,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@esdora/biz": "workspace:*",
     "@esdora/color": "workspace:*",
     "@esdora/date": "workspace:*",
     "@esdora/kit": "workspace:*"
