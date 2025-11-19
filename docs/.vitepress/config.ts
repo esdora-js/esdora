@@ -72,6 +72,7 @@ export default defineConfig({
           { text: '工具函数 (Kit)', link: '/packages/kit/' },
           { text: '颜色工具 (Color)', link: '/packages/color/' },
           { text: '日期工具 (Date)', link: '/packages/date/' },
+          { text: '业务工具 (Biz)', link: '/packages/biz/' },
         ],
       },
       { text: '四次元宝典', link: 'https://esdora.js.org/playbook/', target: '_blank' },
