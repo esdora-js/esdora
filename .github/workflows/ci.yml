@@ -91,23 +91,38 @@ jobs:
       - name: Run tests with coverage
         run: pnpm run test:coverage
 
-      - name: Find coverage files
-        id: coverage
-        run: |
-          files=()
-          flags=()
-          for f in $(find ./packages -name "coverage-final.json" -type f); do
-            files+=("$f")
-            flags+=("$(basename $(dirname $(dirname "$f")))")
-          done
-          echo "files=$(IFS=,; echo "${files[*]}")" >> $GITHUB_OUTPUT
-          echo "flags=$(IFS=,; echo "${flags[*]}")" >> $GITHUB_OUTPUT
-
-      - name: Upload coverage to Codecov
-        if: steps.coverage.outputs.files != ''
+      - name: Upload coverage for color package
+        if: hashFiles('packages/color/coverage/coverage-final.json') != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ steps.coverage.outputs.files }}
-          flags: ${{ steps.coverage.outputs.flags }}
+          files: ./packages/color/coverage/coverage-final.json
+          flags: color
+          fail_ci_if_error: false
+
+      - name: Upload coverage for kit package
+        if: hashFiles('packages/kit/coverage/coverage-final.json') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/kit/coverage/coverage-final.json
+          flags: kit
+          fail_ci_if_error: false
+
+      - name: Upload coverage for date package
+        if: hashFiles('packages/date/coverage/coverage-final.json') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/date/coverage/coverage-final.json
+          flags: date
+          fail_ci_if_error: false
+
+      - name: Upload coverage for biz package
+        if: hashFiles('packages/biz/coverage/coverage-final.json') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/biz/coverage/coverage-final.json
+          flags: biz
           fail_ci_if_error: false
