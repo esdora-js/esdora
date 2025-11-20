@@ -5,7 +5,7 @@ pre-commit:
       run: .lefthook/scripts/check-branch.sh
 
     eslint:
-      glob: "*.{js,ts,jsx,tsx}"
+      glob: '*.{js,ts,jsx,tsx}'
       run: pnpm exec eslint {staged_files} --cache --fix
       stage_fixed: true
 

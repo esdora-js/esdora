@@ -61,10 +61,10 @@ function parseSearch<T = QueryObject>(
 
 ### 参数说明
 
-| 参数    | 类型           | 描述                                                | 必需 |
-| ------- | -------------- | --------------------------------------------------- | ---- |
-| url     | `string`       | 完整 URL 或带查询字符串的路径                      | 是   |
-| options | `ParseOptions` | 传递给 `qs.parse` 的选项（如 decoder、delimiter）   | 否   |
+| 参数    | 类型           | 描述                                              | 必需 |
+| ------- | -------------- | ------------------------------------------------- | ---- |
+| url     | `string`       | 完整 URL 或带查询字符串的路径                     | 是   |
+| options | `ParseOptions` | 传递给 `qs.parse` 的选项（如 decoder、delimiter） | 否   |
 
 ### 返回值
 

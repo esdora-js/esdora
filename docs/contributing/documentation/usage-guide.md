@@ -48,6 +48,7 @@ flowchart LR
 #### 步骤 1: 选择模板
 
 使用 [API 文档模板](./api-template)，该模板：
+
 - 继承 L1 通用规范 + L2 API 文档规范 + L3 增强规范
 - 包含类型定义、错误处理、性能考虑的详细规范
 - 提供完整的 AI 生成提示词和 4 个质量检查点
@@ -55,14 +56,17 @@ flowchart LR
 #### 步骤 2: 准备输入材料
 
 **必需材料**:
+
 - **函数源码文件**: `packages/kit/src/is/is-circular/index.ts`
 - **单元测试文件**: `packages/kit/tests/is/is-circular.test.ts`
 
 **可选材料**:
+
 - **JSDoc 注释**: 源码中的参数和返回值说明
 - **相关模块**: 函数依赖的其他模块（如工具函数、类型定义）
 
 **验证清单**:
+
 - [ ] 源码文件存在且包含完整的类型签名
 - [ ] 测试文件存在且覆盖主要使用场景和边界情况
 - [ ] JSDoc 注释完整（如果有）
@@ -120,6 +124,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 ```
 
 **生成输出**:
+
 - 文档路径: `docs/packages/kit/reference/is/is-circular.md`
 - 包含章节: 示例、签名与说明、注意事项与边界情况、相关链接
 
@@ -203,6 +208,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 #### 步骤 1: 选择模板
 
 使用 [架构文档模板](./architecture-template)，该模板：
+
 - 继承 L1 通用规范 + L2 架构文档规范
 - 包含 5 个必需章节（概述、设计决策、系统结构、技术栈、权衡分析）
 - 强制要求 Mermaid 架构图和 ADR 格式决策记录
@@ -210,15 +216,18 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 #### 步骤 2: 准备输入材料
 
 **必需材料**:
+
 - **模块源码**: `packages/[module-name]/src/**/*`
 - **依赖配置**: `packages/[module-name]/package.json`、`tsconfig.json`
 - **设计文档**: 如有已存在的设计说明或技术需求文档
 
 **可选材料**:
+
 - **README.md**: 模块的功能说明和使用指南
 - **测试文件**: 理解模块的功能边界
 
 **验证清单**:
+
 - [ ] 模块源码结构清晰，可识别主要组件
 - [ ] package.json 包含完整的依赖列表
 - [ ] 设计文档或 README 说明模块的核心功能
@@ -255,6 +264,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/analysis/02-review-archi
 ```
 
 **生成输出**:
+
 - 文档路径: `docs/contributing/documentation/architecture.md`
 - 包含章节: 概述、设计决策、系统结构、技术栈、权衡分析
 
@@ -324,6 +334,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/analysis/02-review-archi
 #### 步骤 1: 选择模板
 
 使用 [用户指南模板](./guide-template)，该模板：
+
 - 继承 L1 通用规范 + L2 用户指南规范
 - 包含 4 个必需章节（快速开始、核心概念、使用说明、常见问题）
 - 强调步骤化组织、问题导向结构和实用示例
@@ -331,15 +342,18 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/analysis/02-review-archi
 #### 步骤 2: 准备输入材料
 
 **必需材料**:
+
 - **功能说明**: 模块或功能的核心特性和目标
 - **API 文档**: 如有现成的 API 参考文档或源码注释
 - **使用场景**: 典型的使用场景和用户需求
 
 **可选材料**:
+
 - **测试用例**: 理解功能的边界和使用方式
 - **README.md**: 现有的快速上手指南
 
 **验证清单**:
+
 - [ ] 功能说明清晰，包含核心特性和适用场景
 - [ ] API 文档或源码注释完整
 - [ ] 识别了 3-5 个典型使用场景
@@ -375,6 +389,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 ```
 
 **生成输出**:
+
 - 文档路径: `docs/guide/getting-started.md`
 - 包含章节: 快速开始、核心概念、使用说明、常见问题
 
@@ -400,7 +415,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 
 **迭代优化** (分数 < 90):
 
-```bash
+````bash
 # 分数 70-89: 补充常见问题和优化示例可运行性
 
 # 添加常见问题:
@@ -411,9 +426,10 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 **安装**:
 ```bash
 pnpm add @esdora/kit
-```
+````
 
 **配置 tsconfig.json**:
+
 ```json
 {
   "compilerOptions": {
@@ -424,6 +440,7 @@ pnpm add @esdora/kit
 ```
 
 **使用示例**:
+
 ```typescript
 import { isCircular } from '@esdora/kit'
 
@@ -438,13 +455,16 @@ isCircular(obj) // => true
 **原因**: 包未正确安装或路径配置错误
 
 **解决步骤**:
+
 1. 检查 package.json 中是否有 `@esdora/kit` 依赖
 2. 运行 `pnpm install` 重新安装
 3. 检查 import 路径是否正确
 
 # 重新验证
+
 ./scripts/check-doc-quality.sh docs/guide/getting-started.md
-```
+
+````
 
 ### 成功标准
 
@@ -506,34 +526,42 @@ isCircular(obj) // => true
    ```bash
    cat packages/kit/src/is/is-circular/index.ts
    # 确认类型签名完整且准确
-   ```
+````
 
 2. **优化提示词**: 在 EXPECTED 字段中明确要求
+
    ```
    EXPECTED: 完整的 API 文档，类型签名与源码完全一致（包括泛型、约束、联合类型）
    ```
 
 3. **手动修正**: 对比源码和文档，手动修正类型签名
-   ```markdown
+
+   ````markdown
    ### 类型签名
 
    ```typescript
    function isCircular<T extends object>(obj: T): boolean
    ```
+   ````
 
-4. **重新验证**: 运行质量检查确保准确性得分 >= 10
+````
+
+   ```
+   4. **重新验证**: 运行质量检查确保准确性得分 >= 10
    ```bash
    ./scripts/check-doc-quality.sh docs/packages/kit/reference/is/is-circular.md
-   ```
+````
 
 ### 问题 2: 边界情况覆盖不全
 
 **症状**:
+
 - 文档缺少"注意事项与边界情况"章节
 - 测试用例中的边界情况未在文档中说明
 - 错误处理部分缺失
 
 **原因**:
+
 - AI 模型未能从测试用例中提取边界情况
 - 提示词中未明确要求"从测试用例提取边界情况"
 - 测试用例覆盖不全
@@ -541,11 +569,13 @@ isCircular(obj) // => true
 **解决方案**:
 
 1. **检查测试用例**: 确认测试文件包含边界情况测试
+
    ```bash
    rg "expect.*null|undefined|empty|边界" packages/kit/tests/is/is-circular.test.ts -A 1
    ```
 
 2. **优化提示词**: 在 TASK 字段中明确要求
+
    ```
    TASK:
    • 从测试用例中提取所有边界情况（null、undefined、空值、负数等）
@@ -553,6 +583,7 @@ isCircular(obj) // => true
    ```
 
 3. **手动补充**: 参考测试用例手动添加边界情况
+
    ```markdown
    ## 注意事项与边界情况
 
@@ -571,11 +602,13 @@ isCircular(obj) // => true
 ### 问题 3: 示例代码无法运行
 
 **症状**:
+
 - 示例代码缺少 import 语句
 - 示例使用了未定义的变量或函数
 - 输出注释 `// =>` 与实际运行结果不一致
 
 **原因**:
+
 - AI 模型生成的示例缺少完整上下文
 - 提示词中未强调"所有示例包含 import 语句"
 - 示例代码未实际运行验证
@@ -583,11 +616,13 @@ isCircular(obj) // => true
 **解决方案**:
 
 1. **优化提示词**: 在 RULES 字段中明确要求
+
    ```
    RULES: 所有示例代码必须包含 import 语句，可独立运行，输出注释 // => 准确
    ```
 
 2. **手动验证**: 复制示例代码到临时文件，运行确认
+
    ```bash
    # 创建临时测试文件
    cat > /tmp/test.ts << 'EOF'
@@ -605,7 +640,8 @@ isCircular(obj) // => true
    ```
 
 3. **修正示例**: 确保所有示例包含完整上下文
-   ```markdown
+
+   ````markdown
    ### 基本用法
 
    ```typescript
@@ -616,6 +652,7 @@ isCircular(obj) // => true
 
    isCircular(obj) // => true
    ```
+   ````
 
 4. **重新验证**: 确保可用性得分 >= 10
    ```bash
@@ -625,11 +662,13 @@ isCircular(obj) // => true
 ### 问题 4: Mermaid 图表无法渲染
 
 **症状**:
+
 - Mermaid 图表在 VitePress 中显示空白
 - 图表语法错误导致渲染失败
 - 图表节点或边的标签缺失
 
 **原因**:
+
 - Mermaid 语法错误（如节点 ID 包含特殊字符）
 - VitePress Mermaid 插件配置问题
 - 图表过于复杂导致渲染超时
@@ -637,12 +676,14 @@ isCircular(obj) // => true
 **解决方案**:
 
 1. **验证语法**: 在 Mermaid Live Editor 中测试图表
+
    ```
    访问: https://mermaid.live/
    粘贴图表代码，确认能正确渲染
    ```
 
 2. **简化图表**: 减少节点数量，使用简洁的标签
+
    ```mermaid
    graph TD
        A[术语表] --> B[架构设计]
@@ -652,6 +693,7 @@ isCircular(obj) // => true
    ```
 
 3. **检查配置**: 确认 VitePress 启用了 Mermaid 支持
+
    ```typescript
    // docs/.vitepress/config.ts
    import { defineConfig } from 'vitepress'
@@ -675,11 +717,13 @@ isCircular(obj) // => true
 ### 问题 5: 质量得分低于 70 分
 
 **症状**:
+
 - 自动化脚本报告得分 < 70 分
 - 缺少多个必需章节
 - 准确性、完整性、中文规范得分低
 
 **原因**:
+
 - 文档未遵循 Layer 3 模板结构
 - AI 生成内容质量不足
 - 缺少关键信息（类型签名、边界情况、示例）
@@ -687,6 +731,7 @@ isCircular(obj) // => true
 **解决方案**:
 
 1. **识别关键问题**: 查看脚本输出的失败项
+
    ```bash
    ./scripts/check-doc-quality.sh docs/packages/kit/reference/is/is-circular.md
    # 输出:
@@ -696,40 +741,51 @@ isCircular(obj) // => true
    ```
 
 2. **优先修复准确性问题**: 对比源码纠正类型签名和参数说明
-   ```markdown
+
+   ````markdown
    ### 类型签名
 
    ```typescript
    function isCircular<T extends object>(obj: T): boolean
    ```
+   ````
 
    ### 参数说明
 
-   | 参数 | 类型 | 描述 | 必需 |
-   |------|------|------|------|
-   | obj  | T extends object | 待检测的对象 | 是 |
+   | 参数 | 类型             | 描述         | 必需 |
+   | ---- | ---------------- | ------------ | ---- |
+   | obj  | T extends object | 待检测的对象 | 是   |
+
+   ```
+
    ```
 
 3. **补充缺失章节**: 根据模板添加必需章节
+
    ```markdown
    ## 注意事项与边界情况
 
    ### 输入边界
+
    - null 或 undefined: 返回 `false`
    - 空对象: 返回 `false`
 
    ### 错误处理
+
    - **异常类型**: 无异常（纯函数，无副作用）
    - **处理建议**: 无需 try-catch 包裹
    ```
 
 4. **规范中文表达**: 避免生硬翻译，使用主动语态
+
    ```markdown
    # 原: "可以被用来检测对象是否包含循环引用"
+
    # 改: "用于检测对象是否包含循环引用"
    ```
 
 5. **重新验证**: 确保得分 >= 70 分
+
    ```bash
    ./scripts/check-doc-quality.sh docs/packages/kit/reference/is/is-circular.md
    # 总分: 85 / 100

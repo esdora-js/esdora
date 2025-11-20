@@ -108,10 +108,12 @@ description: 文档详细描述，应完整说明页面内容和用途
 ```
 
 **必需字段**:
+
 - `title`: 简短明确的页面标题
 - `description`: 完整的功能说明，包含来源和用途
 
 **可选扩展字段**:
+
 - `category`: 文档分类 (`API` | `架构` | `指南` | `实践` | `贡献`)
 - `ai_model`: 生成该文档的 AI 模型 (`Codex` | `Gemini` | `Qwen`)
 
@@ -196,9 +198,9 @@ description: 文档详细描述，应完整说明页面内容和用途
    - 列: 参数名 | 类型 | 描述 | 必需/可选
    - 示例:
      ```markdown
-     | 参数 | 类型 | 描述 | 必需 |
-     |------|------|------|------|
-     | obj  | any  | 待检测对象 | 是 |
+     | 参数 | 类型 | 描述       | 必需 |
+     | ---- | ---- | ---------- | ---- |
+     | obj  | any  | 待检测对象 | 是   |
      ```
 
 3. **示例优先原则**
@@ -315,24 +317,25 @@ description: 文档详细描述，应完整说明页面内容和用途
 
 ### 模板清单
 
-| 文档类型 | 模板文件 | 状态 | 继承规范 |
-|---------|---------|------|---------|
-| API 文档 | `kit-template.md` | ✅ 已完成 | L1 + L2 (API) |
-| API 文档 | `color-template.md` | 📋 待创建 | L1 + L2 (API) |
-| 架构文档 | `architecture-template.md` | 📋 待创建 | L1 + L2 (架构) |
-| 用户指南 | `guide-template.md` | 📋 待创建 | L1 + L2 (指南) |
+| 文档类型 | 模板文件                     | 状态      | 继承规范       |
+| -------- | ---------------------------- | --------- | -------------- |
+| API 文档 | `kit-template.md`            | ✅ 已完成 | L1 + L2 (API)  |
+| API 文档 | `color-template.md`          | 📋 待创建 | L1 + L2 (API)  |
+| 架构文档 | `architecture-template.md`   | 📋 待创建 | L1 + L2 (架构) |
+| 用户指南 | `guide-template.md`          | 📋 待创建 | L1 + L2 (指南) |
 | 最佳实践 | `best-practices-template.md` | 📋 待创建 | L1 + L2 (实践) |
-| 贡献指南 | `contribution-template.md` | 📋 待创建 | L1 + L2 (贡献) |
+| 贡献指南 | `contribution-template.md`   | 📋 待创建 | L1 + L2 (贡献) |
 
 ### 模板内容要求
 
 每个 Layer 3 模板文件必须包含：
 
 1. **Frontmatter 元数据**
+
    ```yaml
    ---
-   title: [文档类型]模板
-   description: [用途说明和适用范围]
+   title: '[文档类型]模板'
+   description: '[用途说明和适用范围]'
    ---
    ```
 
