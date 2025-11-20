@@ -103,6 +103,28 @@ console.log(str) // 'foo[bar]=baz'
 
 对于 qs 库的详细 API,请参考 [qs 官方文档](https://www.npmjs.com/package/qs)。
 
+## 测试结构
+
+本项目采用 **co-located test pattern**(测试文件就近放置模式),测试文件与源代码文件位于同一目录下,便于维护和查找。
+
+### 测试文件命名规范
+
+测试文件遵循 `*.test.ts` 命名约定,与被测试的源文件同名但添加 `.test.ts` 后缀:
+
+```
+src/query/
+├── parse.ts           # 源代码文件
+├── parse.test.ts      # 对应的测试文件
+├── stringify.ts       # 源代码文件
+└── stringify.test.ts  # 对应的测试文件
+```
+
+**优势:**
+
+- 测试与源码紧密关联,易于导航和维护
+- 清晰的测试-源码对应关系,降低认知负担
+- 便于代码审查时同时查看实现和测试
+
 ## 🤝 参与贡献
 
 `@esdora/biz` 是一个开放且由社区驱动的模块。如果你有好的想法或想要修复一个 Bug,我们非常欢迎!
