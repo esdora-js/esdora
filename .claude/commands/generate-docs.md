@@ -68,6 +68,7 @@
 根据文档类型选择合适的 AI 模型和提示词：
 
 **API 文档（推荐 Codex）**：
+
 ```bash
 codex -C [package-dir] --full-auto exec "
 PURPOSE: 为指定源文件生成符合规范的 API 文档
@@ -86,6 +87,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 ```
 
 **架构文档（推荐 Gemini）**：
+
 ```bash
 cd [package-dir] && gemini -p "
 PURPOSE: 为模块生成架构设计文档
@@ -102,6 +104,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 ```
 
 **用户指南（推荐 Gemini）**：
+
 ```bash
 cd [package-dir] && gemini -p "
 PURPOSE: 为模块生成用户指南
@@ -120,6 +123,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 ### 步骤 4: 质量验证
 
 1. **运行自动化验证脚本**
+
    ```bash
    ./scripts/check-doc-quality.sh [output-file]
    ```
@@ -137,6 +141,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 ### 步骤 5: 报告结果
 
 输出生成报告，包含：
+
 - ✅ 生成的文档路径列表
 - 📊 每个文档的质量得分
 - 📝 改进建议（如果得分 < 90）
@@ -167,21 +172,25 @@ npm run docs:dev
 ## 常见使用场景
 
 ### 场景 1: 生成单个文件的 API 文档
+
 ```bash
 /generate-docs --files "packages/kit/src/is/is-circular/index.ts" --type api
 ```
 
 ### 场景 2: 批量生成模块的 API 文档
+
 ```bash
 /generate-docs --files "packages/biz/src/query/parse.ts,packages/biz/src/query/stringify.ts" --type api
 ```
 
 ### 场景 3: 生成架构文档并指定输出路径
+
 ```bash
 /generate-docs --files "packages/kit/src/**/*.ts" --type architecture --output "docs/packages/kit/ARCHITECTURE.md"
 ```
 
 ### 场景 4: 生成用户指南
+
 ```bash
 /generate-docs --files "packages/color/src/**/*.ts" --type guide --output "docs/packages/color/guide.md"
 ```

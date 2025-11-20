@@ -78,7 +78,7 @@ function stringifySearch(
 
 | 参数    | 类型               | 描述                                                | 必需 |
 | ------- | ------------------ | --------------------------------------------------- | ---- |
-| params  | `QueryObject`      | 要转换为查询字符串的对象，支持嵌套对象与数组       | 是   |
+| params  | `QueryObject`      | 要转换为查询字符串的对象，支持嵌套对象与数组        | 是   |
 | options | `StringifyOptions` | 传递给 `qs.stringify` 的配置（如 `arrayFormat` 等） | 否   |
 
 ### 返回值

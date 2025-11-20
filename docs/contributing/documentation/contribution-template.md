@@ -13,10 +13,10 @@ description: 用于生成项目贡献指南的标准模板,定义开始贡献、
 
 ```yaml
 ---
-title: [项目名称] 贡献指南
-description: [项目贡献的完整说明和流程要求]
+title: '[项目名称] 贡献指南'
+description: '[项目贡献的完整说明和流程要求]'
 category: 贡献
-ai_model: Codex  # 推荐使用 Codex 进行工作流程生成
+ai_model: Codex # 推荐使用 Codex 进行工作流程生成
 ---
 ```
 
@@ -27,6 +27,7 @@ ai_model: Codex  # 推荐使用 Codex 进行工作流程生成
 **目的**: 指导新贡献者快速搭建开发环境并了解项目结构。
 
 **内容要求**:
+
 - **环境准备**: 必需的软件和工具版本要求
 - **仓库克隆**: 获取代码的详细步骤
 - **依赖安装**: 安装项目依赖的命令
@@ -34,6 +35,7 @@ ai_model: Codex  # 推荐使用 Codex 进行工作流程生成
 - **项目结构**: 简要说明项目目录组织
 
 **示例结构**:
+
 ```markdown
 ## 开始贡献
 
@@ -50,15 +52,16 @@ ai_model: Codex  # 推荐使用 Codex 进行工作流程生成
 在开始之前,请确保你的开发环境满足以下要求:
 
 **必需软件**:
+
 - **Node.js**: >= 18.0.0 (推荐使用最新 LTS 版本)
 - **pnpm**: >= 8.0.0 (包管理器)
 - **Git**: >= 2.30.0
 
 **检查版本**:
 \`\`\`bash
-node --version   # 应显示 v18.x.x 或更高
-pnpm --version   # 应显示 8.x.x 或更高
-git --version    # 应显示 2.30.x 或更高
+node --version # 应显示 v18.x.x 或更高
+pnpm --version # 应显示 8.x.x 或更高
+git --version # 应显示 2.30.x 或更高
 \`\`\`
 
 **安装 pnpm** (如果未安装):
@@ -75,38 +78,54 @@ npm install -g pnpm
 #### 2. 克隆你的 Fork
 
 \`\`\`bash
+
 # 克隆你 fork 的仓库
+
 git clone https://github.com/YOUR_USERNAME/[repo-name].git
 
 # 进入项目目录
+
 cd [repo-name]
 
 # 添加上游仓库 (用于同步最新代码)
+
 git remote add upstream https://github.com/ORIGINAL_OWNER/[repo-name].git
 
 # 验证远程仓库配置
+
 git remote -v
+
 # 应显示:
-# origin    https://github.com/YOUR_USERNAME/[repo-name].git (fetch)
-# origin    https://github.com/YOUR_USERNAME/[repo-name].git (push)
-# upstream  https://github.com/ORIGINAL_OWNER/[repo-name].git (fetch)
-# upstream  https://github.com/ORIGINAL_OWNER/[repo-name].git (push)
+
+# origin https://github.com/YOUR_USERNAME/[repo-name].git (fetch)
+
+# origin https://github.com/YOUR_USERNAME/[repo-name].git (push)
+
+# upstream https://github.com/ORIGINAL_OWNER/[repo-name].git (fetch)
+
+# upstream https://github.com/ORIGINAL_OWNER/[repo-name].git (push)
+
 \`\`\`
 
 ### 安装依赖
 
 \`\`\`bash
+
 # 使用 pnpm 安装所有依赖
+
 pnpm install
 
 # 构建项目
+
 pnpm run build
 
 # 运行测试验证环境
+
 pnpm run test
 \`\`\`
 
 **预期结果**:
+
 - ✅ 依赖安装成功,无错误信息
 - ✅ 构建完成,生成 `dist/` 目录
 - ✅ 测试全部通过
@@ -117,21 +136,22 @@ pnpm run test
 
 \`\`\`
 [repo-name]/
-├── packages/              # Monorepo 包目录
-│   ├── kit/              # @esdora/kit 工具函数库
-│   ├── color/            # @esdora/color 颜色处理库
-│   └── ...               # 其他包
-├── docs/                 # VitePress 文档网站
-│   ├── packages/         # API 文档
-│   └── guide/            # 用户指南
-├── scripts/              # 构建和工具脚本
-├── .github/              # GitHub 配置 (CI/CD, Issue 模板)
-├── package.json          # 根 package.json (Monorepo 配置)
-├── pnpm-workspace.yaml   # pnpm workspace 配置
-└── turbo.json            # Turbo 构建配置
+├── packages/ # Monorepo 包目录
+│ ├── kit/ # @esdora/kit 工具函数库
+│ ├── color/ # @esdora/color 颜色处理库
+│ └── ... # 其他包
+├── docs/ # VitePress 文档网站
+│ ├── packages/ # API 文档
+│ └── guide/ # 用户指南
+├── scripts/ # 构建和工具脚本
+├── .github/ # GitHub 配置 (CI/CD, Issue 模板)
+├── package.json # 根 package.json (Monorepo 配置)
+├── pnpm-workspace.yaml # pnpm workspace 配置
+└── turbo.json # Turbo 构建配置
 \`\`\`
 
 **核心目录说明**:
+
 - `packages/[name]/src/`: 包源代码
 - `packages/[name]/tests/`: 单元测试
 - `docs/packages/[name]/`: 包文档
@@ -142,12 +162,14 @@ pnpm run test
 **目的**: 定义从需求到提交的完整开发流程。
 
 **内容要求**:
+
 - **分支策略**: 分支命名规范和用途
 - **开发步骤**: 编码、测试、文档的完整流程
 - **同步上游**: 如何保持 Fork 仓库最新
 - **本地验证**: 提交前的检查清单
 
 **示例结构**:
+
 ```markdown
 ## 开发流程
 
@@ -164,15 +186,19 @@ pnpm run test
 #### 分支命名规范
 
 \`\`\`bash
+
 # 功能开发
+
 feature/add-user-authentication
 feature/implement-search-filter
 
 # Bug 修复
+
 fix/resolve-memory-leak
 fix/correct-validation-logic
 
 # 文档更新
+
 docs/update-api-reference
 docs/add-getting-started-guide
 \`\`\`
@@ -184,45 +210,58 @@ docs/add-getting-started-guide
 在开始新工作前,确保你的 Fork 仓库是最新的:
 
 \`\`\`bash
+
 # 切换到主分支
+
 git checkout main
 
 # 拉取上游仓库的最新代码
+
 git fetch upstream
 
 # 合并上游的 main 分支
+
 git merge upstream/main
 
 # 推送到你的 Fork
+
 git push origin main
 \`\`\`
 
 #### 2. 创建功能分支
 
 \`\`\`bash
+
 # 从最新的 main 创建功能分支
+
 git checkout -b feature/your-feature-name
 
 # 或从 develop 创建 (取决于项目分支策略)
+
 git checkout -b feature/your-feature-name develop
 \`\`\`
 
 #### 3. 进行开发
 
 **编码规范**:
+
 - 遵循项目的代码风格 (参考 [代码规范](#代码规范))
 - 保持函数简洁,单一职责
 - 添加必要的注释和 JSDoc
 
 **示例工作流**:
 \`\`\`bash
+
 # 编辑代码
+
 # ...
 
 # 运行开发服务器 (如适用)
+
 pnpm run dev
 
 # 实时查看文档变更
+
 pnpm run docs:dev
 \`\`\`
 
@@ -231,17 +270,22 @@ pnpm run docs:dev
 所有新功能和 Bug 修复都必须包含测试:
 
 \`\`\`bash
+
 # 运行所有测试
+
 pnpm run test
 
 # 运行特定包的测试
+
 pnpm --filter @esdora/kit test
 
 # 运行测试并查看覆盖率
+
 pnpm run test:coverage
 \`\`\`
 
 **测试要求**:
+
 - ✅ 单元测试覆盖率 >= 80%
 - ✅ 所有边界情况都有测试
 - ✅ 测试命名清晰,说明测试意图
@@ -252,17 +296,17 @@ import { describe, it, expect } from 'vitest'
 import { functionName } from '../src'
 
 describe('functionName', () => {
-  it('should handle normal input correctly', () => {
-    expect(functionName(normalInput)).toBe(expectedOutput)
-  })
+it('should handle normal input correctly', () => {
+expect(functionName(normalInput)).toBe(expectedOutput)
+})
 
-  it('should handle edge case: empty input', () => {
-    expect(functionName('')).toBe('')
-  })
+it('should handle edge case: empty input', () => {
+expect(functionName('')).toBe('')
+})
 
-  it('should throw error for invalid input', () => {
-    expect(() => functionName(invalidInput)).toThrow('Invalid input')
-  })
+it('should throw error for invalid input', () => {
+expect(() => functionName(invalidInput)).toThrow('Invalid input')
+})
 })
 \`\`\`
 
@@ -271,15 +315,21 @@ describe('functionName', () => {
 如果你的更改影响 API 或用户体验,请更新相应文档:
 
 \`\`\`bash
+
 # 添加或修改文档文件
+
 # docs/packages/[package-name]/reference/[function-name].md
 
 # 预览文档网站
+
 pnpm run docs:dev
+
 # 访问 http://localhost:5173
+
 \`\`\`
 
 **文档要求**:
+
 - 遵循 [文档模板](./kit-template.md)
 - 提供完整的代码示例
 - 说明参数、返回值和边界情况
@@ -289,23 +339,30 @@ pnpm run docs:dev
 提交前运行以下检查:
 
 \`\`\`bash
+
 # 1. 代码格式化
+
 pnpm run format
 
 # 2. 代码检查
+
 pnpm run lint
 
 # 3. 类型检查
+
 pnpm run typecheck
 
 # 4. 运行所有测试
+
 pnpm run test
 
 # 5. 构建项目
+
 pnpm run build
 \`\`\`
 
 **检查清单**:
+
 - [ ] 所有测试通过
 - [ ] 代码格式符合规范
 - [ ] 无 TypeScript 类型错误
@@ -317,13 +374,17 @@ pnpm run build
 遵循 [提交规范](#提交规范):
 
 \`\`\`bash
+
 # 添加修改的文件
+
 git add .
 
 # 提交 (遵循 Conventional Commits 规范)
+
 git commit -m "feat(kit): add isCircular function"
 
 # 推送到你的 Fork
+
 git push origin feature/your-feature-name
 \`\`\`
 ```
@@ -333,12 +394,14 @@ git push origin feature/your-feature-name
 **目的**: 定义 Code Review 流程和审查标准。
 
 **内容要求**:
+
 - **提交 PR**: 如何创建 Pull Request
 - **PR 模板**: 必需的 PR 信息
 - **审查标准**: 代码审查的检查要点
 - **反馈处理**: 如何响应审查意见
 
 **示例结构**:
+
 ```markdown
 ## 代码审查
 
@@ -362,6 +425,7 @@ PR 标题应遵循 [Conventional Commits](https://www.conventionalcommits.org/) 
 \`\`\`
 
 **类型 (type)**:
+
 - `feat`: 新功能
 - `fix`: Bug 修复
 - `docs`: 文档更新
@@ -381,6 +445,7 @@ docs(guide): update getting started section with pnpm instructions
 提交 PR 时,请填写以下信息:
 
 \`\`\`markdown
+
 ## 描述
 
 [简要描述这个 PR 解决了什么问题或添加了什么功能]
@@ -433,27 +498,32 @@ Closes #[issue-number]
 Code Reviewer 会检查以下方面:
 
 #### 代码质量
+
 - [ ] 代码清晰易懂,命名规范
 - [ ] 遵循项目的代码风格和最佳实践
 - [ ] 无明显的性能问题或安全隐患
 - [ ] 错误处理完善
 
 #### 功能完整性
+
 - [ ] 实现了 Issue 中描述的所有功能
 - [ ] 边界情况处理正确
 - [ ] 无明显的逻辑错误
 
 #### 测试覆盖
+
 - [ ] 测试覆盖率达标 (>= 80%)
 - [ ] 测试用例全面,包含正常和异常场景
 - [ ] 测试命名清晰,易于理解
 
 #### 文档完整性
+
 - [ ] API 文档准确反映代码实现
 - [ ] 示例代码可运行
 - [ ] 重要变更在 CHANGELOG 中记录
 
 #### 兼容性
+
 - [ ] 不破坏现有 API (除非是 Breaking Change)
 - [ ] TypeScript 类型定义正确
 - [ ] 构建和测试在 CI 中通过
@@ -475,6 +545,7 @@ Code Reviewer 会检查以下方面:
 5. **请求重新审查**: 完成修改后,请求 Reviewer 重新审查
 
 **沟通原则**:
+
 - 保持开放和友好的态度
 - 审查意见是为了提高代码质量,不是针对个人
 - 如有不同意见,礼貌地讨论和说明理由
@@ -485,12 +556,14 @@ Code Reviewer 会检查以下方面:
 **目的**: 定义测试的编写标准和覆盖率要求。
 
 **内容要求**:
+
 - **测试框架**: 项目使用的测试工具
 - **测试类型**: 单元测试、集成测试、E2E 测试
 - **测试编写**: 测试文件组织和命名规范
 - **覆盖率要求**: 最低测试覆盖率标准
 
 **示例结构**:
+
 ```markdown
 ## 测试规范
 
@@ -517,21 +590,21 @@ import { describe, it, expect } from 'vitest'
 import { sum } from '../src/math/sum'
 
 describe('sum', () => {
-  it('should return sum of positive numbers', () => {
-    expect(sum([1, 2, 3])).toBe(6)
-  })
+it('should return sum of positive numbers', () => {
+expect(sum([1, 2, 3])).toBe(6)
+})
 
-  it('should return 0 for empty array', () => {
-    expect(sum([])).toBe(0)
-  })
+it('should return 0 for empty array', () => {
+expect(sum([])).toBe(0)
+})
 
-  it('should handle negative numbers', () => {
-    expect(sum([-1, -2, -3])).toBe(-6)
-  })
+it('should handle negative numbers', () => {
+expect(sum([-1, -2, -3])).toBe(-6)
+})
 
-  it('should handle mixed numbers', () => {
-    expect(sum([1, -2, 3])).toBe(2)
-  })
+it('should handle mixed numbers', () => {
+expect(sum([1, -2, 3])).toBe(2)
+})
 })
 \`\`\`
 
@@ -542,13 +615,14 @@ describe('sum', () => {
 **示例**:
 \`\`\`typescript
 describe('Color Conversion Pipeline', () => {
-  it('should convert hex to rgb to hsl correctly', () => {
-    const hex = '#FF5733'
-    const rgb = hexToRgb(hex)
-    const hsl = rgbToHsl(rgb)
+it('should convert hex to rgb to hsl correctly', () => {
+const hex = '#FF5733'
+const rgb = hexToRgb(hex)
+const hsl = rgbToHsl(rgb)
 
     expect(hsl).toEqual({ h: 9, s: 100, l: 60 })
-  })
+
+})
 })
 \`\`\`
 
@@ -574,14 +648,14 @@ it('works correctly', () => { })
 
 \`\`\`typescript
 it('should format user display name', () => {
-  // Arrange: 准备测试数据
-  const user = { firstName: 'John', lastName: 'Doe' }
+// Arrange: 准备测试数据
+const user = { firstName: 'John', lastName: 'Doe' }
 
-  // Act: 执行被测试的函数
-  const displayName = formatDisplayName(user)
+// Act: 执行被测试的函数
+const displayName = formatDisplayName(user)
 
-  // Assert: 验证结果
-  expect(displayName).toBe('John Doe')
+// Assert: 验证结果
+expect(displayName).toBe('John Doe')
 })
 \`\`\`
 
@@ -591,27 +665,28 @@ it('should format user display name', () => {
 
 \`\`\`typescript
 describe('divide', () => {
-  it('should divide two positive numbers', () => {
-    expect(divide(10, 2)).toBe(5)
-  })
+it('should divide two positive numbers', () => {
+expect(divide(10, 2)).toBe(5)
+})
 
-  it('should handle division by zero', () => {
-    expect(() => divide(10, 0)).toThrow('Division by zero')
-  })
+it('should handle division by zero', () => {
+expect(() => divide(10, 0)).toThrow('Division by zero')
+})
 
-  it('should handle negative numbers', () => {
-    expect(divide(-10, 2)).toBe(-5)
-  })
+it('should handle negative numbers', () => {
+expect(divide(-10, 2)).toBe(-5)
+})
 
-  it('should handle decimal results', () => {
-    expect(divide(10, 3)).toBeCloseTo(3.333, 2)
-  })
+it('should handle decimal results', () => {
+expect(divide(10, 3)).toBeCloseTo(3.333, 2)
+})
 })
 \`\`\`
 
 ### 覆盖率要求
 
 **最低覆盖率标准**:
+
 - **语句覆盖率 (Statements)**: >= 80%
 - **分支覆盖率 (Branches)**: >= 75%
 - **函数覆盖率 (Functions)**: >= 80%
@@ -619,40 +694,49 @@ describe('divide', () => {
 
 **查看覆盖率报告**:
 \`\`\`bash
+
 # 生成覆盖率报告
+
 pnpm run test:coverage
 
 # 查看 HTML 报告
+
 open coverage/index.html
 \`\`\`
 
 **覆盖率豁免**:
 以下情况可适当降低覆盖率要求:
+
 - 错误处理代码 (难以触发的异常)
 - 类型守卫函数 (TypeScript 已提供类型安全)
 - 简单的 getter/setter
 
 **使用注释标记豁免**:
 \`\`\`typescript
-/* istanbul ignore next */
+/_ istanbul ignore next _/
 function unreachableCode() {
-  // 不会被覆盖率统计
+// 不会被覆盖率统计
 }
 \`\`\`
 
 ### 运行测试
 
 \`\`\`bash
+
 # 运行所有测试
+
 pnpm run test
 
 # 监听模式 (开发时使用)
+
 pnpm run test:watch
 
 # 运行特定包的测试
+
 pnpm --filter @esdora/kit test
 
 # 查看覆盖率
+
 pnpm run test:coverage
 \`\`\`
 ```
@@ -662,12 +746,14 @@ pnpm run test:coverage
 **目的**: 定义 Commit Message 格式和 PR 提交流程。
 
 **内容要求**:
+
 - **Commit Message 格式**: 遵循 Conventional Commits
 - **提交粒度**: 如何组织提交
 - **Rebase vs Merge**: 合并策略
 - **签名要求**: DCO 或 GPG 签名 (如适用)
 
 **示例结构**:
+
 ```markdown
 ## 提交规范
 
@@ -686,24 +772,29 @@ pnpm run test:coverage
 #### Type (必需)
 
 **功能和修复**:
+
 - `feat`: 新功能
 - `fix`: Bug 修复
 - `perf`: 性能优化
 
 **代码质量**:
+
 - `refactor`: 代码重构 (不改变功能)
 - `style`: 代码格式调整 (不影响逻辑)
 
 **文档和测试**:
+
 - `docs`: 文档更新
 - `test`: 测试相关
 
 **工具和配置**:
+
 - `build`: 构建系统或外部依赖变更
 - `ci`: CI 配置文件和脚本变更
 - `chore`: 其他不修改 src 或 test 的变更
 
 **Breaking Change**:
+
 - 在 type 后添加 `!` 标记: `feat!:` 或 `fix!:`
 
 #### Scope (可选)
@@ -717,6 +808,7 @@ docs(guide): update installation steps
 \`\`\`
 
 **常用 scope**:
+
 - `kit`: @esdora/kit 包
 - `color`: @esdora/color 包
 - `docs`: 文档网站
@@ -732,12 +824,15 @@ docs(guide): update installation steps
 - 不要以句号结尾
 
 \`\`\`bash
+
 # ✅ 推荐
+
 feat(kit): add isCircular function
 
 # ❌ 不推荐
-feat(kit): Added isCircular function.  # 过去时 + 句号
-feat(kit): Adds isCircular function    # 第三人称
+
+feat(kit): Added isCircular function. # 过去时 + 句号
+feat(kit): Adds isCircular function # 第三人称
 \`\`\`
 
 #### Body (可选)
@@ -773,10 +868,10 @@ BREAKING CHANGE: isCircular now returns boolean instead of throwing errors.
 Migration: Replace try-catch blocks with if-else checks.
 
 Before:
-try { isCircular(obj) } catch { /* handle */ }
+try { isCircular(obj) } catch { /_ handle _/ }
 
 After:
-if (isCircular(obj)) { /* handle */ }
+if (isCircular(obj)) { /_ handle _/ }
 \`\`\`
 
 ### 提交粒度
@@ -786,7 +881,9 @@ if (isCircular(obj)) { /* handle */ }
 #### ✅ 推荐: 原子性提交
 
 \`\`\`bash
+
 # 每个 commit 专注一个变更
+
 git commit -m "feat(kit): add isCircular function"
 git commit -m "test(kit): add tests for isCircular"
 git commit -m "docs(kit): add isCircular documentation"
@@ -795,7 +892,9 @@ git commit -m "docs(kit): add isCircular documentation"
 #### ❌ 不推荐: 混杂多个变更
 
 \`\`\`bash
+
 # 一个 commit 包含多个不相关的变更
+
 git commit -m "add isCircular, fix bug, update docs"
 \`\`\`
 
@@ -804,13 +903,19 @@ git commit -m "add isCircular, fix bug, update docs"
 使用 Git Hooks (通过 Husky + lint-staged) 自动检查:
 
 \`\`\`bash
+
 # 提交时自动运行
+
 git commit -m "feat(kit): add new function"
 
 # Husky 会自动执行:
+
 # 1. lint-staged: 格式化和检查暂存的文件
+
 # 2. commitlint: 验证 commit message 格式
+
 # 3. test: 运行相关测试
+
 \`\`\`
 
 ### Rebase 策略
@@ -818,30 +923,38 @@ git commit -m "feat(kit): add new function"
 **提交 PR 前**:
 
 \`\`\`bash
+
 # 同步上游最新代码
+
 git fetch upstream
 git rebase upstream/main
 
 # 如遇冲突,解决后继续
+
 git add .
 git rebase --continue
 
 # 强制推送到你的分支 (仅自己的分支)
+
 git push origin feature/your-feature-name --force
 \`\`\`
 
 **交互式 Rebase** (整理提交历史):
 
 \`\`\`bash
+
 # 合并最近 3 个 commit
+
 git rebase -i HEAD~3
 
 # 编辑器中将除第一个外的 commit 改为 squash
+
 pick abc1234 feat(kit): add function
 squash def5678 fix typo
 squash ghi9012 update tests
 
 # 保存后合并为一个 commit
+
 \`\`\`
 
 **注意**: 仅在自己的分支上使用 rebase,不要 rebase 已推送到共享分支的提交。
@@ -879,9 +992,10 @@ BREAKING CHANGE: The compose function has been removed.
 Use the pipe function instead for better readability.
 
 Migration guide:
+
 - Before: compose(f, g, h)(x)
 - After: pipe(x, h, g, f)
-\`\`\`
+  \`\`\`
 
 ## 常见问题
 
@@ -890,6 +1004,7 @@ Migration guide:
 **问题**: `pnpm install` 报错
 
 **解决**:
+
 1. 确认 Node.js 版本 >= 18.0.0
 2. 清除缓存: `pnpm store prune`
 3. 删除 `node_modules` 和 `pnpm-lock.yaml`,重新安装
@@ -901,6 +1016,7 @@ Migration guide:
 **原因**: 环境差异或测试顺序问题
 
 **解决**:
+
 1. 检查 Node.js 版本是否一致
 2. 确保测试之间无依赖,使用 `beforeEach` 重置状态
 3. 本地运行 `pnpm run test --run` (禁用监听模式)
@@ -910,6 +1026,7 @@ Migration guide:
 **原因**: 可能因为不符合规范或质量问题
 
 **建议**:
+
 1. 仔细阅读审查意见
 2. 根据反馈修改代码
 3. 确保通过所有 CI 检查

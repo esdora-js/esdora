@@ -11,11 +11,11 @@ description: Dora Pocket 文档系统的 AI 模型选择规则、能力矩阵、
 
 以下矩阵展示了 3 种 AI 模型在 4 个核心能力维度上的表现：
 
-| AI 模型 | 分析能力 | 生成能力 | 上下文处理 | 处理速度 |
-|---------|---------|---------|-----------|---------|
-| **Codex** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Gemini** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **Qwen** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| AI 模型    | 分析能力   | 生成能力   | 上下文处理 | 处理速度 |
+| ---------- | ---------- | ---------- | ---------- | -------- |
+| **Codex**  | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐⭐ |
+| **Gemini** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐ | ⭐⭐⭐   |
+| **Qwen**   | ⭐⭐⭐⭐   | ⭐⭐⭐     | ⭐⭐⭐⭐   | ⭐⭐⭐⭐ |
 
 ### Codex
 
@@ -163,19 +163,23 @@ flowchart TD
 **备选模型**: Gemini (`gemini-2.5-pro`)
 
 **选择理由**:
+
 - API 文档核心是**精确的函数签名、参数类型和返回值说明**，Codex 在代码生成和类型推断上表现最佳
 - Codex 能够基于源码和单元测试自动生成准确的参数表格和边界情况说明
 - 对于简单的单函数文档，Codex 生成速度快，质量稳定
 
 **备选场景**:
+
 - 当 API 涉及复杂的跨模块依赖或需要深度架构理解时，使用 **Gemini**
 - 当需要分析 API 设计模式或生成最佳实践建议时，使用 **Gemini**
 
 **典型文件**:
+
 - `docs/packages/kit/reference/is/is-circular.md`
 - `docs/packages/color/reference/conversion/to-hex.md`
 
 **配置示例**:
+
 ```bash
 # 使用 Codex 生成 API 文档
 codex -C packages/kit --full-auto exec "
@@ -194,19 +198,23 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 **备选模型**: Qwen (`qwen-coder`)
 
 **选择理由**:
+
 - 架构文档需要**大上下文分析能力**，理解跨模块的组件关系、数据流和技术选型
 - Gemini 擅长模式识别和架构审查，能够从代码库中提取设计原则和组件依赖
 - 架构文档通常内容较长且需要深度思考，Gemini 的分析深度优势明显
 
 **备选场景**:
+
 - 当 Gemini 不可用时，使用 **Qwen** 作为备选
 - 对于小型模块的架构文档，Qwen 的分析能力足够
 
 **典型文件**:
+
 - `docs/contributing/documentation/architecture.md`
 - 各模块的设计文档（如 `@esdora/biz` 的架构说明）
 
 **配置示例**:
+
 ```bash
 # 使用 Gemini 生成架构文档
 cd docs/contributing/documentation && gemini -p "
@@ -228,20 +236,24 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/analysis/02-review-archi
 **备选模型**: Codex (`gpt-5.1-codex`)
 
 **选择理由**:
+
 - 用户指南需要**示例驱动**和**步骤化组织**，Gemini 在内容组织和结构化方面表现优秀
 - Gemini 能够从用户视角出发，生成清晰的问题导向内容和实用示例
 - 用户指南通常涉及多个模块的使用场景，需要大上下文理解
 
 **备选场景**:
+
 - 当用户指南侧重于代码示例和脚本生成时，使用 **Codex**
 - 对于简单的操作步骤说明，Codex 生成速度更快
 
 **典型文件**:
+
 - 快速上手指南
 - 安装和配置指南
 - 常见问题解答 (FAQ)
 
 **配置示例**:
+
 ```bash
 # 使用 Gemini 生成用户指南
 cd docs && gemini -p "
@@ -263,20 +275,24 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 **备选模型**: Qwen (`qwen-coder`)
 
 **选择理由**:
+
 - 最佳实践文档需要**模式识别**和**对比分析**，Gemini 擅长从代码库中提取设计模式和经验教训
 - Gemini 能够生成"问题-原则-方案"结构的深度内容，说明"为什么"而非仅"怎么做"
 - 最佳实践需要跨模块的模式综合，Gemini 的大上下文能力至关重要
 
 **备选场景**:
+
 - 当 Gemini 不可用时，使用 **Qwen** 作为备选
 - 对于中等复杂度的实践总结，Qwen 的分析能力足够
 
 **典型文件**:
+
 - 设计模式指南
 - 代码规范和风格指南
 - 性能优化最佳实践
 
 **配置示例**:
+
 ```bash
 # 使用 Gemini 生成最佳实践
 cd docs && gemini -p "
@@ -298,20 +314,24 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/analysis/02-analyze-code
 **备选模型**: Gemini (`gemini-2.5-pro`)
 
 **选择理由**:
+
 - 贡献指南包含**工作流程、脚本示例和自动化配置**，Codex 在生成可执行代码和流程方面优势明显
 - Codex 能够基于现有 CI/CD 配置和开发脚本生成准确的贡献流程说明
 - 贡献指南需要大量的命令行示例和配置代码，Codex 生成质量高
 
 **备选场景**:
+
 - 当贡献指南侧重于规范说明和协作指南时，使用 **Gemini**
 - 当需要深度分析开发流程和优化建议时，使用 **Gemini**
 
 **典型文件**:
+
 - `CONTRIBUTING.md`
 - 提交规范和 PR 模板
 - 开发环境配置指南
 
 **配置示例**:
+
 ```bash
 # 使用 Codex 生成贡献指南
 codex -C . --full-auto exec "
@@ -355,6 +375,7 @@ Qwen 与 Gemini 接口一致，切换成本低，确保服务连续性。
 - **后续任务**: 使用简短描述 + `resume --last` 继承上下文
 
 示例：
+
 ```bash
 # 第一个任务 - 建立完整上下文
 codex -C packages/kit --full-auto exec "

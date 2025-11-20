@@ -13,10 +13,10 @@ description: 用于生成用户使用指南的标准模板，定义快速开始�
 
 ```yaml
 ---
-title: [功能/模块名称] 使用指南
-description: [完整的功能说明和适用场景]
+title: '[功能/模块名称] 使用指南'
+description: '[完整的功能说明和适用场景]'
 category: 指南
-ai_model: Gemini  # 推荐使用 Gemini 进行示例生成
+ai_model: Gemini # 推荐使用 Gemini 进行示例生成
 ---
 ```
 
@@ -27,26 +27,32 @@ ai_model: Gemini  # 推荐使用 Gemini 进行示例生成
 **目的**: 让用户在最短时间内完成安装和运行第一个示例。
 
 **内容要求**:
+
 - **安装步骤**: 清晰的安装命令和环境要求
 - **基础示例**: 一个完整可运行的最小示例
 - **预期结果**: 说明示例运行后的预期输出
 - **下一步**: 引导用户进一步探索
 
 **示例结构**:
+
 ```markdown
 ## 快速开始
 
 ### 安装
 
 \`\`\`bash
+
 # 使用 pnpm 安装
+
 pnpm add @esdora/[package-name]
 
 # 或使用 npm
+
 npm install @esdora/[package-name]
 \`\`\`
 
 **环境要求**:
+
 - Node.js >= 18.0.0
 - TypeScript >= 5.0.0 (可选)
 
@@ -57,12 +63,13 @@ import { functionName } from '@esdora/[package-name]'
 
 // 基础用法
 const result = functionName(input)
-console.log(result)  // => 预期输出
+console.log(result) // => 预期输出
 \`\`\`
 
 **预期结果**: 应该看到 `[描述输出结果]`
 
 ### 下一步
+
 - 阅读 [核心概念](#核心概念) 了解工作原理
 - 查看 [使用说明](#使用说明) 探索更多功能
 ```
@@ -72,12 +79,14 @@ console.log(result)  // => 预期输出
 **目的**: 解释系统的关键术语、工作原理和设计理念。
 
 **内容要求**:
+
 - **术语表**: 定义核心术语和概念
 - **工作原理**: 用简单语言说明系统如何工作
 - **设计理念**: 解释为什么这样设计（可选）
 - **图表辅助**: 使用流程图或示意图增强理解
 
 **示例结构**:
+
 ```markdown
 ## 核心概念
 
@@ -92,8 +101,8 @@ console.log(result)  // => 预期输出
 
 \`\`\`mermaid
 flowchart LR
-    A[输入] --> B[处理]
-    B --> C[输出]
+A[输入] --> B[处理]
+B --> C[输出]
 \`\`\`
 
 ### 设计理念 (可选)
@@ -106,12 +115,14 @@ flowchart LR
 **目的**: 提供完整的功能使用指导和配置说明。
 
 **内容要求**:
+
 - **API 调用**: 详细说明各个 API 的使用方法
 - **配置选项**: 列出所有配置参数及其作用
 - **使用场景**: 针对不同场景提供具体示例
 - **完整可运行**: 所有示例必须包含必要的 import 和上下文
 
 **示例结构**:
+
 ```markdown
 ## 使用说明
 
@@ -121,24 +132,24 @@ flowchart LR
 import { functionName } from '@esdora/[package-name]'
 
 // 场景1: [描述使用场景]
-const result1 = functionName(input1)  // => 输出1
+const result1 = functionName(input1) // => 输出1
 
 // 场景2: [描述使用场景]
-const result2 = functionName(input2)  // => 输出2
+const result2 = functionName(input2) // => 输出2
 \`\`\`
 
 ### 配置选项
 
-| 参数 | 类型 | 默认值 | 描述 | 必需 |
-|------|------|--------|------|------|
-| `option1` | `string` | `'default'` | [参数说明] | 是 |
-| `option2` | `number` | `0` | [参数说明] | 否 |
+| 参数      | 类型     | 默认值      | 描述       | 必需 |
+| --------- | -------- | ----------- | ---------- | ---- |
+| `option1` | `string` | `'default'` | [参数说明] | 是   |
+| `option2` | `number` | `0`         | [参数说明] | 否   |
 
 **配置示例**:
 \`\`\`typescript
 const config = {
-  option1: 'custom-value',
-  option2: 100
+option1: 'custom-value',
+option2: 100
 }
 
 const result = functionName(input, config)
@@ -147,9 +158,11 @@ const result = functionName(input, config)
 ### 高级用法
 
 #### [高级功能1]
+
 [说明和示例代码]
 
 #### [高级功能2]
+
 [说明和示例代码]
 ```
 
@@ -158,12 +171,14 @@ const result = functionName(input, config)
 **目的**: 提前解答用户可能遇到的问题和困惑。
 
 **内容要求**:
+
 - **问题导向**: 以问题为标题，直接给出答案
 - **排查指导**: 提供常见错误的排查步骤
 - **解决方案**: 给出具体可行的解决方法
 - **边界情况**: 说明特殊输入或场景的处理
 
 **示例结构**:
+
 ```markdown
 ## 常见问题
 
@@ -181,6 +196,7 @@ const solution = handleSpecialCase(input)
 **原因**: [说明错误产生的原因]
 
 **解决步骤**:
+
 1. 检查 [检查项1]
 2. 确认 [检查项2]
 3. 如果问题仍存在，[进一步排查方法]

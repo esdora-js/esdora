@@ -9,16 +9,19 @@ This directory contains cross-platform git hook scripts used by Lefthook.
 Prevents direct commits to the `main` branch.
 
 **Platform Support:**
+
 - ✅ Windows (Git Bash)
 - ✅ macOS
 - ✅ Linux
 
 **How it works:**
+
 - Checks the current branch name
 - Blocks commits if branch is `main`
 - Allows commits on all other branches
 
 **Testing:**
+
 ```bash
 # Run manually
 ./.lefthook/scripts/check-branch.sh
