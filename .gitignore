@@ -20,3 +20,5 @@ cache
 
 bin/*
 .workflow
+
+.claude/settings.local.json

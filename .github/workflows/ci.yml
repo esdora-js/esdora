@@ -88,6 +88,44 @@ jobs:
       - name: Build packages
         run: pnpm run build
 
+      - name: Verify Build Output Files
+        run: |
+          # Ensure dual-format build outputs exist for all packages
+          # Verify main entry points: 5 packages with multiple exports = 9 entry points
+          # Expected: 9 .mjs files (ESM) + 9 .cjs files (CommonJS) = 18 total entry points
+          MJS_ENTRIES=$(find packages/*/dist -maxdepth 1 -name '*.mjs' -type f | wc -l)
+          CJS_ENTRIES=$(find packages/*/dist -maxdepth 1 -name '*.cjs' -type f | wc -l)
+
+          echo "Build output verification:"
+          echo "  Main ESM entry points (.mjs): $MJS_ENTRIES"
+          echo "  Main CJS entry points (.cjs): $CJS_ENTRIES"
+
+          # Verify we have expected entry points (at least 8 of each format)
+          if [ "$MJS_ENTRIES" -lt 8 ]; then
+            echo "Error: Expected at least 8 .mjs entry files, found $MJS_ENTRIES"
+            exit 1
+          fi
+
+          if [ "$CJS_ENTRIES" -lt 8 ]; then
+            echo "Error: Expected at least 8 .cjs entry files, found $CJS_ENTRIES"
+            exit 1
+          fi
+
+          # Verify dual-format parity (counts should be close)
+          DIFF=$((MJS_ENTRIES > CJS_ENTRIES ? MJS_ENTRIES - CJS_ENTRIES : CJS_ENTRIES - MJS_ENTRIES))
+          if [ "$DIFF" -gt 2 ]; then
+            echo "Error: Dual-format mismatch. ESM and CJS counts differ by $DIFF (tolerance: 2)"
+            exit 1
+          fi
+
+          echo "Build output verification passed: Dual-format build outputs present"
+
+      - name: Validate Package Exports
+        run: |
+          # Run export validation tests to prevent .js/.mjs path mismatches
+          # Tests verify package.json exports match actual dist/ files for all 5 packages
+          pnpm test -- export.test
+
       - name: Run tests with coverage
         run: pnpm run test:coverage
 
