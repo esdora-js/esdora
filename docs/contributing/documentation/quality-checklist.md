@@ -659,7 +659,7 @@ fi
 
 **示例**:
 
-- 优秀的 API 文档: [is-circular.md](../packages/kit/reference/is/is-circular.md)
+- 优秀的 API 文档: [is-circular.md](../../packages/kit/reference/is/is-circular.md)
   - 类型签名完整,参数表格准确,边界情况详尽
   - 包含性能复杂度分析 (创新性)
   - 提供多个实际使用场景示例 (易用性)

@@ -9,13 +9,51 @@ description: Dora Pocket 文档系统的 AI 模型选择规则、能力矩阵、
 
 ## 模型能力矩阵
 
-以下矩阵展示了 3 种 AI 模型在 4 个核心能力维度上的表现：
+以下矩阵展示了 4 种 AI 模型在 4 个核心能力维度上的表现：
 
-| AI 模型    | 分析能力   | 生成能力   | 上下文处理 | 处理速度 |
-| ---------- | ---------- | ---------- | ---------- | -------- |
-| **Codex**  | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐⭐ |
-| **Gemini** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐ | ⭐⭐⭐   |
-| **Qwen**   | ⭐⭐⭐⭐   | ⭐⭐⭐     | ⭐⭐⭐⭐   | ⭐⭐⭐⭐ |
+| AI 模型         | 分析能力   | 生成能力   | 上下文处理 | 处理速度 |
+| --------------- | ---------- | ---------- | ---------- | -------- |
+| **Claude Code** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐   | ⭐⭐⭐⭐   | ⭐⭐⭐⭐ |
+| **Codex**       | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐⭐ |
+| **Gemini**      | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐   | ⭐⭐⭐⭐⭐ | ⭐⭐⭐   |
+| **Qwen**        | ⭐⭐⭐⭐   | ⭐⭐⭐     | ⭐⭐⭐⭐   | ⭐⭐⭐⭐ |
+
+### 模型版本详细说明
+
+| 工具            | 模型系列 | 版本标识                                | 上下文窗口  | 主要特性                       | 最佳用途                             |
+| --------------- | -------- | --------------------------------------- | ----------- | ------------------------------ | ------------------------------------ |
+| **Claude Code** | Claude   | Sonnet 4.5 (claude-sonnet-4-5-20250929) | 200K tokens | 交互式开发、工具编排、复杂推理 | 当前会话编排、多工具协调、交互式任务 |
+| **Codex**       | GPT      | 5.1 (默认)                              | Large       | 自主执行、数学推理             | 功能实现、bug 修复                   |
+| **Codex**       | GPT      | 5.1-codex                               | Extended    | 扩展能力、复杂任务             | 高级实现、复杂功能开发               |
+| **Codex**       | GPT      | 5.1-codex-mini                          | Large       | 轻量级、快速处理               | 简单任务、快速修复                   |
+| **Gemini**      | Gemini   | 2.5-pro (默认)                          | 2M tokens   | 大上下文、模式识别             | 分析、架构审查                       |
+| **Gemini**      | Gemini   | 2.5-flash                               | 1M tokens   | 快速处理、高效                 | 快速分析、文档生成                   |
+| **Qwen**        | Qwen     | coder-model (默认)                      | Large       | 代码理解、备用方案             | 分析备用、代码审查                   |
+| **Qwen**        | Qwen     | vision-model                            | Large       | 图像分析                       | 设计分析（少用）                     |
+
+**使用说明**：
+
+- **Claude Code**：用于当前交互会话、编排其他工具、复杂多步骤工作流
+- **Codex**：用于自主代码实现和测试
+- **Gemini**：用于分析和文档生成（首选）
+- **Qwen**：当 Gemini 不可用时的备用方案
+- 所有工具自动选择合适的模型；很少需要 `-m` 参数
+
+### Claude Code
+
+- **模型标识**: `claude-sonnet-4-5-20250929`
+- **核心能力**:
+  1. **交互式开发**: 支持实时对话和迭代式开发，适合复杂的多步骤任务
+  2. **工具编排**: 可以协调和调用其他 AI 工具（Codex、Gemini、Qwen），实现多工具协作
+  3. **复杂推理**: 擅长处理需要深度思考和多角度分析的任务
+  4. **上下文理解**: 200K tokens 上下文窗口，能够理解大型代码库和复杂项目结构
+- **典型用途**:
+  - 当前会话的交互式开发和问题解决
+  - 编排多个 AI 工具完成复杂工作流
+  - 需要人工介入和决策的任务
+  - 复杂的架构设计和技术决策讨论
+- **优势**: 交互性强，可以实时调整策略，支持工具编排，适合需要人工监督的任务
+- **限制**: 不支持完全自主执行模式，需要人工确认关键步骤
 
 ### Codex
 
@@ -187,7 +225,7 @@ PURPOSE: 为 isCircular 函数生成 API 文档
 TASK: 基于源码和测试生成完整的 Markdown 文档
 MODE: auto
 CONTEXT: @src/is/is-circular/**/* @tests/is/is-circular.test.ts
-EXPECTED: 符合 kit-template.md 规范的 API 文档
+EXPECTED: 符合 api-template.md 规范的 API 文档
 RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement-feature.txt) | 遵循 L1+L2+L3 规范 | auto=FULL operations
 " --skip-git-repo-check -s danger-full-access
 ```
@@ -349,7 +387,41 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 
 ## 模型调度最佳实践
 
-### 1. 优先使用推荐模型
+### 1. 混合调度模式（推荐）
+
+对于复杂的 API 文档，推荐使用**混合调度模式**，充分发挥各模型优势：
+
+```
+Claude Code（调度层）
+    ↓
+Gemini 2.5-pro（分析层）→ 结构化分析报告 → Codex 5.1（生成层）
+    ↓
+Claude Code（验证层）
+```
+
+**工作流程**：
+
+1. **Claude 调度**：接收任务，解析参数，协调执行
+2. **Gemini 分析**：利用 2M 上下文深度理解源码，输出 JSON 格式分析报告
+3. **Codex 生成**：基于分析报告生成高质量文档和代码示例
+4. **Claude 验证**：检查质量，输出最终结果
+
+**混合模式优势**：
+
+| 维度         | 单一模型 | 混合模式   |
+| ------------ | -------- | ---------- |
+| 类型准确性   | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 代码示例质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 上下文理解   | ⭐⭐⭐   | ⭐⭐⭐⭐⭐ |
+| 边界情况覆盖 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+
+**使用方式**：
+
+```bash
+/generate-docs --files "packages/kit/src/is/is-circular/index.ts" --type api --mode hybrid
+```
+
+### 2. 优先使用推荐模型
 
 始终优先使用每类文档类型的**推荐模型**，只有在以下情况下才考虑备选：
 
@@ -357,7 +429,7 @@ RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement
 - 任务特征明显偏离典型场景（如 API 文档需要深度架构分析）
 - 质量要求允许使用性能更快的备选模型
 
-### 2. 遵循 Gemini → Qwen 备选链
+### 3. 遵循 Gemini → Qwen 备选链
 
 对于所有**分析和文档生成任务**，遵循以下备选链：
 
@@ -367,7 +439,7 @@ Gemini (首选) → Qwen (备选) → 人工生成 (最后手段)
 
 Qwen 与 Gemini 接口一致，切换成本低，确保服务连续性。
 
-### 3. Codex 会话管理
+### 4. Codex 会话管理
 
 利用 Codex 的**会话恢复功能** (`resume --last`) 优化多任务生成：
 
@@ -383,7 +455,7 @@ PURPOSE: 生成 is-circular.md API 文档
 TASK: 基于源码和测试生成完整文档
 MODE: auto
 CONTEXT: @src/is/is-circular/**/*
-EXPECTED: 符合 kit-template.md 规范的文档
+EXPECTED: 符合 api-template.md 规范的文档
 RULES: 遵循 L1+L2+L3 规范 | auto=FULL operations
 " --skip-git-repo-check -s danger-full-access
 
@@ -391,7 +463,7 @@ RULES: 遵循 L1+L2+L3 规范 | auto=FULL operations
 codex --full-auto exec "为 is-empty.md 生成类似文档" resume --last --skip-git-repo-check -s danger-full-access
 ```
 
-### 4. 质量验证与迭代
+### 5. 质量验证与迭代
 
 生成文档后，必须进行质量验证：
 
@@ -399,7 +471,7 @@ codex --full-auto exec "为 is-empty.md 生成类似文档" resume --last --skip
 2. **人工审查**: 检查内容准确性、示例可运行性、术语一致性
 3. **迭代优化**: 基于验证结果重新生成或手动修正
 
-### 5. 模型性能监控
+### 6. 模型性能监控
 
 定期评估各模型在不同文档类型上的表现：
 
@@ -449,9 +521,10 @@ codex -C path -i design.png --full-auto exec "prompt" --skip-git-repo-check -s d
 
 - [术语表](./glossary.md) - AI 模型定义和文档类型分类
 - [文档规范体系架构](./architecture.md) - 3 层规范体系设计
-- [Kit 工具函数模板](./kit-template.md) - API 文档模板示例
+- [API 文档模板](./api-template.md) - API 文档模板
 - [智能工具选择策略](~/.claude/workflows/intelligent-tools-strategy.md) - 完整的 CLI 工具使用指南
 
 ## 版本历史
 
+- **v1.1** (2025-11-24): 添加 Claude Code 介绍和详细模型版本说明，新增混合调度模式（Gemini 分析 + Codex 生成）
 - **v1.0** (2025-11-19): 初始版本，建立 3 种模型能力矩阵、决策流程和 5 类文档类型推荐方案

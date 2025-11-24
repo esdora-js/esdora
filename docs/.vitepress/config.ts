@@ -11,11 +11,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
   title: 'Dora Pocket',
   titleTemplate: ':title | Dora Pocket',
-  description: 'Dora Pocket - 前端开发的四次元口袋。一个包罗万象的知识宝库，提供从 TypeScript/JavaScript 工具函数、Vue/React 组件到前端工程化最佳实践的各种“道具”，助你轻松解决开发难题。',
+  description: 'Dora Pocket - 前端开发的四次元口袋。一个包罗万象的知识宝库，提供从 TypeScript/JavaScript 工具函数、Vue/React 组件到前端工程化最佳实践的各种"道具"，助你轻松解决开发难题。',
 
   lang: 'zh-CN',
   lastUpdated: true,
   cleanUrls: true,
+  srcExclude: ['**/templates/**/*.md'],
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],

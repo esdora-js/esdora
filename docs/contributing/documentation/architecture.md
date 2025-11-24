@@ -27,7 +27,7 @@ graph TD
     L2_PRACTICE[Layer 2: 最佳实践规范]
     L2_CONTRIB[Layer 2: 贡献指南规范]
 
-    L3_API_KIT[Layer 3: kit-template.md]
+    L3_API_KIT[Layer 3: api-template.md]
     L3_API_COLOR[Layer 3: color-template.md]
     L3_ARCH[Layer 3: architecture-template.md]
     L3_GUIDE[Layer 3: guide-template.md]
@@ -79,8 +79,8 @@ docs/contributing/documentation/
 ├── quality-checklist.md           # 质量检查清单 (待创建)
 ├── index.md                       # 使用指引索引 (待创建)
 ├── usage-guide.md                 # 文档规范使用指南 (待创建)
-├── overview.md                    # 总览 (已完成)
-├── kit-template.md                # Layer 3: Kit API 文档模板 (已完成)
+├── index.md                       # 总览入口 (已完成)
+├── api-template.md                # Layer 3: API 文档模板 (已完成)
 ├── color-template.md              # Layer 3: Color API 文档模板 (待创建)
 ├── architecture-template.md       # Layer 3: 架构文档模板 (待创建)
 ├── guide-template.md              # Layer 3: 用户指南模板 (待创建)
@@ -137,7 +137,7 @@ description: 文档详细描述，应完整说明页面内容和用途
 - **内部链接**: 使用相对路径 Markdown 语法
   ```markdown
   [术语表](./glossary.md)
-  [Kit 模板](./kit-template.md)
+  [API 模板](./api-template.md)
   ```
 - **外部链接**: 使用完整 URL
   ```markdown
@@ -319,7 +319,7 @@ description: 文档详细描述，应完整说明页面内容和用途
 
 | 文档类型 | 模板文件                     | 状态      | 继承规范       |
 | -------- | ---------------------------- | --------- | -------------- |
-| API 文档 | `kit-template.md`            | ✅ 已完成 | L1 + L2 (API)  |
+| API 文档 | `api-template.md`            | ✅ 已完成 | L1 + L2 (API)  |
 | API 文档 | `color-template.md`          | 📋 待创建 | L1 + L2 (API)  |
 | 架构文档 | `architecture-template.md`   | 📋 待创建 | L1 + L2 (架构) |
 | 用户指南 | `guide-template.md`          | 📋 待创建 | L1 + L2 (指南) |
@@ -380,7 +380,7 @@ L2 API 文档规范
 
     ↓ 继承并实现
 
-L3 kit-template.md
+L3 api-template.md
 ├─ L1 + L2 所有规范
 ├─ 完整的 Markdown 结构模板
 ├─ AI 生成提示词
@@ -499,7 +499,7 @@ L3 contribution-template.md (待创建)
 
 - **覆盖层级**: L3 (仅模板层)
 - **作用**: 为 AI 模型生成文档提供标准化提示词
-- **示例**: kit-template.md 中的完整 AI 提示词
+- **示例**: api-template.md 中的完整 AI 提示词
 
 ### 规范关系图
 
@@ -533,10 +533,10 @@ graph TB
 ## 相关文档
 
 - [术语表](./glossary.md) - 核心术语和命名规范
-- [文档编写指南：总览](./overview.md) - 文档哲学和入口
-- [Kit 工具函数模板](./kit-template.md) - Layer 3 API 文档模板示例
-- [AI 模型调度策略](./ai-model-strategy.md) - AI 模型选择和使用规范 (待创建)
-- [质量检查清单](./quality-checklist.md) - 文档质量验证标准 (待创建)
+- [文档规范系统概览](./index.md) - 文档哲学和入口
+- [API 文档模板](./api-template.md) - Layer 3 API 文档模板
+- [AI 模型调度策略](./ai-model-strategy.md) - AI 模型选择和使用规范
+- [质量检查清单](./quality-checklist.md) - 文档质量验证标准
 
 ## 版本历史
 

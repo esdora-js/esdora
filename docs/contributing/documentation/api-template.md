@@ -1,11 +1,11 @@
 ---
-title: API 文档模板（增强版）
-description: 为 API 文档编写提供的增强版模板，扩展自 kit-template.md，增加类型定义、错误处理和性能考虑的详细规范。适用于所有 API 文档生成。
+title: API 文档模板
+description: 为 API 文档编写提供的标准模板，包含类型定义、错误处理和性能考虑的详细规范。适用于所有 API 文档生成。
 ---
 
-# API 文档模板（增强版）
+# API 文档模板
 
-本文档是 `kit-template.md` 的增强版本,为所有 API 文档提供更详细的结构模板、AI 提示词和质量检查点。
+本文档是 **API 文档的标准模板**，为所有 API 文档提供详细的结构模板、AI 提示词和质量检查点。
 
 ## 继承关系
 
@@ -14,9 +14,7 @@ L1 通用文档规范
   ↓
 L2 API 文档规范
   ↓
-L3 kit-template.md（基础版）
-  ↓
-L3 api-template.md（增强版，本文档）
+L3 api-template.md（本文档）
 ```
 
 **扩展内容:**
@@ -317,12 +315,19 @@ import { [functionName] } from '@esdora/[package]'
 
 ## 5. 相关链接 (固定格式)
 
-- **仅包含源码链接**：不要添加其他链接（如测试文件、相关函数）
-- **格式**：`- 源码: \`packages/[package]/src/[category]/[function-name]/index.ts\``
+- **必须包含源码链接**：每个 API 文档必须在结尾包含"相关链接"章节
+- **格式**：`- [源码](https://github.com/esdora-js/esdora/blob/main/packages/[package]/src/[category]/[function-name]/index.ts)`
 - **路径规则**：
   - `[package]`: 如 `kit`、`color`、`date`
   - `[category]`: 如 `is`、`function`、`tree`、`url`
   - `[function-name]`: 与函数名一致的目录名（kebab-case）
+- **示例**：
+  ```markdown
+  ## 相关链接
+
+  - [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/is/is-circular/index.ts)
+  ```
+- **注意**：仅包含源码链接，不要添加其他链接（如测试文件、相关函数）
 
 ## 6. 语言与表达 (中文规范)
 
@@ -449,34 +454,13 @@ rg "expect\(" tests/is/is-circular.test.ts -A 1 | grep -E "null|undefined|empty|
 # 通读文档，检查术语一致性和表达流畅性
 ```
 
-## 向后兼容性
-
-本增强版模板完全向后兼容 `kit-template.md`：
-
-- 保持相同的 6 个主要章节结构
-- 扩展"签名与说明"章节，增加 3 个子部分（类型签名、参数说明、返回值、泛型约束）
-- 扩展"注意事项"章节，增加 3 个子部分（输入边界、错误处理、性能考虑、兼容性）
-- 所有现有的 `kit-template.md` 生成的文档仍然符合规范
-- 新文档可选择性地添加增强内容（错误处理、性能考虑）
-
-**差异对比**：
-
-| 方面       | kit-template.md | api-template.md（本模板）                      |
-| ---------- | --------------- | ---------------------------------------------- |
-| 主要章节   | 6 个            | 6 个（相同）                                   |
-| 签名与说明 | 单一章节        | 4 个子部分（类型签名、参数、返回值、泛型）     |
-| 注意事项   | 自由格式        | 4 个子部分（输入边界、错误处理、性能、兼容性） |
-| 质量检查   | 无明确检查点    | 4 个检查点（类型、边界、示例、中文）           |
-| AI 提示词  | 基础版          | 增强版（增加 3 个规范指令）                    |
-
 ## 相关文档
 
 - [术语表](./glossary.md) - 核心术语和命名规范
 - [文档规范体系架构](./architecture.md) - 3 层规范体系设计
-- [Kit 工具函数模板](./kit-template.md) - 基础版 API 文档模板
 - [AI 模型调度策略](./ai-model-strategy.md) - 模型选择和使用规范
 - [质量检查清单](./quality-checklist.md) - 文档质量验证标准（待创建）
 
 ## 版本历史
 
-- **v1.0** (2025-11-19): 初始版本，扩展 kit-template.md，增加 3 个新规范和 4 个质量检查点
+- **v1.0** (2025-11-19): 初始版本，建立 API 文档标准模板，增加 3 个新规范和 4 个质量检查点

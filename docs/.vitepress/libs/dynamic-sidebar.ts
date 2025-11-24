@@ -126,14 +126,14 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
           { text: 'Git 工作流与提交规范', link: '/contributing/git-workflow' },
           { text: '函数设计与实现指南', link: '/contributing/implementation-guide' },
           { text: '测试指南', link: '/contributing/testing-guide' },
-          {
-            text: '文档编写',
-            collapsed: false, // 默认展开
-            items: [
-              { text: '总览', link: '/contributing/documentation/overview' },
-              { text: 'Kit 文档模板', link: '/contributing/documentation/kit-template' },
-            ],
-          },
+          // {
+          //   text: '文档编写',
+          //   collapsed: false, // 默认展开
+          //   items: [
+          //     { text: '总览', link: '/contributing/documentation/overview' },
+          //     { text: 'Kit 文档模板', link: '/contributing/documentation/kit-template' },
+          //   ],
+          // },
           {
             text: '文档规范系统',
             collapsed: false,

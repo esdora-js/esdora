@@ -275,7 +275,7 @@ RULES: $(cat ~/.claude/workflows/cli-templates/prompts/analysis/02-review-archit
 - [术语表](./glossary.md) - 文档类型和 AI 模型定义
 - [文档规范体系架构](./architecture.md) - 3 层规范体系设计
 - [AI 模型调度策略](./ai-model-strategy.md) - 模型选择和使用规范
-- [Kit 工具函数模板](./kit-template.md) - API 文档模板参考
+- [API 文档模板](./api-template.md) - API 文档模板参考
 
 ## 版本历史
 
