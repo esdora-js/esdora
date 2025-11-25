@@ -90,56 +90,22 @@
 **API 文档（Codex 一体化流程）**：
 
 ```bash
-# macOS / Linux 示例
-codex -C [package-dir] --full-auto exec "
-PURPOSE: AI 自主理解源码并生成符合规范的 API 文档
-TASK:
-• 读取源文件、类型声明文件（.d.ts）和测试文件
-• AI 语义理解代码功能和用途
-• 基于类型声明提取 100% 准确的类型签名（泛型、联合类型、条件类型）
-• 从 JSDoc 提取参数说明、返回值说明、示例代码
-• 从测试文件提取真实使用场景（至少 2 个：基本 + 高级）
-• AI 自主推断边界情况、错误处理、性能注意事项
-• 基于模板约束生成符合 api-template.md 规范的文档
-• AI 自检质量（类型准确性、示例完整性、中文表达规范）
-MODE: auto
-CONTEXT: @[source-files] @.tmp/types/[package-name]/**/*.d.ts @[test-files] @docs/contributing/documentation/api-template.md @docs/doc-standards.md
-EXPECTED: 符合 api-template.md 规范的完整 API 文档，AI 自评质量得分 >= 90
-RULES: $(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement-feature.txt) | 类型签名必须与 .d.ts 完全一致 | 遵循 doc-standards.md L1+L2+L3 规范 | auto=FULL operations
-" --skip-git-repo-check -s danger-full-access
+# 跨平台单行格式（推荐 - Windows/macOS/Linux 兼容）
+codex exec -C [package-dir] --full-auto --skip-git-repo-check -s danger-full-access "PURPOSE: AI 自主理解源码并生成符合规范的 API 文档 | TASK: • 读取源文件、类型声明文件（.d.ts）和测试文件 • AI 语义理解代码功能和用途 • 基于类型声明提取 100% 准确的类型签名（泛型、联合类型、条件类型） • 从 JSDoc 提取参数说明、返回值说明、示例代码 • 从测试文件提取真实使用场景（至少 2 个：基本 + 高级） • AI 自主推断边界情况、错误处理、性能注意事项 • 基于模板约束生成符合 api-template.md 规范的文档 • AI 自检质量（类型准确性、示例完整性、中文表达规范） | MODE: auto | CONTEXT: @[source-files] @.tmp/types/[package-name]/**/*.d.ts @[test-files] @docs/contributing/documentation/api-template.md @docs/doc-standards.md | EXPECTED: 符合 api-template.md 规范的完整 API 文档，AI 自评质量得分 >= 90 | RULES: \$(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement-feature.txt) | 类型签名必须与 .d.ts 完全一致 | 遵循 doc-standards.md L1+L2+L3 规范 | auto=FULL operations"
 ```
 
-```powershell
-# Windows / PowerShell 示例（避免 Bash + mise 报错）
-$prompt = @'
-PURPOSE: AI 自主理解源码并生成符合规范的 API 文档
-TASK:
-• 读取源文件、类型声明文件（.d.ts）和测试文件
-• AI 语义理解代码功能和用途
-• 基于类型声明提取 100% 准确的类型签名（泛型、联合类型、条件类型）
-• 从 JSDoc 提取参数说明、返回值说明、示例代码
-• 从测试文件提取真实使用场景（至少 2 个：基本 + 高级）
-• AI 自主推断边界情况、错误处理、性能注意事项
-• 基于模板约束生成符合 api-template.md 规范的文档
-• AI 自检质量（类型准确性、示例完整性、中文表达规范）
-MODE: auto
-CONTEXT: @[source-files] @.tmp/types/[package-name]/**/*.d.ts @[test-files] @docs/contributing/documentation/api-template.md @docs/doc-standards.md
-EXPECTED: 符合 api-template.md 规范的完整 API 文档，AI 自评质量得分 >= 90
-RULES: $(cat ~/.claude/workflows/cli-templates/prompts/development/02-implement-feature.txt) | 类型签名必须与 .d.ts 完全一致 | 遵循 doc-standards.md L1+L2+L3 规范 | auto=FULL operations
-'@
+**重要说明**：
 
-codex exec --full-auto `
-  --cd [package-dir] `
-  --skip-git-repo-check `
-  -s danger-full-access `
-  $prompt
-```
-
-**注意**：
-
-- CONTEXT 字段中的 `@.tmp/types/[package-name]/**/*.d.ts` 引用了步骤 2 生成的类型声明文件
-- 替换 `[package-name]` 为实际的包名（如 `kit`、`color`、`date`、`biz`）
-- 如果使用了 `--skip-type-gen` 参数，则从 CONTEXT 中移除 `@.tmp/types/[package-name]/**/*.d.ts` 引用
+- ✅ **跨平台兼容**：单行格式在 Windows/macOS/Linux 均可工作
+- ✅ **正确的参数顺序**：`codex exec [options] [prompt]` - exec 子命令在前，选项在中间，prompt 在最后
+- ⚠️ **使用 `|` 分隔字段**：单行格式使用 `|` 分隔 PURPOSE/TASK/MODE/CONTEXT/EXPECTED/RULES 字段
+- ⚠️ **转义 `$`**：RULES 中的 `$(cat ...)` 需要转义为 `\$(cat ...)`，防止被 shell 提前执行
+- 📝 **参数替换**：
+  - `[package-dir]` → 实际包目录（如 `packages/kit`）
+  - `[package-name]` → 实际包名（如 `kit`）
+  - `[source-files]` → 源文件模式（如 `src/function/safe/**/*`）
+  - `[test-files]` → 测试文件模式（如 `test/function/safe.test.ts`）
+- 如果使用 `--skip-type-gen`，从 CONTEXT 中移除 `@.tmp/types/[package-name]/**/*.d.ts`
 
 **架构文档（Gemini 一体化流程）**：
 

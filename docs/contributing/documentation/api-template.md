@@ -98,14 +98,9 @@ function [functionName]<[Generics]>(
 - **空间复杂度**: O([complexity]) - [内存使用说明]
 - **优化建议**: [大数据量时的使用建议，性能敏感场景的注意事项]
 
-### 兼容性
-
-- [浏览器/Node.js 版本要求]
-- [已知限制和不支持的场景]
-
 ## 相关链接
 
-- 源码: `packages/[package]/src/[category]/[function-name]/index.ts`
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/[package]/src/[category]/[function-name]/index.ts)
 ````
 
 ## AI 生成提示词（推荐模型：Codex）
@@ -214,13 +209,9 @@ import { [functionName] } from '@esdora/[package]'
 - **空间复杂度**: O([complexity])
 - **优化建议**: [性能敏感场景的使用建议]
 
-### 兼容性
-
-[浏览器/Node.js 版本要求]
-
 ## 相关链接
 
-- 源码: `packages/[package]/src/[category]/[function-name]/index.ts`
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/[package]/src/[category]/[function-name]/index.ts)
 
 # 核心指令与规范
 
@@ -308,11 +299,6 @@ import { [functionName] } from '@esdora/[package]'
   - 性能敏感场景的替代方案
   - 是否适合高频调用
 
-### 4.4 兼容性
-
-- **环境要求**：浏览器版本、Node.js 版本
-- **已知限制**：不支持的场景或平台
-
 ## 5. 相关链接 (固定格式)
 
 - **必须包含源码链接**：每个 API 文档必须在结尾包含"相关链接"章节
@@ -381,7 +367,7 @@ import { [functionName] } from '@esdora/[package]'
 
 # 输出要求总结
 
-1. **结构完整**：必须包含所有 6 个主要章节（示例、签名与说明、注意事项、相关链接）
+1. **结构完整**：必须包含所有 4 个主要章节（示例、签名与说明、注意事项、相关链接）
 2. **内容准确**：基于源码和测试用例，不得臆造或简化
 3. **格式规范**：严格遵循 Markdown 模板，代码块标注语言，表格格式正确
 4. **质量保证**：通过 4 个质量检查点的验证
