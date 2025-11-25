@@ -1,7 +1,7 @@
 coverage:
   precision: 2
   round: down
-  range: 70...100
+  range: 99...100
 
   status:
     project:
@@ -46,10 +46,19 @@ flags:
     status:
       project:
         default:
-          target: auto
+          target: 100%
+
   date:
     paths:
       - packages/date/
+    status:
+      project:
+        default:
+          target: auto
+
+  biz:
+    paths:
+      - packages/biz/
     status:
       project:
         default:

@@ -20,12 +20,14 @@
     "chokidar": "catalog:",
     "fast-glob": "catalog:",
     "floating-vue": "catalog:",
+    "mermaid": "catalog:",
     "pinia": "catalog:",
     "unocss": "catalog:",
     "unplugin-vue-components": "catalog:",
     "vite-tsconfig-paths": "catalog:",
     "vitepress": "catalog:",
     "vitepress-plugin-group-icons": "catalog:",
+    "vitepress-plugin-mermaid": "catalog:",
     "vue": "catalog:"
   }
 }

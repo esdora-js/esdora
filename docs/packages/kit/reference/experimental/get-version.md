@@ -33,9 +33,11 @@ const version = await _unstable_getVersion()
  *
  * 这是一个实验性的函数**示例**，用于获取当前包的版本号。
  *
- * @returns 当前包的版本号
+ * @returns {string} 当前包的版本号
  */
-export function _unstable_getVersion(): string {}
+export function _unstable_getVersion(): string {
+  return '0.2.0'
+}
 ```
 
 <!-- 4. 注意事项与边界情况：建立用户信任 -->

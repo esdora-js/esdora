@@ -1,0 +1,5 @@
+mergeQueryParams: function
+parse: function
+parseSearch: function
+stringify: function
+stringifySearch: function

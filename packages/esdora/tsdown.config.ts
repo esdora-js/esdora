@@ -6,5 +6,6 @@ export default defineConfig([
     unbundle: true,
     sourcemap: true,
     dts: true,
+    format: ['cjs', 'esm'],
   },
 ])

@@ -19,3 +19,6 @@ cache
 .env.*.local
 
 bin/*
+.workflow
+
+.claude/settings.local.json

@@ -7,4 +7,10 @@ export default antfu(
     formatters: true,
     pnpm: true,
   },
+  {
+    ignores: [
+      '**/templates/**',
+      'docs/templates/**',
+    ],
+  },
 )
