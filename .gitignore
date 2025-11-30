@@ -22,3 +22,4 @@ bin/*
 .workflow
 
 .claude/settings.local.json
+.temp-types
