@@ -54,6 +54,7 @@
 ### 步骤 1: session_init - 会话初始化
 
 1. **创建 workflow 会话目录**
+
    ```bash
    timestamp=$(date +%s)
    session_id="WFS-docs-${timestamp}"
@@ -63,6 +64,7 @@
    ```
 
 2. **创建会话元数据文件**
+
    ```bash
    cat > ".workflow/active/${session_id}/workflow-session.json" <<EOF
    {
@@ -99,6 +101,7 @@
 ```
 
 **Phase 1 输出**：
+
 - 文件分组配置：`.workflow/active/${session_id}/.process/file-groups.json`
 - 包含 N 个 group，每个 group 2-3 个文件
 - 每个 group 包含：group_id, files, package_name, output_dir, type_declarations, test_files
@@ -108,6 +111,7 @@
 **并行协调算法**：
 
 1. **加载文件分组**
+
    ```bash
    groups=$(jq -r '.groups | length' ".workflow/active/${session_id}/.process/file-groups.json")
    parallel_count=${parallel:-3}  # 默认 3 个并发 generator
@@ -119,6 +123,7 @@
    - 包含完整的 CLI 命令（codex 或 gemini）
 
 3. **分批并行执行**
+
    ```bash
    batch_size=$(( (groups + parallel_count - 1) / parallel_count ))  # ceiling division
 
@@ -139,6 +144,7 @@
    ```
 
 **示例**：10 个文件分组，--parallel=3
+
 - 批次 1: group-000, group-001, group-002（3 个并行）
 - 批次 2: group-003, group-004, group-005（3 个并行）
 - 批次 3: group-006, group-007, group-008（3 个并行）
@@ -159,6 +165,7 @@ done
 ```
 
 **Phase 3 输出**：
+
 - QA 报告：`.workflow/active/${session_id}/.summaries/qa-${group_id}.json`
 - 包含：quality_score (0-100), improvement_suggestions[], checklist_results{}
 
@@ -181,6 +188,7 @@ done
 ```
 
 **Phase 4 输出**：
+
 - 改进后的文档（覆盖原文档）
 - 改进报告：`.workflow/active/${session_id}/.summaries/improve-${group_id}.json`
 
@@ -193,6 +201,7 @@ done
 ```
 
 **Phase 5 输出**：
+
 - 最终报告：`.workflow/active/${session_id}/FINAL_REPORT.md`
 - 包含：
   - 生成的文档列表（带 VitePress 链接）
@@ -204,17 +213,20 @@ done
 ### 错误处理
 
 **参数验证失败**：
+
 - 缺少 --files 或 --type → 输出 usage 信息并退出
 - 无效的 --type 值 → 列出有效选项并退出
 - 无效的 --ai-model 值 → 列出有效选项并退出
 - --parallel 超出范围 → 警告并 clamp 到 1-5
 
 **Phase 执行失败**：
+
 - CLI 工具超时 → 记录错误，继续其他 groups
 - 文件未找到 → 跳过该 group，记录错误
 - 类型声明生成失败 → 警告并继续（使用源文件推断类型）
 
 **质量门槛失败**：
+
 - QA 得分 < 90 且已达到最大迭代次数 → 接受文档，记录警告，建议人工审查
 
 ---
@@ -259,13 +271,13 @@ Phase 5: result-summarization
 
 ## 与 generate-docs 的区别
 
-| 特性 | generate-docs | workflow:docs-generate |
-|------|---------------|------------------------|
-| 执行模式 | 顺序执行 | 并行执行（可配置） |
-| QA 验证 | 内嵌自检 | 独立 QA agent |
-| 改进循环 | 无 | 最多 2 次迭代 |
-| 会话管理 | 无 | Workflow 会话（WFS-docs-*） |
-| 错误隔离 | 单点失败 | 独立 agent 会话 |
-| 适用场景 | 1-3 个文件 | 5-20 个文件 |
+| 特性     | generate-docs | workflow:docs-generate       |
+| -------- | ------------- | ---------------------------- |
+| 执行模式 | 顺序执行      | 并行执行（可配置）           |
+| QA 验证  | 内嵌自检      | 独立 QA agent                |
+| 改进循环 | 无            | 最多 2 次迭代                |
+| 会话管理 | 无            | Workflow 会话（WFS-docs-\*） |
+| 错误隔离 | 单点失败      | 独立 agent 会话              |
+| 适用场景 | 1-3 个文件    | 5-20 个文件                  |
 
 **向后兼容性**：generate-docs 命令保持不变，workflow:docs-generate 作为增强版本提供。

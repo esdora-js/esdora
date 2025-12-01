@@ -153,6 +153,7 @@ fi
 ```
 
 **QA 得分阈值**：
+
 - **>= 90**: Pass ✅ → 直接进入 Phase 5（结果汇总）
 - **70-89**: Needs Improvement ⚠️ → 进入 Phase 4（改进，推荐）
 - **< 70**: Failed ❌ → 进入 Phase 4（改进，必需）
@@ -238,6 +239,7 @@ EOF
 - **无偏见**：使用 @universal-executor agent（非 @doc-generator）
 
 **独立性验证**：
+
 - QA 得分与自评得分差异 > 10 分 → 记录差异原因
 - QA 得分 < 自评得分 → 说明 generator 过于乐观
 - QA 得分 > 自评得分 → 说明 generator 过于保守

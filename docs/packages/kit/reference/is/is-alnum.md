@@ -73,19 +73,14 @@ function isAlnum(str: string): boolean
 ### 错误处理
 
 - **异常类型**: 无，函数不会抛出异常
-- **处理建议**: 无需 try-catch 包裹
+- **处理建议**: 无需 `try...catch` 包裹
 
 ### 性能考虑
 
 - **时间复杂度**: O(n) - 正则表达式需要检查字符串中的每个字符
 - **空间复杂度**: O(1) - 仅使用正则匹配，无额外内存分配
-- **优化建议**: 适合高频调用，正则表达式已预编译
-
-### 兼容性
-
-- 所有现代浏览器和 Node.js 版本均支持
-- 无特殊环境要求
+- **优化建议**: 适合高频调用，正则表达式已预定义
 
 ## 相关链接
 
-- 源码: `packages/kit/src/is/is-alnum/index.ts`
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/is/is-alnum/index.ts)

@@ -257,6 +257,7 @@ wait
 ### 草稿文档（Markdown）
 
 遵循对应的文档模板结构：
+
 - API 文档：api-template.md
 - 架构文档：architecture-template.md
 - 用户指南：guide-template.md
@@ -271,10 +272,10 @@ wait
   "document_path": "docs/packages/kit/reference/is/is-circular.md",
   "quality_score": 95,
   "checklist_results": {
-    "type_accuracy": {"score": 25, "status": "pass"},
-    "boundary_case_coverage": {"score": 25, "status": "pass"},
-    "example_completeness": {"score": 23, "status": "fail"},
-    "chinese_expression_quality": {"score": 22, "status": "fail"}
+    "type_accuracy": { "score": 25, "status": "pass" },
+    "boundary_case_coverage": { "score": 25, "status": "pass" },
+    "example_completeness": { "score": 23, "status": "fail" },
+    "chinese_expression_quality": { "score": 22, "status": "fail" }
   },
   "improvement_suggestions": [
     "Add output comments to example code blocks",

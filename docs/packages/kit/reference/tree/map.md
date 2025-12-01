@@ -24,7 +24,7 @@ const tree = [
   { id: 4, children: [{ id: 5 }] },
 ]
 
-const result = treeMap<Node, Node>(tree, (item) => ({
+const result = treeMap<Node, Node>(tree, item => ({
   ...item,
   id: item.id * 2,
 }))
@@ -59,8 +59,8 @@ const tree = [
 ]
 
 const result = treeMap<Node, Node>(tree, (item, ctx) => {
-  const childSum =
-    ctx?.processedChildren?.reduce(
+  const childSum
+    = ctx?.processedChildren?.reduce(
       (sum, child) => sum + (child.totalValue ?? 0),
       0,
     ) ?? 0
@@ -207,11 +207,11 @@ export function treeMap<
 
 ### 参数说明
 
-| 参数     | 类型                                            | 描述                                                                 | 必需 |
-| -------- | ----------------------------------------------- | -------------------------------------------------------------------- | ---- |
-| `array`  | `T[]`                                           | 输入的树形数组，数组元素必须是对象类型。                             | 是   |
-| `fn`     | `(item: T, context?: TreeMapContext<T, Config>) => U` | 对每个节点调用的映射函数，必须返回对象、`null` 或 `undefined`。     | 是   |
-| `options` | `TreeMapOptions<Config>`                       | 遍历与上下文配置，支持遍历模式、遍历顺序、子节点键名和 Context 配置。 | 否   |
+| 参数      | 类型                                                  | 描述                                                                  | 必需 |
+| --------- | ----------------------------------------------------- | --------------------------------------------------------------------- | ---- |
+| `array`   | `T[]`                                                 | 输入的树形数组，数组元素必须是对象类型。                              | 是   |
+| `fn`      | `(item: T, context?: TreeMapContext<T, Config>) => U` | 对每个节点调用的映射函数，必须返回对象、`null` 或 `undefined`。       | 是   |
+| `options` | `TreeMapOptions<Config>`                              | 遍历与上下文配置，支持遍历模式、遍历顺序、子节点键名和 Context 配置。 | 否   |
 
 `options` 中的常用配置项：
 

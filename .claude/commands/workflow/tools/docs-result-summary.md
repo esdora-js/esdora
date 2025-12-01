@@ -72,6 +72,7 @@ pass_rate=$((pass_count * 100 / total_groups))
 ```
 
 **质量指标**：
+
 - **平均得分**：所有文档的 QA 得分平均值
 - **通过率**：得分 >= 90 的文档占比
 - **警告率**：得分 70-89 的文档占比
@@ -139,6 +140,7 @@ speedup=$(echo "scale=2; $sequential_time / $total_execution_time" | bc)
 ```
 
 **执行时间指标**：
+
 - **总执行时间**：从会话开始到结束的总时间
 - **平均 group 时间**：单个 group 的平均生成时间
 - **并行加速比**：顺序执行时间 / 实际执行时间
@@ -405,9 +407,9 @@ mv "${session_dir}/workflow-session.json.tmp" "${session_dir}/workflow-session.j
 ```json
 {
   "test_results": [
-    {"test": "single_file_generation", "status": "pass"},
-    {"test": "batch_parallel_generation", "status": "pass"},
-    {"test": "improvement_iteration", "status": "skip"}
+    { "test": "single_file_generation", "status": "pass" },
+    { "test": "batch_parallel_generation", "status": "pass" },
+    { "test": "improvement_iteration", "status": "skip" }
   ],
   "overall_status": "pass"
 }

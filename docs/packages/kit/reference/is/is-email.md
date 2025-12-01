@@ -65,9 +65,9 @@ function isEmailStrict(email: string): boolean
 
 ### 参数说明
 
-| 参数  | 类型     | 描述                                     | 必需 |
-| ----- | -------- | ---------------------------------------- | ---- |
-| email | `string` | 要验证的电子邮件字符串                   | 是   |
+| 参数  | 类型     | 描述                   | 必需 |
+| ----- | -------- | ---------------------- | ---- |
+| email | `string` | 要验证的电子邮件字符串 | 是   |
 
 ### 返回值
 
@@ -82,7 +82,7 @@ function isEmailStrict(email: string): boolean
 ### 输入边界
 
 - **简化版 `isEmail`**:
-  - 仅支持标准 ASCII 字符集邮箱（a-z, A-Z, 0-9, ., %, +, -, _）
+  - 仅支持标准 ASCII 字符集邮箱（a-z, A-Z, 0-9, ., %, +, -, \_）
   - 不支持中文字符或其他 Unicode 字符
   - 不支持引号包裹的本地部分（如 `"quoted"@example.com`）
   - 支持子域名（如 `user@sub.domain.com`）
@@ -132,4 +132,4 @@ function isEmailStrict(email: string): boolean
 
 ## 相关链接
 
-- 源码: `packages/kit/src/is/is-email/index.ts`
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/is/is-email/index.ts)

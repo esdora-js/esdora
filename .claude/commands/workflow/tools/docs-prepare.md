@@ -188,12 +188,12 @@ mkdir -p "$output_dir"
 
 **Examples**:
 
-| Input File Path | Inferred Output Path |
-|----------------|---------------------|
-| `packages/kit/src/is/is-array.ts` | `docs/packages/kit/reference/is/` |
-| `packages/biz/src/query/parse.ts` | `docs/packages/biz/reference/query/` |
-| `packages/color/src/index.ts` | `docs/packages/color/reference/` |
-| `src/utils/helper.ts` (no packages/) | `docs/reference/` (fallback) |
+| Input File Path                      | Inferred Output Path                 |
+| ------------------------------------ | ------------------------------------ |
+| `packages/kit/src/is/is-array.ts`    | `docs/packages/kit/reference/is/`    |
+| `packages/biz/src/query/parse.ts`    | `docs/packages/biz/reference/query/` |
+| `packages/color/src/index.ts`        | `docs/packages/color/reference/`     |
+| `src/utils/helper.ts` (no packages/) | `docs/reference/` (fallback)         |
 
 **Output**: Inferred output directory path
 
@@ -262,14 +262,14 @@ done
 **Examples**:
 
 | Total Files | Groups | Distribution |
-|------------|--------|--------------|
-| 1 | 1 | [1] |
-| 2 | 1 | [2] |
-| 3 | 1 | [3] |
-| 4 | 2 | [3, 1] |
-| 5 | 2 | [3, 2] |
-| 7 | 3 | [3, 3, 1] |
-| 10 | 4 | [3, 3, 3, 1] |
+| ----------- | ------ | ------------ |
+| 1           | 1      | [1]          |
+| 2           | 1      | [2]          |
+| 3           | 1      | [3]          |
+| 4           | 2      | [3, 1]       |
+| 5           | 2      | [3, 2]       |
+| 7           | 3      | [3, 3, 1]    |
+| 10          | 4      | [3, 3, 3, 1] |
 
 **Output**: File groups JSON
 
@@ -443,6 +443,7 @@ Ready for Phase 2: docs-generate-single
 **Trigger**: `--files` or `--type` not provided
 
 **Error Message**:
+
 ```
 Error: Missing required parameter
 Usage: /workflow:tools:docs-prepare --session <session-id> --files <paths> --type <type>
@@ -458,6 +459,7 @@ Required: --files, --type
 **Trigger**: One or more files in `--files` do not exist
 
 **Error Message**:
+
 ```
 Error: The following files do not exist:
   - packages/kit/src/is/is-invalid.ts

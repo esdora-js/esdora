@@ -66,6 +66,7 @@ fi
 ```
 
 **改进策略**：
+
 - **Patch Mode（得分 80-89）**：使用 Edit 工具进行针对性修改
   - 适用场景：少量问题，文档整体质量良好
   - 优势：快速、保留原有内容结构
@@ -202,6 +203,7 @@ fi
 ```
 
 **退出条件**：
+
 1. **QA 得分 >= 90** → 成功，进入 Phase 5
 2. **迭代次数 >= max_iterations** → 需要人工审查
 3. **改进无效（得分无提升或下降）** → 需要人工审查
@@ -267,6 +269,7 @@ Phase 5 (Result Summarization)
 ```
 
 **循环控制**：
+
 - **Max Iterations**: 2 次（防止无限循环）
 - **Quality Threshold**: QA 得分 >= 90（成功退出）
 - **No Improvement**: 得分无提升（强制退出）
@@ -299,10 +302,12 @@ Phase 5 (Result Summarization)
 ### 迭代历史
 
 每次迭代生成独立的改进报告：
+
 - `improve-group-001-iter1.json`
 - `improve-group-001-iter2.json`
 
 最终 QA 报告包含最新的迭代计数：
+
 ```json
 {
   "iteration_count": 2,
