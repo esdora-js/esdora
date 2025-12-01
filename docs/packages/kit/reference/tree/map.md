@@ -1,28 +1,30 @@
 ---
 title: treeMap
-description: treeMap - 来自 Dora Pocket 的数据结构“道具”，用于对树形结构进行灵活的遍历和映射。
+description: "treeMap - Dora Pocket 中 @esdora/kit 库提供的树结构工具函数，用于对树形数组进行类型安全的映射与结构转换。"
 ---
 
 # treeMap
 
-<!-- 1. 简介：一句话核心功能描述 -->
-
-一个功能强大的树结构映射函数，支持深度优先（DFS）、广度优先（BFS）遍历，并提供丰富的上下文信息。
-
-<!-- 2. 示例：由核心功能和从测试用例中提炼的场景组成 -->
+对树形数组执行深度优先（DFS）或广度优先（BFS）遍历，为每个节点应用映射函数并返回新的树形结构，支持丰富的上下文信息和类型安全的控制。
 
 ## 示例
 
 ### 基本用法
 
 ```typescript
+import { treeMap } from '@esdora/kit'
+
+interface Node {
+  id: number
+  children?: Node[]
+}
+
 const tree = [
   { id: 1, children: [{ id: 2 }, { id: 3 }] },
   { id: 4, children: [{ id: 5 }] },
 ]
 
-// 对每个节点的 id 乘以 2
-const result = treeMap(tree, item => ({
+const result = treeMap<Node, Node>(tree, (item) => ({
   ...item,
   id: item.id * 2,
 }))
@@ -33,79 +35,153 @@ const result = treeMap(tree, item => ({
 // ]
 ```
 
-### 后序遍历与聚合
-
-后序遍历（`order: 'post'`）先处理子节点，再处理父节点，非常适合进行自下而上的数据聚合。结合 `context.processedChildren`，可以轻松计算依赖于子节点结果的父节点值。
+### 后序遍历进行聚合计算
 
 ```typescript
+import { treeMap } from '@esdora/kit'
+
+interface Node {
+  id: number
+  value: number
+  totalValue?: number
+  children?: Node[]
+}
+
 const tree = [
-  { id: 1, value: 10, children: [
-    { id: 2, value: 20 },
-    { id: 3, value: 30, children: [{ id: 4, value: 40 }] },
-  ] },
+  {
+    id: 1,
+    value: 10,
+    children: [
+      { id: 2, value: 20 },
+      { id: 3, value: 30, children: [{ id: 4, value: 40 }] },
+    ],
+  },
 ]
 
-// 计算每个节点及其所有子节点的 value 总和
-const result = treeMap(tree, (item, ctx) => {
-  const childSum = ctx?.processedChildren?.reduce((sum, c) => sum + c.totalValue, 0) ?? 0
+const result = treeMap<Node, Node>(tree, (item, ctx) => {
+  const childSum =
+    ctx?.processedChildren?.reduce(
+      (sum, child) => sum + (child.totalValue ?? 0),
+      0,
+    ) ?? 0
+
   return {
     ...item,
     totalValue: item.value + childSum,
-    children: ctx?.processedChildren, // 使用已处理过的子节点
+    children: ctx?.processedChildren,
   }
 }, {
-  order: 'post', // 必须是后序遍历
-  context: { processedChildren: true }, // 启用 processedChildren
+  order: 'post',
+  context: { processedChildren: true },
 })
 
 // => [
 //   {
-//     id: 1, value: 10, totalValue: 100, // 10 + 20 + 70
+//     id: 1,
+//     value: 10,
+//     totalValue: 100,
 //     children: [
 //       { id: 2, value: 20, totalValue: 20 },
-//       { id: 3, value: 30, totalValue: 70, // 30 + 40
-//         children: [
-//           { id: 4, value: 40, totalValue: 40 }
-//         ]
-//       }
-//     ]
-//   }
+//       {
+//         id: 3,
+//         value: 30,
+//         totalValue: 70,
+//         children: [{ id: 4, value: 40, totalValue: 40 }],
+//       },
+//     ],
+//   },
 // ]
 ```
 
-### 使用上下文（Context）获取节点信息
-
-通过 `options.context` 可以按需启用 `depth`、`parent`、`path` 等额外信息，用于复杂的逻辑处理。
+### 使用上下文访问节点位置信息
 
 ```typescript
-const tree = [{ id: 1, children: [{ id: 2 }] }]
+import { treeMap } from '@esdora/kit'
 
-// 为每个节点添加其在树中的层级
-const resultWithDepth = treeMap(tree, (item, ctx) => ({
+interface Node {
+  id: number
+  name: string
+  children?: Node[]
+}
+
+const tree: Node[] = [
+  {
+    id: 1,
+    name: 'root',
+    children: [
+      { id: 2, name: 'child1' },
+      { id: 3, name: 'child2' },
+    ],
+  },
+]
+
+const result = treeMap<Node, Node>(tree, (item, ctx) => ({
   ...item,
   level: ctx?.depth,
+  index: ctx?.index,
+  path: ctx?.path,
+  isLeaf: ctx?.isLeaf,
+  isRoot: ctx?.isRoot,
 }), {
-  context: { depth: true },
+  context: {
+    depth: true,
+    index: true,
+    path: true,
+    isLeaf: true,
+    isRoot: true,
+  },
 })
 
 // => [
-//   { id: 1, children: [{ id: 2, level: 1 }], level: 0 }
+//   {
+//     id: 1,
+//     name: 'root',
+//     level: 0,
+//     index: 0,
+//     path: [1],
+//     isLeaf: false,
+//     isRoot: true,
+//     children: [
+//       {
+//         id: 2,
+//         name: 'child1',
+//         level: 1,
+//         index: 0,
+//         path: [1, 2],
+//         isLeaf: true,
+//         isRoot: false,
+//       },
+//       {
+//         id: 3,
+//         name: 'child2',
+//         level: 1,
+//         index: 1,
+//         path: [1, 3],
+//         isLeaf: true,
+//         isRoot: false,
+//       },
+//     ],
+//   },
 // ]
 ```
 
-### 控制子节点递归
-
-你可以通过返回不同的 `children` 属性来精确控制递归行为。
+### 控制子节点递归行为
 
 ```typescript
-const tree = [
+import { treeMap } from '@esdora/kit'
+
+interface Node {
+  id: number
+  children?: Node[] | null
+}
+
+const tree: Node[] = [
   { id: 1, children: [{ id: 2 }] },
   { id: 3, children: [] },
 ]
 
-const result = treeMap(tree, (item, ctx) => ({
+const result = treeMap<Node, Node | null>(tree, (item, ctx) => ({
   ...item,
-  // 如果原始 children 存在且不为空，则继续递归，否则设为 null
   children: item.children?.length > 0 ? ctx?.originalChildren : null,
 }))
 
@@ -115,36 +191,9 @@ const result = treeMap(tree, (item, ctx) => ({
 // ]
 ```
 
-<!-- 3. 签名与说明：合并了签名、参数、返回值的唯一技术核心 -->
-
 ## 签名与说明
 
 ```typescript
-/**
- * 树结构映射函数，可对树形数组进行深度优先或广度优先遍历，并对每个节点应用映射函数。
- *
- * 重要说明:
- * - 映射函数必须返回对象类型（或 null/undefined），不支持返回原始类型（如 number、string）。
- * - 函数会自动处理子节点的递归，除非你显式修改了 children 属性。
- * - 如果返回的对象中 children 引用与原始相同（如通过 `ctx.originalChildren`），会自动进行递归处理。
- * - 如果返回的对象中 children 引用不同（如 `[]` 或 `null`），则不会递归处理，认为你已手动接管。
- *
- * Context 功能:
- * - 第二个参数 `context` 是可选的，它提供了关于当前节点的额外信息。
- * - 默认提供 `originalChildren` 和 `childrenKey` 字段（零开销）。
- * - 通过 `options.context` 配置可以按需启用更多字段（`depth`, `parent`, `path` 等），避免不必要的性能开销。
- *
- * @param array T[] 输入的树形数组。
- * @param fn (item: T, context?: TreeMapContext<T, Config>) => U 映射函数，对每个节点调用，必须返回对象类型或 null/undefined。
- * @param options TreeMapOptions<Config> 遍历选项。
- *   @param options.mode 'dfs' | 'bfs' 遍历模式，默认为 'dfs'（深度优先）。
- *   @param options.order 'pre' | 'post' 遍历顺序（仅限DFS），默认为 'pre'（前序）。'post'（后序）对于自下而上的数据聚合非常有用。
- *   @param options.childrenKey string 子节点数组的属性名，默认为 'children'。
- *   @param options.context TreeMapContextConfig 按需启用上下文信息。
- * @returns U[] 映射后的新树形数组。
- * @throws TypeError 如果输入不是数组、子节点属性不是数组、或映射函数返回非对象类型。
- * @throws Error 如果配置无效（如在非后序遍历中使用 `processedChildren`）。
- */
 export function treeMap<
   T extends Record<string, any>,
   U extends Record<string, any> | null | undefined,
@@ -156,24 +205,75 @@ export function treeMap<
 ): U[]
 ```
 
-<!-- 4. 注意事项与边界情况：建立用户信任 -->
+### 参数说明
+
+| 参数     | 类型                                            | 描述                                                                 | 必需 |
+| -------- | ----------------------------------------------- | -------------------------------------------------------------------- | ---- |
+| `array`  | `T[]`                                           | 输入的树形数组，数组元素必须是对象类型。                             | 是   |
+| `fn`     | `(item: T, context?: TreeMapContext<T, Config>) => U` | 对每个节点调用的映射函数，必须返回对象、`null` 或 `undefined`。     | 是   |
+| `options` | `TreeMapOptions<Config>`                       | 遍历与上下文配置，支持遍历模式、遍历顺序、子节点键名和 Context 配置。 | 否   |
+
+`options` 中的常用配置项：
+
+- `mode`: `'dfs' | 'bfs'`，遍历模式，默认为 `'dfs'`（深度优先）。
+- `order`: `'pre' | 'post'`，遍历顺序，仅在 `mode: 'dfs'` 时生效，默认为 `'pre'`（前序）。
+- `childrenKey`: `string`，子节点数组的属性名，默认为 `'children'`。
+- `context`: `TreeMapContextConfig`，按需启用 `depth`、`index`、`parent`、`path`、`isLeaf`、`isRoot`、`processedChildren` 等上下文字段。
+
+### 返回值
+
+- **类型**: `U[]`
+- **说明**: 返回与输入结构对应的新树形数组，每个节点是映射函数 `fn` 的返回结果；当输入为空数组时返回空数组。
+- **特殊情况**:
+  - 映射函数返回 `null` 或 `undefined` 时，结果数组中对应元素也为 `null` 或 `undefined`。
+  - 如果映射函数未显式返回 `childrenKey` 属性且原始节点包含合法子节点数组，函数会自动对其子节点递归调用 `fn`。
+  - 如果映射函数返回的对象中包含 `childrenKey`，则完全尊重该值：
+    - 返回 `ctx.originalChildren` 或原始子节点数组引用时，会在递归处理后填充处理结果。
+    - 返回新的数组、`null` 或 `undefined` 时，不会再递归处理该数组。
+
+### 泛型约束（如适用）
+
+- **`T`**: 输入树节点的类型，必须是 `Record<string, any>`；通常是业务节点类型（如 `Node` 接口）。
+- **`U`**: 映射后节点的类型，必须是对象类型或 `null`/`undefined`，用于保证结果树的结构安全。
+- **`Config extends TreeMapContextConfig`**: 控制 Context 中可用字段的配置类型；默认值 `Record<string, never>` 表示不启用任何额外上下文字段，仅提供基础的 `originalChildren` 和 `childrenKey`。
 
 ## 注意事项与边界情况
 
-- **关于返回值类型**: 映射函数 `fn` 的返回值必须是对象、`null` 或 `undefined`。返回任何原始类型（如 `string`, `number`, `boolean`）都会抛出 `TypeError`。
-- **关于不可变性**: `treeMap` 是一个纯函数，它不会修改原始的输入数组或其任何节点。所有操作都是在返回的新树上进行的。
-- **关于子节点处理**:
-  - 如果映射函数返回的对象中**不包含** `childrenKey` 属性，函数会查找原始节点的子节点并自动进行递归。
-  - 如果映射函数返回的对象中**包含** `childrenKey` 属性，其值决定了后续行为：
-    - 值为 `ctx.originalChildren` 或与原始子节点数组引用相同：继续对原始子节点进行递归。
-    - 值为 `null`、`undefined` 或一个**新的**数组：递归将停止，函数会直接使用你提供的值。
-- **关于错误处理**:
-  - 如果输入第一个参数不是数组，会抛出 `TypeError`。
-  - 如果树中任何一个节点的 `childrenKey` 属性存在但不是数组（例如 `null`, `object`, `string`），会抛出 `TypeError`。
-- **关于 `processedChildren`**: 此上下文属性仅在 `order: 'post'`（后序遍历）模式下可用，因为它依赖于子节点被完全处理后的结果。在其他模式下启用会抛出错误。
+### 输入边界
 
-<!-- 5. 相关链接：提供相关函数及源码的链接 -->
+- 当 `array` 不是数组（如 `null`、`undefined`、数字、对象、字符串）时，会立即抛出 `TypeError`，不会调用映射函数。
+- 当树中某个节点的 `childrenKey` 属性存在但不是数组（例如字符串、对象、数字），会抛出 `TypeError`，错误信息会包含该节点的 `id` 或 `name` 以便定位问题。
+- 支持 `childrenKey` 对应值为 `undefined`、`null` 或空数组 `[]`，这些情况不会抛出异常：
+  - 空数组会被视为叶子节点，但会保留在结果中。
+  - `null` 与 `undefined` 会被原样保留。
+- 对深度嵌套的树结构（如递归深度接近 1000）也能安全处理，不会因递归过深导致错误。
+
+### 错误处理
+
+- **异常类型**:
+  - `TypeError`：
+    - 第一个参数不是数组。
+    - 某个节点的 `childrenKey` 属性存在但不是数组。
+    - 映射函数返回原始类型（如 `string`、`number`、`boolean`）而非对象、`null` 或 `undefined`。
+  - `Error`：
+    - 在 BFS 模式下启用 `context.processedChildren`：`Configuration error: processedChildren is not available in BFS mode. Use { mode: "dfs", order: "post" } instead.`
+    - 在非后序遍历中启用 `context.processedChildren`：`Configuration error: processedChildren is only available in post-order traversal. Use { order: "post" } or remove processedChildren from context.`
+- **处理建议**:
+  - 在调试阶段，可以在外层使用 `try/catch` 捕获错误并打印错误消息，快速定位配置或数据问题。
+  - 对于产品代码，建议保证输入数据结构可靠（如通过类型定义和静态检查约束树结构），通常无需在调用处额外包裹 `try/catch`。
+  - 如果映射函数内部抛出异常（例如业务逻辑错误），`treeMap` 会原样向上抛出该异常，不会拦截或吞掉。
+
+### 性能考虑
+
+- **时间复杂度**: O(n)——遍历过程中每个节点最多访问一次，无论是 DFS 还是 BFS。
+- **空间复杂度**:
+  - DFS 模式：O(n)，主要由返回的新树结构和递归调用栈构成。
+  - BFS 模式：O(n)，使用队列保存当前层和后续层节点。
+- **优化建议**:
+  - 大型树结构建议优先使用默认的 DFS 前序遍历；当需要按层级处理（例如逐层渲染 UI）时可以选择 BFS。
+  - Context 配置采用按需启用模式，未启用的字段不会产生额外开销；在性能敏感场景中，可只开启必要的字段（如 `depth` 或 `path`）。
+  - 映射函数应保持轻量，避免在内部做昂贵的同步操作或产生不必要的副作用。
 
 ## 相关链接
 
-- **源码**: [`packages/data-structure/treeMap/index.ts`](https://github.com/esdora/kit/blob/main/packages/data-structure/treeMap/index.ts)
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/map/index.ts)
