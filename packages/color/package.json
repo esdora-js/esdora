@@ -1,7 +1,7 @@
 {
   "name": "@esdora/color",
   "type": "module",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Color conversion and manipulation with CSS string support",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
