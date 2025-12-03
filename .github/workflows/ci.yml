@@ -88,26 +88,79 @@ jobs:
       - name: Build packages
         run: pnpm run build
 
+      - name: Verify Build Output Files
+        run: |
+          # Ensure dual-format build outputs exist for all packages
+          # Verify main entry points: 5 packages with multiple exports = 9 entry points
+          # Expected: 9 .mjs files (ESM) + 9 .cjs files (CommonJS) = 18 total entry points
+          MJS_ENTRIES=$(find packages/*/dist -maxdepth 1 -name '*.mjs' -type f | wc -l)
+          CJS_ENTRIES=$(find packages/*/dist -maxdepth 1 -name '*.cjs' -type f | wc -l)
+
+          echo "Build output verification:"
+          echo "  Main ESM entry points (.mjs): $MJS_ENTRIES"
+          echo "  Main CJS entry points (.cjs): $CJS_ENTRIES"
+
+          # Verify we have expected entry points (at least 8 of each format)
+          if [ "$MJS_ENTRIES" -lt 8 ]; then
+            echo "Error: Expected at least 8 .mjs entry files, found $MJS_ENTRIES"
+            exit 1
+          fi
+
+          if [ "$CJS_ENTRIES" -lt 8 ]; then
+            echo "Error: Expected at least 8 .cjs entry files, found $CJS_ENTRIES"
+            exit 1
+          fi
+
+          # Verify dual-format parity (counts should be close)
+          DIFF=$((MJS_ENTRIES > CJS_ENTRIES ? MJS_ENTRIES - CJS_ENTRIES : CJS_ENTRIES - MJS_ENTRIES))
+          if [ "$DIFF" -gt 2 ]; then
+            echo "Error: Dual-format mismatch. ESM and CJS counts differ by $DIFF (tolerance: 2)"
+            exit 1
+          fi
+
+          echo "Build output verification passed: Dual-format build outputs present"
+
+      - name: Validate Package Exports
+        run: |
+          # Run export validation tests to prevent .js/.mjs path mismatches
+          # Tests verify package.json exports match actual dist/ files for all 5 packages
+          pnpm test -- export.test
+
       - name: Run tests with coverage
         run: pnpm run test:coverage
 
-      - name: Find coverage files
-        id: coverage
-        run: |
-          files=()
-          flags=()
-          for f in $(find ./packages -name "coverage-final.json" -type f); do
-            files+=("$f")
-            flags+=("$(basename $(dirname $(dirname "$f")))")
-          done
-          echo "files=$(IFS=,; echo "${files[*]}")" >> $GITHUB_OUTPUT
-          echo "flags=$(IFS=,; echo "${flags[*]}")" >> $GITHUB_OUTPUT
-
-      - name: Upload coverage to Codecov
-        if: steps.coverage.outputs.files != ''
+      - name: Upload coverage for color package
+        if: hashFiles('packages/color/coverage/coverage-final.json') != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ steps.coverage.outputs.files }}
-          flags: ${{ steps.coverage.outputs.flags }}
+          files: ./packages/color/coverage/coverage-final.json
+          flags: color
+          fail_ci_if_error: false
+
+      - name: Upload coverage for kit package
+        if: hashFiles('packages/kit/coverage/coverage-final.json') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/kit/coverage/coverage-final.json
+          flags: kit
+          fail_ci_if_error: false
+
+      - name: Upload coverage for date package
+        if: hashFiles('packages/date/coverage/coverage-final.json') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/date/coverage/coverage-final.json
+          flags: date
+          fail_ci_if_error: false
+
+      - name: Upload coverage for biz package
+        if: hashFiles('packages/biz/coverage/coverage-final.json') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/biz/coverage/coverage-final.json
+          flags: biz
           fail_ci_if_error: false
