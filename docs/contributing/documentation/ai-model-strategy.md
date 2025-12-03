@@ -522,7 +522,6 @@ codex -C path -i design.png --full-auto exec "prompt" --skip-git-repo-check -s d
 - [术语表](./glossary.md) - AI 模型定义和文档类型分类
 - [文档规范体系架构](./architecture.md) - 3 层规范体系设计
 - [API 文档模板](./api-template.md) - API 文档模板
-- [智能工具选择策略](~/.claude/workflows/intelligent-tools-strategy.md) - 完整的 CLI 工具使用指南
 
 ## 版本历史
 
