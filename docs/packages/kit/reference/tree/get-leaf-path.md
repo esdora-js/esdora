@@ -1,3 +1,8 @@
+---
+title: getLeafPath
+description: getLeafPath - 来自 Dora Pocket 的树结构“道具”，用于分析树形结构并提取从根节点到每个叶子节点的完整路径。
+---
+
 # getLeafPath
 
 <!-- 1. 简介：一句话核心功能描述 -->
@@ -11,6 +16,8 @@
 ### 基本用法
 
 ```typescript
+import { getLeafPath } from '@esdora/kit'
+
 const tree = {
   id: 'root',
   children: [
@@ -35,6 +42,8 @@ getLeafPath(tree)
 ### 自定义字段名
 
 ```typescript
+import { getLeafPath } from '@esdora/kit'
+
 const customTree = {
   name: 'root',
   items: [
@@ -52,6 +61,8 @@ getLeafPath(customTree, { keyField: 'name', childrenField: 'items' })
 函数能正确处理一个节点被多个父节点引用的情况（钻石结构）。
 
 ```typescript
+import { getLeafPath } from '@esdora/kit'
+
 const sharedNode = { id: 'C' }
 const tree = {
   id: 'root',
@@ -77,14 +88,48 @@ getLeafPath(tree)
  * 共享节点或循环引用的复杂树结构，并安全地返回所有可达的有限路径。
  *
  * @template T 节点的唯一标识符类型（如 `string` 或 `number`），将根据输入树的结构自动推断。
- * @param {TreeNode<T>} root 要分析的树的根节点。
- * @param {TreePathsOptions} [options] 用于指定字段名的可选配置。
- * @param {string} [options.keyField] - 用作节点唯一标识符的字段名。
- * @param {string} [options.childrenField] - 包含子节点数组的字段名。
- * @returns {T[][]} 一个二维数组。每个内部数组都是一条从根节点到叶子节点的完整路径。如果根节点无效或未找到任何路径，则返回空数组。
+ * @param root 要分析的树的根节点。
+ * @param options 用于指定字段名的可选配置。
+ * @param options.keyField 用作节点唯一标识符的字段名。
+ * @param options.childrenField 包含子节点数组的字段名。
+ * @returns 一个二维数组。每个内部数组都是一条从根节点到叶子节点的完整路径。如果根节点无效或未找到任何路径，则返回空数组。
  */
-function getLeafPath<T>(root: TreeNode<T>, options?: TreePathsOptions): T[][]
+interface TreeNode<T> {
+  [key: string]: unknown
+  children?: TreeNode<T>[]
+}
+
+interface TreePathsOptions {
+  keyField?: string
+  childrenField?: string
+}
+
+export function getLeafPath<T>(
+  root: TreeNode<T>,
+  options?: TreePathsOptions,
+): T[][]
 ```
+
+### 参数说明
+
+| 参数    | 类型               | 描述                               | 必需 |
+| ------- | ------------------ | ---------------------------------- | ---- |
+| root    | `TreeNode<T>`      | 要分析的树的根节点                 | 是   |
+| options | `TreePathsOptions` | 字段名配置项，用于适配不同结构的树 | 否   |
+
+**配置项 TreePathsOptions**
+
+| 字段          | 类型     | 描述                       | 默认值       |
+| ------------- | -------- | -------------------------- | ------------ |
+| keyField      | `string` | 节点唯一标识符所在的字段名 | `'id'`       |
+| childrenField | `string` | 子节点数组所在的字段名     | `'children'` |
+
+### 返回值
+
+- **类型**: `T[][]`
+- **说明**:
+  - 返回一个二维数组，每个内部数组代表一条从根节点到叶子节点的完整路径
+  - 当根节点无效或树中不存在任何叶子节点时，返回空数组 `[]`
 
 <!-- 4. 注意事项与边界情况：建立用户信任 -->
 
@@ -94,10 +139,12 @@ function getLeafPath<T>(root: TreeNode<T>, options?: TreePathsOptions): T[][]
 - **关于缺失标识符的节点**: 如果一个节点缺少由 `keyField` 指定的标识符（或其值为 `null`/`undefined`），该节点及其所有子孙节点将被跳过，不会出现在任何路径中。
 - **关于循环引用**: 函数能安全地检测并处理循环引用的结构。当检测到循环时，会终止当前路径的探索，防止无限递归。因此，包含循环的路径不会被输出。
 - **关于叶子节点的定义**: 如果一个节点的 `childrenField` 属性为 `null`、`undefined`、一个空数组 `[]` 或根本不存在，它将被视为叶子节点。
-- **关于无效的子节点**: 子节点数组 (`childrenField`) 中任何非对象、`null` 或 `undefined` 的成员都会被安全地忽略，不会影响其他有效子节点的路径分析。
+- **关于无效的子节点**: 子节点数组 (`childrenField`) 中任何非对象、`null` 或 `undefined` 的成员都会被安全地忽略，不会影响其他有效子节点的路径分析，同时会通过 `devWarn` 打印开发者警告。
+- **关于数值 key**: 数值 `0` 等"假值"同样可以作为有效的节点标识符参与路径计算，不会被误判为缺失。
 
 <!-- 5. 相关链接：提供唯一的、最核心的源码链接 -->
 
 ## 相关链接
 
-- **源码**: [`src/tree/get-leaf-path/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/packages/kit/src/tree/get-leaf-path/index.ts)
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/get-leaf-path/index.ts)
+- [单元测试](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/get-leaf-path/index.test.ts)

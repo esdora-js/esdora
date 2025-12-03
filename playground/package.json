@@ -1,0 +1,11 @@
+{
+  "name": "@esdora/demo",
+  "private": true,
+  "dependencies": {
+    "@esdora/biz": "workspace:*",
+    "@esdora/color": "workspace:*",
+    "@esdora/date": "workspace:*",
+    "@esdora/kit": "workspace:*",
+    "esdora": "workspace:*"
+  }
+}

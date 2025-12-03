@@ -1,4 +1,5 @@
 .:
+  biz: object
   color: object
   date: object
   kit: object
