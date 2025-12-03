@@ -364,7 +364,3 @@ RULES: 遵循 L1+L2 架构文档规范，使用 ADR 格式记录决策
 - **实战演练**: 跟随 [使用指南](./usage-guide) 完成 3 个端到端工作流程示例
 - **质量提升**: 参考 [质量检查清单](./quality-checklist) 理解文档质量标准和评分体系
 - **模型优化**: 研究 [AI 模型调度策略](./ai-model-strategy) 掌握模型选择和使用技巧
-
-## 相关资源
-
-- [智能工具选择策略](~/.claude/workflows/intelligent-tools-strategy.md) - 完整的 CLI 工具使用指南
