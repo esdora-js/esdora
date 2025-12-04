@@ -19,7 +19,7 @@ catalog:
   '@unocss/reset': ^66.5.9
   '@vitest/coverage-v8': ^4.0.14
   '@vitest/ui': ^4.0.14
-  '@vueuse/core': ^13.9.0
+  '@vueuse/core': ^14.1.0
   chokidar: ^4.0.3
   commitlint-plugin-function-rules: ^4.1.1
   culori: ^4.0.2
