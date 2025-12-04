@@ -20,7 +20,7 @@ catalog:
   '@vitest/coverage-v8': ^4.0.14
   '@vitest/ui': ^4.0.14
   '@vueuse/core': ^13.9.0
-  chokidar: ^4.0.3
+  chokidar: ^5.0.0
   commitlint-plugin-function-rules: ^4.1.1
   culori: ^4.0.2
   cz-git: ^1.12.0
