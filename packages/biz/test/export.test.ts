@@ -6,7 +6,7 @@ import yaml from 'yaml'
 /**
  * 获取模块的导出信息，直接读取 package.json 中的 exports 配置
  */
-async function getKitExports() {
+async function getBizExports() {
   // 读取 package.json 中的 exports 配置
   const packageJsonPath = join(__dirname, '../package.json')
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
@@ -61,8 +61,8 @@ async function getKitExports() {
  * 为每个入口文件单独生成快照文件，便于维护和追踪变化
  */
 describe('exports-snapshot', () => {
-  it('@esdora/kit - all exports', async () => {
-    const exports = await getKitExports()
+  it('@esdora/biz - all exports', async () => {
+    const exports = await getBizExports()
 
     // 为每个导出路径生成单独的快照文件
     for (const [exportPath, moduleExports] of Object.entries(exports)) {

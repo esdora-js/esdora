@@ -44,6 +44,9 @@
   "dependencies": {
     "@esdora/kit": "workspace:*",
     "@types/qs": "catalog:",
-    "qs": "catalog:"
+    "class-variance-authority": "catalog:",
+    "clsx": "catalog:",
+    "qs": "catalog:",
+    "tailwind-merge": "catalog:"
   }
 }
