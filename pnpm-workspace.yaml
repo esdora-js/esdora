@@ -33,7 +33,7 @@ catalog:
   lefthook: ^2.0.4
   mermaid: ^11.12.1
   pinia: ^3.0.4
-  pnpm: ^10.24.0
+  pnpm: ^10.27.0
   qs: ^6.14.0
   tinyexec: ^1.0.2
   tsdown: ^0.16.8
