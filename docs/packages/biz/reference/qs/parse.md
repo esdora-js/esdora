@@ -12,7 +12,7 @@ description: "parse - Dora Pocket 中 @esdora/biz 库重新导出的基础查询
 ### 基本用法
 
 ```typescript
-import { parse } from '@esdora/biz'
+import { parse } from '@esdora/biz/qs'
 
 const query = parse('foo=bar&baz=qux')
 // => { foo: 'bar', baz: 'qux' }
@@ -21,7 +21,7 @@ const query = parse('foo=bar&baz=qux')
 ### 处理空字符串
 
 ```typescript
-import { parse } from '@esdora/biz'
+import { parse } from '@esdora/biz/qs'
 
 parse('')
 // => {}
@@ -30,7 +30,7 @@ parse('')
 ### 嵌套对象（与 parseSearch 测试一致）
 
 ```typescript
-import { parse } from '@esdora/biz'
+import { parse } from '@esdora/biz/qs'
 
 parse('user[name]=John&user[age]=30')
 // => { user: { name: 'John', age: '30' } }
@@ -96,6 +96,6 @@ function parse<T extends QueryObject = QueryObject>(
 
 ## 相关链接
 
-- 源码: `packages/biz/src/query/parse.ts`
-- 类型定义: `packages/biz/src/query/types.ts`
+- 源码: `packages/biz/src/qs/parse.ts`
+- 类型定义: `packages/biz/src/qs/types.ts`
 - 测试: `packages/biz/test/query.test.ts`

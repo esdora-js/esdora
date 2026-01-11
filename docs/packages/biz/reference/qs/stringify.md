@@ -12,7 +12,7 @@ description: "stringify - Dora Pocket 中 @esdora/biz 库重新导出的查询�
 ### 基本用法
 
 ```typescript
-import { stringify } from '@esdora/biz'
+import { stringify } from '@esdora/biz/qs'
 
 const query = stringify({ foo: 'bar', baz: 'qux' })
 // => 'foo=bar&baz=qux'
@@ -21,7 +21,7 @@ const query = stringify({ foo: 'bar', baz: 'qux' })
 ### 边界情况：空对象
 
 ```typescript
-import { stringify } from '@esdora/biz'
+import { stringify } from '@esdora/biz/qs'
 
 stringify({})
 // => ''
@@ -30,7 +30,7 @@ stringify({})
 ### 数组与编码控制（与 stringifySearch 测试一致）
 
 ```typescript
-import { stringify } from '@esdora/biz'
+import { stringify } from '@esdora/biz/qs'
 
 stringify({ ids: [1, 2, 3] }, { arrayFormat: 'brackets' })
 // => 'ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3'
@@ -95,6 +95,6 @@ function stringify(
 
 ## 相关链接
 
-- 源码: `packages/biz/src/query/stringify.ts`
-- 类型定义: `packages/biz/src/query/types.ts`
+- 源码: `packages/biz/src/qs/stringify.ts`
+- 类型定义: `packages/biz/src/qs/types.ts`
 - 测试: `packages/biz/test/query.test.ts`

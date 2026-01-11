@@ -12,7 +12,7 @@ description: "parseSearch - Dora Pocket 中 @esdora/biz 库提供的查询字符
 ### 基本用法
 
 ```typescript
-import { parseSearch } from '@esdora/biz'
+import { parseSearch } from '@esdora/biz/qs'
 
 const result = parseSearch('https://example.com?foo=bar&baz=qux')
 // => { foo: 'bar', baz: 'qux' }
@@ -21,7 +21,7 @@ const result = parseSearch('https://example.com?foo=bar&baz=qux')
 ### 处理无查询参数的 URL
 
 ```typescript
-import { parseSearch } from '@esdora/biz'
+import { parseSearch } from '@esdora/biz/qs'
 
 parseSearch('https://example.com')
 // => {}
@@ -33,7 +33,7 @@ parseSearch('https://example.com?')
 ### 解码特殊字符
 
 ```typescript
-import { parseSearch } from '@esdora/biz'
+import { parseSearch } from '@esdora/biz/qs'
 
 parseSearch('/path?name=John%20Doe&email=test%40example.com')
 // => { name: 'John Doe', email: 'test@example.com' }
@@ -42,7 +42,7 @@ parseSearch('/path?name=John%20Doe&email=test%40example.com')
 ### 解析嵌套对象
 
 ```typescript
-import { parseSearch } from '@esdora/biz'
+import { parseSearch } from '@esdora/biz/qs'
 
 parseSearch('/path?user[name]=John&user[age]=30')
 // => { user: { name: 'John', age: '30' } }
@@ -105,6 +105,6 @@ function parseSearch<T = QueryObject>(
 
 ## 相关链接
 
-- 源码: `packages/biz/src/query/parse.ts`
-- 类型定义: `packages/biz/src/query/types.ts`
+- 源码: `packages/biz/src/qs/parse.ts`
+- 类型定义: `packages/biz/src/qs/types.ts`
 - 测试: `packages/biz/test/query.test.ts`

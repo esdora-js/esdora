@@ -27,7 +27,7 @@ npm install @esdora/biz
 安装完成后，你可以直接导入需要的函数：
 
 ```typescript
-import { parseSearch, stringify } from '@esdora/biz'
+import { parseSearch, stringify } from '@esdora/biz/qs'
 
 // 从浏览器 URL 解析查询参数
 const params = parseSearch()

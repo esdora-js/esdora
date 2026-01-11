@@ -1,6 +1,6 @@
-import type { MergeOptions, ParsedQuery, ParseOptions, QueryObject } from './types'
+import type { MergeOptions, ParsedQuery, ParseOptions, QueryObject } from '../types'
 import { parse as qsParse } from 'qs'
-import { stringify } from './stringify'
+import { stringify } from '../stringify'
 
 /**
  * 重新导出 qs.parse 以供直接访问
