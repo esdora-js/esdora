@@ -8,6 +8,8 @@ isCircular: function
 isDigit: function
 isEmail: function
 isEmailStrict: function
+isExternalLink: function
+isExternalLinkStrict: function
 isFirefox: function
 isHarmony: function
 isIos: function

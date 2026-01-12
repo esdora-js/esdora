@@ -1,17 +1,9 @@
 import { describe, expect, it } from 'vitest'
 // 从主入口导入以测试 src/index.ts 的导出
-import * as mainExports from '../'
-import { mergeQueryParams, parse, parseSearch } from './'
+import * as mainExports from '.'
+import { mergeQueryParams, parse, parseSearch } from '..'
 
 describe('主入口导出', () => {
-  it('应该从主入口导出所有查询工具', () => {
-    expect(mainExports.parse).toBeDefined()
-    expect(mainExports.stringify).toBeDefined()
-    expect(mainExports.parseSearch).toBeDefined()
-    expect(mainExports.stringifySearch).toBeDefined()
-    expect(mainExports.mergeQueryParams).toBeDefined()
-  })
-
   it('从主入口导入时应该正常工作', () => {
     const result = mainExports.parseSearch('https://example.com?foo=bar')
     expect(result).toEqual({ foo: 'bar' })

@@ -1,0 +1,12 @@
+clsx: object
+cn: function
+cva: function
+cx: function
+createTailwindMerge: function
+extendTailwindMerge: function
+fromTheme: function
+getDefaultConfig: function
+mergeConfigs: function
+twJoin: function
+twMerge: function
+validators: object

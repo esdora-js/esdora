@@ -12,7 +12,7 @@ description: "mergeQueryParams - Dora Pocket 中 @esdora/biz 库提供的查询�
 ### 基本用法
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz'
+import { mergeQueryParams } from '@esdora/biz/qs'
 
 const url = mergeQueryParams('https://example.com?foo=bar', { baz: 'qux' })
 // => 'https://example.com?foo=bar&baz=qux'
@@ -21,7 +21,7 @@ const url = mergeQueryParams('https://example.com?foo=bar', { baz: 'qux' })
 ### 默认覆盖模式
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz'
+import { mergeQueryParams } from '@esdora/biz/qs'
 
 mergeQueryParams('/path?id=1', { id: 2, name: 'test' })
 // => '/path?id=2&name=test'
@@ -37,7 +37,7 @@ mergeQueryParams(
 ### 保留已有参数
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz'
+import { mergeQueryParams } from '@esdora/biz/qs'
 
 mergeQueryParams('/path?id=1', { id: 2, name: 'test' }, { override: false })
 // => '/path?id=1&name=test'
@@ -46,7 +46,7 @@ mergeQueryParams('/path?id=1', { id: 2, name: 'test' }, { override: false })
 ### 处理空参数与空查询
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz'
+import { mergeQueryParams } from '@esdora/biz/qs'
 
 mergeQueryParams('https://example.com', { foo: 'bar' })
 // => 'https://example.com?foo=bar'
@@ -61,7 +61,7 @@ mergeQueryParams('https://example.com', {})
 ### 控制编码行为
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz'
+import { mergeQueryParams } from '@esdora/biz/qs'
 
 mergeQueryParams('/path', { name: 'John Doe' }, { encode: false })
 // => '/path?name=John Doe'
@@ -132,6 +132,6 @@ function mergeQueryParams(
 
 ## 相关链接
 
-- 源码: `packages/biz/src/query/parse.ts`
-- 类型定义: `packages/biz/src/query/types.ts`
+- 源码: `packages/biz/src/qs/parse.ts`
+- 类型定义: `packages/biz/src/qs/types.ts`
 - 测试: `packages/biz/test/query.test.ts`

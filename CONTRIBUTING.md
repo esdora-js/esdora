@@ -16,11 +16,3 @@
 - **文档编写**: 如何为新的“道具”编写符合我们标准的文档。
 
 我们期待在 `Dora Pocket` 的贡献者列表中看到你的身影！
-
----
-
-> **Looking for the English version?**
->
-> 👉 **[Please click here to read our full Contributing Guide in English](https://esdora.js.org/en/contributing/)**
->
-> _(Note: You can add this section if you plan to support multiple languages in the future.)_

@@ -1,4 +1,4 @@
-import type { QueryObject, StringifyOptions } from './types'
+import type { QueryObject, StringifyOptions } from '../types'
 import { stringify as qsStringify } from 'qs'
 
 /**

@@ -4,6 +4,7 @@ const allowedScopes = [
   '@esdora/date',
   '@esdora/color',
   '@esdora/kit',
+  '@esdora/biz',
   'esdora',
   'project',
   'style',
