@@ -373,7 +373,7 @@ formatDate(date, 'MM/DD/YYYY') // => '01/15/2024'
 #### @esdora/biz 示例
 
 ```typescript
-import { validateEmail } from '@esdora/biz'
+import { validateEmail } from '@esdora/biz/qs'
 
 validateEmail('user@example.com') // => true
 validateEmail('invalid-email') // => false
@@ -446,7 +446,7 @@ function processColorsOptimized(colors: RGB[]) {
 展示多个 Esdora 包协同使用的场景：
 
 ```typescript
-import { validateEmail } from '@esdora/biz'
+import { validateEmail } from '@esdora/biz/qs'
 import { hexToRgb } from '@esdora/color'
 import { formatDate } from '@esdora/date'
 import { isCircular } from '@esdora/kit'

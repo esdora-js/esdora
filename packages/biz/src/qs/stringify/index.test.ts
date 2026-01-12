@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { stringify, stringifySearch } from './'
+import { stringify, stringifySearch } from '.'
 
 describe('stringifySearch', () => {
   it('应该将对象转换为查询字符串', () => {

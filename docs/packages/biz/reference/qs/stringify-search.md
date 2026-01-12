@@ -12,7 +12,7 @@ description: "stringifySearch - Dora Pocket 中 @esdora/biz 库提供的查询�
 ### 基本用法
 
 ```typescript
-import { stringifySearch } from '@esdora/biz'
+import { stringifySearch } from '@esdora/biz/qs'
 
 const query = stringifySearch({ foo: 'bar', baz: 'qux' })
 // => 'foo=bar&baz=qux'
@@ -21,7 +21,7 @@ const query = stringifySearch({ foo: 'bar', baz: 'qux' })
 ### 处理数值
 
 ```typescript
-import { stringifySearch } from '@esdora/biz'
+import { stringifySearch } from '@esdora/biz/qs'
 
 stringifySearch({ id: 123, count: 456 })
 // => 'id=123&count=456'
@@ -30,7 +30,7 @@ stringifySearch({ id: 123, count: 456 })
 ### 默认数组格式（indices）
 
 ```typescript
-import { stringifySearch } from '@esdora/biz'
+import { stringifySearch } from '@esdora/biz/qs'
 
 stringifySearch({ ids: [1, 2, 3] })
 // => 'ids%5B0%5D=1&ids%5B1%5D=2&ids%5B2%5D=3'
@@ -39,7 +39,7 @@ stringifySearch({ ids: [1, 2, 3] })
 ### brackets 数组格式
 
 ```typescript
-import { stringifySearch } from '@esdora/biz'
+import { stringifySearch } from '@esdora/biz/qs'
 
 stringifySearch({ ids: [1, 2, 3] }, { arrayFormat: 'brackets' })
 // => 'ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3'
@@ -48,7 +48,7 @@ stringifySearch({ ids: [1, 2, 3] }, { arrayFormat: 'brackets' })
 ### 禁用 URL 编码
 
 ```typescript
-import { stringifySearch } from '@esdora/biz'
+import { stringifySearch } from '@esdora/biz/qs'
 
 stringifySearch({ name: 'John Doe' }, { encode: false })
 // => 'name=John Doe'
@@ -57,7 +57,7 @@ stringifySearch({ name: 'John Doe' }, { encode: false })
 ### 处理空对象
 
 ```typescript
-import { stringifySearch } from '@esdora/biz'
+import { stringifySearch } from '@esdora/biz/qs'
 
 stringifySearch({})
 // => ''
@@ -118,6 +118,6 @@ function stringifySearch(
 
 ## 相关链接
 
-- 源码: `packages/biz/src/query/stringify.ts`
-- 类型定义: `packages/biz/src/query/types.ts`
+- 源码: `packages/biz/src/qs/stringify.ts`
+- 类型定义: `packages/biz/src/qs/types.ts`
 - 测试: `packages/biz/test/query.test.ts`

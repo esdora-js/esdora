@@ -112,8 +112,12 @@ export function createDynamicSidebar(docsRoot: string): DefaultTheme.Sidebar {
         text: '参考',
         items: [
           {
-            text: '查询工具 (Query)',
-            items: getSidebarItem(baseDir, 'packages/biz/reference/query'),
+            text: '查询工具 (qs)',
+            items: getSidebarItem(baseDir, 'packages/biz/reference/qs'),
+          },
+          {
+            text: 'css原子化 (atom-css)',
+            items: getSidebarItem(baseDir, 'packages/biz/reference/atom-css'),
           },
         ],
       },

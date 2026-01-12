@@ -23,3 +23,5 @@ bin/*
 
 .claude/settings.local.json
 .temp-types
+
+WebGUI.md

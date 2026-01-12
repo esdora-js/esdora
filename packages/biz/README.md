@@ -48,7 +48,7 @@ yarn add @esdora/biz
 
 ## 特性
 
-### Query String 工具 (query/)
+### Query String 工具 (qs/)
 
 提供查询字符串解析、序列化和合并等实用工具,基于 [qs](https://www.npmjs.com/package/qs) 库进行封装:
 
@@ -65,7 +65,7 @@ yarn add @esdora/biz
 ### Query String 工具
 
 ```typescript
-import { mergeQueryParams, parseSearch, stringifySearch } from '@esdora/biz'
+import { mergeQueryParams, parseSearch, stringifySearch } from '@esdora/biz/qs'
 
 // 解析查询字符串
 const params = parseSearch('?name=John&age=30')
@@ -86,7 +86,7 @@ console.log(merged) // { name: 'John', age: 25, city: 'Beijing' }
 ### 直接使用 qs API
 
 ```typescript
-import { parse, stringify } from '@esdora/biz'
+import { parse, stringify } from '@esdora/biz/qs'
 
 // 使用 qs 的 parse 方法
 const result = parse('foo[bar]=baz')
@@ -112,7 +112,7 @@ console.log(str) // 'foo[bar]=baz'
 测试文件遵循 `*.test.ts` 命名约定,与被测试的源文件同名但添加 `.test.ts` 后缀:
 
 ```
-src/query/
+src/qs/
 ├── parse.ts           # 源代码文件
 ├── parse.test.ts      # 对应的测试文件
 ├── stringify.ts       # 源代码文件
