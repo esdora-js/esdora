@@ -61,8 +61,6 @@ jobs:
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          NODE_AUTH_TOKEN: ''
-          NPM_TOKEN: ''
           NPM_CONFIG_PROVENANCE: true
 
       - name: Trigger docs deploy
