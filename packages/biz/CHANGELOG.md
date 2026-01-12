@@ -1,5 +1,20 @@
 # @esdora/biz
 
+## 0.2.0
+
+### Minor Changes
+
+- [#201](https://github.com/esdora-js/esdora/pull/201) [`019153b`](https://github.com/esdora-js/esdora/commit/019153bd4c5025381ce977c34baf52f64511e862) Thanks [@kkfive](https://github.com/kkfive)! - refactor: 重构函数导出路径和重命名查询字符串模块从 `query` 到 `qs`
+
+  ```diff
+  - import { parse, stringify } from '@esdora/biz/query'
+  + import { parse, stringify } from '@esdora/biz/qs'
+  ```
+
+- [#201](https://github.com/esdora-js/esdora/pull/201) [`019153b`](https://github.com/esdora-js/esdora/commit/019153bd4c5025381ce977c34baf52f64511e862) Thanks [@kkfive](https://github.com/kkfive)! - feat: 新增原子化css函数
+
+- [#201](https://github.com/esdora-js/esdora/pull/201) [`019153b`](https://github.com/esdora-js/esdora/commit/019153bd4c5025381ce977c34baf52f64511e862) Thanks [@kkfive](https://github.com/kkfive)! - feat: 新增原子化样式相关方法
+
 ## 0.1.1
 
 ### Patch Changes
