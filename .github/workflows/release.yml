@@ -35,7 +35,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }} # 使用动态生成的 token
           fetch-depth: 0
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           run_install: false
 
