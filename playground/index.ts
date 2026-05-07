@@ -5,4 +5,4 @@ console.log(isDigit('123'))
 // eslint-disable-next-line no-console
 console.log(kit.isDigit('123'))
 // eslint-disable-next-line no-console
-console.log(biz.parseSearch('https://example.com?foo=bar'))
+console.log(biz.qs.parseSearch('https://example.com?foo=bar'))

@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "prepublishOnly": "echo 'Meta package - no build required'",
+    "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },

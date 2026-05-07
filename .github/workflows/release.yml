@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Generate Token for Bot
         id: generate_token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
@@ -35,7 +35,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }} # 使用动态生成的 token
           fetch-depth: 0
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
 
