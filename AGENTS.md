@@ -12,15 +12,15 @@ Follow the rules below when contributing to this codebase.
 
 ## Quick Reference
 
-| Task | Command |
-|------|---------|
-| Install deps | `pnpm install` |
-| Build all | `pnpm build` |
-| Test all | `pnpm test` |
-| Lint | `pnpm lint` |
-| Typecheck | `pnpm typecheck` |
-| Dev mode | `pnpm dev` |
-| Docs site | `pnpm docs` |
+| Task         | Command          |
+| ------------ | ---------------- |
+| Install deps | `pnpm install`   |
+| Build all    | `pnpm build`     |
+| Test all     | `pnpm test`      |
+| Lint         | `pnpm lint`      |
+| Typecheck    | `pnpm typecheck` |
+| Dev mode     | `pnpm dev`       |
+| Docs site    | `pnpm docs`      |
 
 ## Documentation Layers
 
@@ -29,13 +29,13 @@ Follow the rules below when contributing to this codebase.
 
 ## Package Overview
 
-| Package | Version | Description | External Deps |
-|---------|---------|-------------|---------------|
-| @esdora/kit | 0.6.0 | Zero-dep utility functions | none |
-| @esdora/color | 0.3.3 | Color conversion/manipulation | culori |
-| @esdora/date | 0.1.5 | Date utilities | date-fns |
-| @esdora/biz | 0.2.0 | Business tools (qs, atom-css) | qs, cva, clsx, tailwind-merge |
-| esdora | 0.2.9 | Meta package (re-exports all) | all workspace packages |
+| Package       | Description                   | External Deps                 |
+| ------------- | ----------------------------- | ----------------------------- |
+| @esdora/kit   | Zero-dep utility functions    | none                          |
+| @esdora/color | Color conversion/manipulation | culori                        |
+| @esdora/date  | Date utilities                | date-fns                      |
+| @esdora/biz   | Business tools (qs, atom-css) | qs, cva, clsx, tailwind-merge |
+| esdora        | Meta package (re-exports all) | all workspace packages        |
 
 @include .agents/rules/01-project-overview.md
 @include .agents/rules/02-tech-stack.md

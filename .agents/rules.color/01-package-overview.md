@@ -3,7 +3,6 @@
 ## Identity
 
 - **Package**: @esdora/color
-- **Version**: 0.3.3
 - **Description**: Color conversion and manipulation with CSS string support
 - **Location**: packages/color/
 

@@ -2,7 +2,6 @@
 
 Package: Business utilities (query strings, atom CSS)
 Location: packages/biz/
-Version: 0.2.0
 
 @include ../../AGENTS.md
 @include ../../.agents/rules.biz/01-package-overview.md

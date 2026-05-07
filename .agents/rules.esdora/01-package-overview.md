@@ -3,7 +3,6 @@
 ## Identity
 
 - **Package**: esdora
-- **Version**: 0.2.9
 - **Description**: Meta package that aggregates all Esdora packages
 - **Location**: packages/esdora/
 

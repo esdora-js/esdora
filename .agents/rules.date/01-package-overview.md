@@ -3,7 +3,6 @@
 ## Identity
 
 - **Package**: @esdora/date
-- **Version**: 0.1.5
 - **Description**: Modern, immutable date utility library powered by date-fns
 - **Location**: packages/date/
 

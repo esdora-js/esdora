@@ -3,7 +3,6 @@
 ## Identity
 
 - **Package**: @esdora/kit
-- **Version**: 0.6.0
 - **Description**: Zero-dependency utility function library
 - **Location**: packages/kit/
 

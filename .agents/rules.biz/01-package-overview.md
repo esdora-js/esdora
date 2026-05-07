@@ -3,7 +3,6 @@
 ## Identity
 
 - **Package**: @esdora/biz
-- **Version**: 0.2.0
 - **Description**: Business utilities (query strings, atom CSS)
 - **Location**: packages/biz/
 

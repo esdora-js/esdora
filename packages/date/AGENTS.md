@@ -2,7 +2,6 @@
 
 Package: Date utilities powered by date-fns
 Location: packages/date/
-Version: 0.1.5
 
 @include ../../AGENTS.md
 @include ../../.agents/rules.date/01-package-overview.md

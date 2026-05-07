@@ -2,7 +2,6 @@
 
 Package: Color conversion and manipulation
 Location: packages/color/
-Version: 0.3.3
 
 @include ../../AGENTS.md
 @include ../../.agents/rules.color/01-package-overview.md

@@ -2,7 +2,6 @@
 
 Package: Zero-dependency utility function library
 Location: packages/kit/
-Version: 0.6.0
 
 @include ../../AGENTS.md
 @include ../../.agents/rules.kit/01-package-overview.md
