@@ -11,6 +11,7 @@ export default antfu(
     ignores: [
       '**/templates/**',
       'docs/templates/**',
+      'docs/contributing/documentation/**',
     ],
   },
 )

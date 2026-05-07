@@ -62,7 +62,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@esdora/kit": "workspace:*",
     "date-fns": "catalog:"
   }
 }
