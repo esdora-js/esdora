@@ -12,8 +12,6 @@ packages:
   - playground
   - docs
   - packages/*
-  - examples/*
-  - internal/*
 
 catalog:
   '@antfu/eslint-config': ^8.2.0
