@@ -1,0 +1,28 @@
+.:
+  _JSON: object
+  clamp: function
+  createSafe: function
+  getLeafPath: function
+  getQueryParams: function
+  isAlnum: function
+  isAlpha: function
+  isAndroid: function
+  isCircular: function
+  isDigit: function
+  isEmail: function
+  isEmailStrict: function
+  isExternalLink: function
+  isExternalLinkStrict: function
+  isFirefox: function
+  isHarmony: function
+  isIos: function
+  isMpSchema: function
+  isPhone: function
+  isSafari: function
+  safe: function
+  to: function
+  treeFilter: function
+  treeMap: function
+  treeSome: function
+./experimental:
+  _unstable_getVersion: function
