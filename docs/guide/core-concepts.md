@@ -7,7 +7,7 @@ description: 了解 Dora Pocket 中所有“道具”背后的设计哲学——
 
 `Dora Pocket` 不仅仅是函数的堆砌，它的每一个“道具”都遵循着一套统一的设计哲学。理解这些理念，将帮助你更好地使用我们的工具，并与我们的社区同频共振。
 
-### 🧩 补充，而非替代 (Supplement, Not Replace)
+## 🧩 补充，而非替代 (Supplement, Not Replace)
 
 这是我们最重要的原则。前端社区已经拥有像 [Lodash](https://lodash.com/)、[ES-Toolkit](https://es-toolkit.dev/) 这样极其优秀的、经过千锤百炼的基础工具库。
 

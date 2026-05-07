@@ -171,7 +171,7 @@ function treeMapDfsPre<T, U, Config extends TreeMapContextConfig>(
     }
 
     // 处理 children（保持原有逻辑）
-    const mappedHasChildren = mapped != null && Object.prototype.hasOwnProperty.call(mapped, childrenKey)
+    const mappedHasChildren = mapped != null && Object.hasOwn(mapped, childrenKey)
 
     if (!mappedHasChildren) {
       if (Array.isArray(originalChildren) && originalChildren.length > 0) {
@@ -327,7 +327,7 @@ function treeMapDfsPost<T, U, Config extends TreeMapContextConfig>(
     }
 
     // 检查映射后的对象是否定义了 childrenKey
-    const mappedHasChildren = mapped != null && Object.prototype.hasOwnProperty.call(mapped, childrenKey)
+    const mappedHasChildren = mapped != null && Object.hasOwn(mapped, childrenKey)
 
     if (!mappedHasChildren) {
       // 用户未处理 children，使用递归结果
@@ -454,7 +454,7 @@ function treeMapBfs<T, U, Config extends TreeMapContextConfig>(
     const currentIndex = parentList.length - 1
 
     // 检查映射后的对象是否定义了 childrenKey
-    const mappedHasChildren = mapped != null && Object.prototype.hasOwnProperty.call(mapped, childrenKey)
+    const mappedHasChildren = mapped != null && Object.hasOwn(mapped, childrenKey)
 
     if (!mappedHasChildren) {
       // 用户未处理 children，自动递归

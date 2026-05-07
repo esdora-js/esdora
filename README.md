@@ -93,7 +93,7 @@ if (checkCircularReference(obj)) {
 感谢所有已经为 `Dora Pocket` 做出贡献的人！
 
 <a href="https://github.com/esdora-js/esdora/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=esdora-js/esdora" />
+  <img src="https://contrib.rocks/image?repo=esdora-js/esdora" alt="Contributors" />
 </a>
 
 ## 📜 许可证

@@ -21,7 +21,7 @@ const scopeComplete = execSync('git status --porcelain || true')
   .toString()
   .trim()
   .split('\n')
-  .find(r => ~r.indexOf('M  src'))
+  .find(r => r.includes('M  src'))
   // eslint-disable-next-line regexp/no-unused-capturing-group
   ?.replace(/(\/)/g, '%%')
   // eslint-disable-next-line regexp/no-unused-capturing-group

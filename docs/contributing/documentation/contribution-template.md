@@ -713,7 +713,7 @@ open coverage/index.html
 
 **使用注释标记豁免**:
 \`\`\`typescript
-/_ istanbul ignore next _/
+/_istanbul ignore next_/
 function unreachableCode() {
 // 不会被覆盖率统计
 }
@@ -868,10 +868,10 @@ BREAKING CHANGE: isCircular now returns boolean instead of throwing errors.
 Migration: Replace try-catch blocks with if-else checks.
 
 Before:
-try { isCircular(obj) } catch { /_ handle _/ }
+try { isCircular(obj) } catch { /_handle_/ }
 
 After:
-if (isCircular(obj)) { /_ handle _/ }
+if (isCircular(obj)) { /_handle_/ }
 \`\`\`
 
 ### 提交粒度
