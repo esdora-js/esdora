@@ -322,9 +322,6 @@ importers:
 
   packages/date:
     dependencies:
-      '@esdora/kit':
-        specifier: workspace:*
-        version: link:../kit
       date-fns:
         specifier: 'catalog:'
         version: 4.1.0
