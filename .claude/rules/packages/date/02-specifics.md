@@ -11,6 +11,7 @@
 - Wrap date-fns with Esdora-specific convenience APIs
 
 ## Why
+
 date-fns is a battle-tested date library. Esdora adds project-specific convenience and re-exports.
 
 ## How to Apply

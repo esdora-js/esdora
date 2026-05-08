@@ -1,56 +1,58 @@
 ---
 title: mergeQueryParams
-description: "mergeQueryParams - Dora Pocket 中 @esdora/biz 库提供的查询参数合并工具函数，用于在保持 URL 结构的同时组合新旧查询字符串。"
+description: "@esdora/biz 的 mergeQueryParams 函数，将查询参数智能合并到现有 URL"
 ---
 
 # mergeQueryParams
 
-在不手动解析 URL 的情况下，将新的查询参数智能合并进现有 URL，可配置是否覆盖同名参数以及是否进行 URL 编码。
+将查询参数合并到现有 URL，支持覆盖/保留策略和编码控制。
 
 ## 示例
 
 ### 基本用法
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz/qs'
+import { mergeQueryParams } from '@esdora/biz'
 
-const url = mergeQueryParams('https://example.com?foo=bar', { baz: 'qux' })
+mergeQueryParams('https://example.com?foo=bar', { baz: 'qux' })
 // => 'https://example.com?foo=bar&baz=qux'
 ```
 
-### 默认覆盖模式
+### 覆盖现有参数
+
+默认情况下，新参数会覆盖 URL 中已有的同名参数：
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz/qs'
-
 mergeQueryParams('/path?id=1', { id: 2, name: 'test' })
 // => '/path?id=2&name=test'
-
-mergeQueryParams(
-  '/path?id=1&status=active',
-  { id: 2, page: 1 },
-  { override: true }
-)
-// => '/path?id=2&status=active&page=1'
 ```
 
-### 保留已有参数
+### 保留现有参数
+
+通过设置 `override: false`，保留 URL 中已有的参数：
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz/qs'
-
 mergeQueryParams('/path?id=1', { id: 2, name: 'test' }, { override: false })
 // => '/path?id=1&name=test'
 ```
 
-### 处理空参数与空查询
+### 禁用编码
 
 ```typescript
-import { mergeQueryParams } from '@esdora/biz/qs'
+mergeQueryParams('/path', { name: 'John Doe' }, { encode: false })
+// => '/path?name=John Doe'
+```
 
+### 处理无查询参数的 URL
+
+```typescript
 mergeQueryParams('https://example.com', { foo: 'bar' })
 // => 'https://example.com?foo=bar'
+```
 
+### 空参数对象
+
+```typescript
 mergeQueryParams('https://example.com?foo=bar', {})
 // => 'https://example.com?foo=bar'
 
@@ -58,80 +60,55 @@ mergeQueryParams('https://example.com', {})
 // => 'https://example.com'
 ```
 
-### 控制编码行为
-
-```typescript
-import { mergeQueryParams } from '@esdora/biz/qs'
-
-mergeQueryParams('/path', { name: 'John Doe' }, { encode: false })
-// => '/path?name=John Doe'
-```
-
-## 签名与说明
-
-### 类型签名
+## 签名
 
 ```typescript
 function mergeQueryParams(
   url: string,
   params: QueryObject,
-  options?: MergeOptions
+  options?: MergeOptions,
 ): string
 ```
 
-### 参数说明
+## 参数
 
-| 参数    | 类型           | 描述                                           | 必需 |
-| ------- | -------------- | ---------------------------------------------- | ---- |
-| url     | `string`       | 需要合并查询参数的基础 URL，可带现有查询字符串 | 是   |
-| params  | `QueryObject`  | 待合并的查询参数对象                           | 是   |
-| options | `MergeOptions` | 控制覆盖策略与编码行为                         | 否   |
+| 参数    | 类型           | 描述                               | 必需 |
+| ------- | -------------- | ---------------------------------- | ---- |
+| url     | `string`       | 基础 URL，可带或不带现有查询字符串 | 是   |
+| params  | `QueryObject`  | 要合并的查询参数对象               | 是   |
+| options | `MergeOptions` | 合并行为选项                       | 否   |
 
-**MergeOptions**：
+### MergeOptions
 
-| 属性     | 类型      | 描述                            | 默认值 |
-| -------- | --------- | ------------------------------- | ------ |
-| override | `boolean` | 是否由新参数覆盖同名旧参数      | `true` |
-| encode   | `boolean` | 生成查询字符串时是否做 URL 编码 | `true` |
+| 字段     | 类型      | 描述                                  | 默认值 |
+| -------- | --------- | ------------------------------------- | ------ |
+| override | `boolean` | 是否用新参数覆盖 URL 中已有的同名参数 | `true` |
+| encode   | `boolean` | 是否对生成的查询字符串进行 URL 编码   | `true` |
 
-### 返回值
+## 返回值
 
 - **类型**: `string`
-- **说明**: 带有最新查询参数的完整 URL，如最终无参数则返回基础 URL
+- **说明**: 合并后的完整 URL。如果合并后没有查询参数，则返回不带 `?` 的基础 URL。
 - **特殊情况**:
-  - `params` 为空对象且原 URL 不带查询字符串时，直接返回基础 URL
-  - `override: false` 时会保留原有同名参数值
+  - 当 `params` 为空对象且 URL 也无查询参数时，返回原始 URL（不带 `?`）
+  - 当 `params` 为空对象但 URL 有查询参数时，保留原有查询参数
 
-### 泛型约束（如适用）
-
-- 本函数不使用泛型；内部解析结果依赖 `qs.parse` 的结构。
-
-## 注意事项与边界情况
+## 注意事项
 
 ### 输入边界
 
-- 自动识别并保留 URL 的基础部分（`?` 之前），仅在查询部分进行合并
-- 空 `params` 会保留原查询字符串，不会添加多余的 `?`
-- 当 URL 原本没有查询字符串时，会在结果中自动添加 `?`（除非没有参数需要添加）
+- `url` 可以是完整 URL（如 `https://example.com?foo=bar`）或仅路径（如 `/path?id=1`）
+- `url` 不带查询参数时，函数会自动添加 `?`
+- `params` 为空对象 `{}` 时，行为取决于 URL 是否已有查询参数
+- 通过 `encode: false` 可保留原始字符（如空格），但可能导致 URL 不合法
 
 ### 错误处理
 
-- **异常类型**: 正常输入不会抛错，但极端非法的查询字符串可能让 `qs.parse` 抛出 `Error`
-- **处理建议**: 如需处理外部来源的 URL，可在调用外层包裹 `try...catch` 并对输入做校验
-
-### 性能考虑
-
-- **时间复杂度**: O(n + m)，`n` 为现有查询字符串长度，`m` 为新参数数量
-- **空间复杂度**: O(n + m)，需要创建解析结果和合并对象
-- **优化建议**: 高频率对同一 URL 反复合并时，可缓存解析结果或直接维护参数对象再拼接
-
-### 兼容性
-
-- 依赖 `qs` 库，可运行于 Node.js ≥ 14 及现代浏览器环境
-- 输出的查询格式与 `qs.stringify` 对称，可被服务器端 `qs.parse` 或 `parseSearch` 完整还原
+- 本函数不抛出异常
+- 对于非法输入（如非字符串 url），行为取决于底层 `qs.parse` 的处理方式
+- 建议调用方确保 `url` 为有效字符串
 
 ## 相关链接
 
-- 源码: `packages/biz/src/qs/parse.ts`
-- 类型定义: `packages/biz/src/qs/types.ts`
-- 测试: `packages/biz/test/query.test.ts`
+- [源码](https://github.com/kkfive/esdora/blob/main/packages/biz/src/qs/parse/index.ts)
+- [单元测试](https://github.com/kkfive/esdora/blob/main/packages/biz/src/qs/parse/index.test.ts)

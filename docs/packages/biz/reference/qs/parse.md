@@ -1,11 +1,11 @@
 ---
 title: parse
-description: "parse - Dora Pocket 中 @esdora/biz 库重新导出的基础查询解析函数，用于直接将查询字符串转换为对象。"
+description: '@esdora/biz 的 parse 函数，将查询字符串解析为对象，支持嵌套对象与数组格式'
 ---
 
 # parse
 
-直接暴露 `qs.parse` 的全部能力，适合已经持有查询字符串时的解析场景，提供最原始、最灵活的解析体验。
+将查询字符串解析为对象。该函数重新导出自 `qs` 库，支持嵌套对象、数组以及多种解析选项。
 
 ## 示例
 
@@ -14,20 +14,18 @@ description: "parse - Dora Pocket 中 @esdora/biz 库重新导出的基础查询
 ```typescript
 import { parse } from '@esdora/biz/qs'
 
-const query = parse('foo=bar&baz=qux')
-// => { foo: 'bar', baz: 'qux' }
+parse('foo=bar&baz=qux') // => { foo: 'bar', baz: 'qux' }
 ```
 
-### 处理空字符串
+### 空字符串
 
 ```typescript
 import { parse } from '@esdora/biz/qs'
 
-parse('')
-// => {}
+parse('') // => {}
 ```
 
-### 嵌套对象（与 parseSearch 测试一致）
+### 嵌套对象
 
 ```typescript
 import { parse } from '@esdora/biz/qs'
@@ -36,66 +34,94 @@ parse('user[name]=John&user[age]=30')
 // => { user: { name: 'John', age: '30' } }
 ```
 
-> 示例沿用 `parseSearch` 的“解析嵌套对象”测试数据，因为两者都依赖 `qs.parse`。
-
-## 签名与说明
-
-### 类型签名
+### 特殊字符解码
 
 ```typescript
-function parse<T extends QueryObject = QueryObject>(
-  str: string,
-  options?: ParseOptions
-): ParsedQuery<T>
+import { parse } from '@esdora/biz/qs'
+
+parse('name=John%20Doe&email=test%40example.com')
+// => { name: 'John Doe', email: 'test@example.com' }
 ```
 
-> 说明：在源码中通过 `export { parse } from 'qs'` 直接重导，所以其行为与 `qs.parse` 完全一致；此处的 `ParsedQuery<T>` 旨在说明你可以在调用处通过类型断言获得更精准的返回类型。
+### 使用解析选项
 
-### 参数说明
+```typescript
+import { parse } from '@esdora/biz/qs'
 
-| 参数    | 类型           | 描述                                                    | 必需 |
-| ------- | -------------- | ------------------------------------------------------- | ---- |
-| str     | `string`       | 已经提取好的查询字符串（不需要前导 `?`）                | 是   |
-| options | `ParseOptions` | `qs.parse` 支持的全部选项，如 `decoder`、`allowDots` 等 | 否   |
+// 自定义 decoder 将数字字符串转为 number
+parse('id=123&name=test', {
+  decoder: (str) => {
+    const num = Number(str)
+    return Number.isNaN(num) ? str : num
+  },
+})
+// => { id: 123, name: 'test' }
+```
 
-### 返回值
+## 签名
 
-- **类型**: `ParsedQuery<T>`
-- **说明**: 与 `T` 对齐的查询对象，默认即 `Record<string, any>`
+```typescript
+export function parse(
+  str: string,
+  options?: ParseOptions,
+): { [key: string]: unknown }
+```
+
+## 参数
+
+| 参数      | 类型           | 描述               | 必需 |
+| --------- | -------------- | ------------------ | ---- |
+| `str`     | `string`       | 要解析的查询字符串 | 是   |
+| `options` | `ParseOptions` | `qs` 的解析选项    | 否   |
+
+### ParseOptions
+
+`ParseOptions` 继承自 `qs.IParseOptions`，常用字段如下：
+
+| 字段                       | 类型                             | 描述                                                         | 默认值       |
+| -------------------------- | -------------------------------- | ------------------------------------------------------------ | ------------ |
+| `allowDots`                | `boolean`                        | 是否允许点号表示嵌套对象，如 `a.b=c`                         | `false`      |
+| `allowPrototypes`          | `boolean`                        | 是否允许覆盖对象原型属性                                     | `false`      |
+| `arrayLimit`               | `number`                         | 数组索引上限，超过则转为对象                                 | `20`         |
+| `charset`                  | `string`                         | 字符编码，如 `'utf-8'`                                       | `'utf-8'`    |
+| `charsetSentinel`          | `boolean`                        | 是否检测 UTF-8 编码哨兵                                      | `false`      |
+| `comma`                    | `boolean`                        | 是否将逗号分隔的值解析为数组                                 | `false`      |
+| `decoder`                  | `function`                       | 自定义解码函数 `(str, defaultDecoder, charset, type) => any` | 内置 decoder |
+| `depth`                    | `number`                         | 嵌套对象解析深度限制                                         | `5`          |
+| `duplicates`               | `'combine' \| 'first' \| 'last'` | 重复键的处理策略                                             | `'combine'`  |
+| `ignoreQueryPrefix`        | `boolean`                        | 是否忽略前导 `?`                                             | `false`      |
+| `interpretNumericEntities` | `boolean`                        | 是否将 `&#xHHHH;` 解释为 Unicode                             | `false`      |
+| `parameterLimit`           | `number`                         | 最大参数数量限制                                             | `1000`       |
+| `parseArrays`              | `boolean`                        | 是否解析数组格式                                             | `true`       |
+| `plainObjects`             | `boolean`                        | 是否使用 `Object.create(null)` 创建结果                      | `false`      |
+| `strictNullHandling`       | `boolean`                        | 是否严格处理 `null` 值                                       | `false`      |
+
+## 返回值
+
+- **类型**: `{ [key: string]: unknown }`
+- **说明**: 解析后的查询对象，键为字符串，值可以是字符串、数组或嵌套对象
 - **特殊情况**:
-  - 传入空字符串 `''` 将返回空对象
-  - 不合法的键值对由 `qs` 负责解析与错误提示
+  - 传入空字符串 `''` 时返回空对象 `{}`
+  - 当 `parseArrays: true` 时，`a[0]=1&a[1]=2` 解析为 `{ a: ['1', '2'] }`
+  - 当 `allowDots: true` 时，`a.b=c` 解析为 `{ a: { b: 'c' } }`
+  - 重复键默认合并为数组，`a=1&a=2` 解析为 `{ a: ['1', '2'] }`
 
-### 泛型约束
-
-- **`T extends QueryObject`**: 允许为解析结果指定更精确的类型结构，默认值为 `QueryObject`。
-
-## 注意事项与边界情况
+## 注意事项
 
 ### 输入边界
 
-- `str` 可包含嵌套语法（如 `a[b]=1`），`qs` 会保留层级结构
-- 若 `str` 含 URL 编码字符，将在解析过程中自动解码
-- 建议传入纯查询字符串；如包含 `?` 可先移除以避免多余字符
+- 空字符串返回空对象 `{}`
+- 仅包含 `?` 的字符串（如 `'?'`）若未设置 `ignoreQueryPrefix: true`，会将 `?` 作为键名解析
+- 嵌套对象深度超过 `depth` 限制时，深层键名将作为普通字符串键保留
+- 数组索引超过 `arrayLimit` 时，该键值对将转为对象而非数组
 
 ### 错误处理
 
-- **异常类型**: 仅在极端非法字符串或超大输入导致 `qs` 解析失败时会抛出 `Error`
-- **处理建议**: 对来源不可信的数据进行校验或包裹 `try...catch`；常规使用无需特殊处理
-
-### 性能考虑
-
-- **时间复杂度**: O(n)，`n` 为字符串长度
-- **空间复杂度**: O(n)，输出对象大小与输入规模成正比
-- **优化建议**: 高频解析时可缓存结果；若只需部分参数，可考虑更轻量的解析策略
-
-### 兼容性
-
-- 可运行在 Node.js ≥ 14 及任意现代浏览器（经打包）环境
-- 解析格式与 `stringifySearch`、`qs.stringify` 相互对称，便于前后端协同
+- 本函数不抛出异常，对任意字符串输入均返回对象
+- 非法 URL 编码序列会被保留原样或按 `decoder` 的行为处理
+- 若传入非字符串类型，可能因 `qs` 内部行为导致意外结果，建议始终传入字符串
 
 ## 相关链接
 
-- 源码: `packages/biz/src/qs/parse.ts`
-- 类型定义: `packages/biz/src/qs/types.ts`
-- 测试: `packages/biz/test/query.test.ts`
+- [源码](https://github.com/esdora-js/esdora/blob/main/packages/biz/src/qs/parse/index.ts)
+- [单元测试](https://github.com/esdora-js/esdora/blob/main/packages/biz/src/qs/parse/index.test.ts)

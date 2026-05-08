@@ -19,7 +19,7 @@ Culori provides battle-tested color math. Re-exporting gives users direct access
 
 - Use culori for low-level color math operations
 - Export convenience functions with Esdora naming conventions
-- Internal types prefixed with Esdora (see _internal/types.ts for current naming)
+- Internal types prefixed with Esdora (see \_internal/types.ts for current naming)
 - Do NOT re-export internal helpers
 
 ## Verification

@@ -18,12 +18,12 @@ Read each package's package.json to determine current dependency relationships (
 
 ### Layer Principles
 
-| Layer | Characteristic |
-|-------|---------------|
+| Layer      | Characteristic                                             |
+| ---------- | ---------------------------------------------------------- |
 | Foundation | Zero runtime dependencies; other packages may depend on it |
-| Library | Depends on foundation layer + external libraries |
-| Standalone | No workspace dependencies; self-contained |
-| Meta | Aggregates/re-exports from multiple workspace packages |
+| Library    | Depends on foundation layer + external libraries           |
+| Standalone | No workspace dependencies; self-contained                  |
+| Meta       | Aggregates/re-exports from multiple workspace packages     |
 
 ### Constraints
 

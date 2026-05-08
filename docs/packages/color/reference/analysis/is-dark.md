@@ -1,11 +1,13 @@
 ---
 title: isDark
-description: "isDark - Dora Pocket 中 @esdora/color 库提供的亮度分析工具函数，用于判断一个颜色是亮色还是暗色。"
+description: '@esdora/color 的 isDark 函数，检查一个颜色是否为暗色'
 ---
 
 # isDark
 
-基于 OKLCH 颜色空间的感知亮度，判断传入颜色是“暗色”还是“亮色”，并在无法解析颜色时返回 `null`。
+检查一个颜色是否是"暗色"。
+
+该函数基于 OKLCH 色彩空间的亮度（L）通道进行判断，当亮度值低于 `0.5` 时判定为暗色。支持多种颜色输入格式，包括 HEX 字符串、CSS 颜色名、HSL 字符串以及颜色对象。
 
 ## 示例
 
@@ -14,109 +16,83 @@ description: "isDark - Dora Pocket 中 @esdora/color 库提供的亮度分析工
 ```typescript
 import { isDark } from '@esdora/color'
 
-// 亮色示例
-isDark('#FFFFFF')
-// => false
-
-isDark('yellow')
-// => false
-
-// 暗色示例
-isDark('#000000')
-// => true
-
-isDark('#000080')
-// => true
+isDark('#FFFFFF') // => false
+isDark('#000000') // => true
+isDark('yellow') // => false
 ```
 
-### 多种颜色格式支持
+### 多种输入格式
 
 ```typescript
 import { isDark } from '@esdora/color'
+
+// RGB 对象
+isDark({ r: 255, g: 255, b: 255 }) // => false
 
 // HSL 字符串
-isDark('hsl(0, 0%, 0%)')
-// => true
-
-// RGB 颜色对象
-isDark({ r: 255, g: 255, b: 255 } as any)
-// => false
+isDark('hsl(0, 0%, 0%)') // => true
 
 // culori 颜色对象
-isDark({ mode: 'rgb', r: 0, g: 0, b: 0 })
-// => true
+isDark({ mode: 'rgb', r: 0, g: 0, b: 0 }) // => true
 ```
 
-### 无效输入与边界情况
+### 无效输入
 
 ```typescript
 import { isDark } from '@esdora/color'
 
-// 无效颜色字符串
-isDark('invalid-color')
-// => null
-
-// 空字符串
-isDark('')
-// => null
-
-// 结构不正确的对象
-isDark({ invalid: 'object' } as any)
-// => null
+isDark('invalid-color') // => null
+isDark('') // => null
+isDark(null as any) // => null
+isDark(undefined as any) // => null
 ```
 
-## 签名与说明
-
-### 类型签名
+## 签名
 
 ```typescript
-export function isDark(color: string | EsdoraColor): boolean | null
+function isDark(color: string | EsdoraColor): boolean | null
 ```
 
-### 参数说明
+## 参数
 
-| 参数    | 类型                    | 描述                                                                   | 必需 |
-| ------- | ----------------------- | ---------------------------------------------------------------------- | ---- |
-| `color` | `string \| EsdoraColor` | 要检查的颜色。支持 Hex、RGB、HSL 等格式的字符串或 `EsdoraColor` 对象。 | 是   |
+| 参数  | 类型                    | 描述                         | 必需 |
+| ----- | ----------------------- | ---------------------------- | ---- |
+| color | `string \| EsdoraColor` | 要检查的颜色字符串或颜色对象 | 是   |
 
-### 返回值
+`EsdoraColor` 支持以下形式：
 
-- **类型**: `boolean \| null`
-- **说明**:
-  - 返回 `true` 表示该颜色在 OKLCH 颜色空间的亮度值较低，被视为“暗色”。
-  - 返回 `false` 表示该颜色亮度较高，被视为“亮色”。
-  - 返回 `null` 表示输入不是有效颜色或无法完成到 OKLCH 的转换。
+- HEX 字符串（如 `'#FFFFFF'`、`'#000'`）
+- CSS 颜色名（如 `'red'`、`'yellow'`）
+- HSL 字符串（如 `'hsl(0, 0%, 0%)'`）
+- RGB 对象（如 `{ r: 255, g: 255, b: 255 }`）
+- culori 颜色对象（如 `{ mode: 'rgb', r: 0, g: 0, b: 0 }`）
+- OKLCH 颜色对象（如 `{ mode: 'oklch', l: 0.5, c: 0, h: 0 }`）
+
+## 返回值
+
+- **类型**: `boolean | null`
+- **说明**: 如果颜色被认为是暗色，返回 `true`；如果是亮色，返回 `false`
 - **特殊情况**:
-  - 当 OKLCH 结果中的亮度通道 `l` 为 `undefined` 时，会使用默认值 `1`，因此该颜色会被视为“亮色”（返回 `false`）。
-  - 当亮度值恰好等于阈值 `0.5` 时，函数也会返回 `false`，视为“亮色”。
+  - 输入无效或无法解析时，返回 `null`
+  - OKLCH 亮度值（`l`）为 `undefined` 时，使用默认值 `1` 判断为亮色
+  - 亮度值恰好等于阈值 `0.5` 时，判断为亮色（`false`）
 
-### 泛型约束（如适用）
-
-本函数未使用泛型类型参数。
-
-## 注意事项与边界情况
+## 注意事项
 
 ### 输入边界
 
-- 支持的输入包括：
-  - 十六进制颜色字符串（如 `'#FFFFFF'`、`'#000000'`）
-  - CSS 颜色字符串（如 `'yellow'`、`'hsl(0, 0%, 0%)'`）
-  - 兼容 culori 的颜色对象（如 `{ mode: 'rgb', r: 0, g: 0, b: 0 }`）
-- 当输入为空字符串、`null`、`undefined` 或结构不正确的对象时，均视为无效输入并返回 `null`。
+- 空字符串、`null`、`undefined` 均返回 `null`
+- 无法识别的颜色字符串返回 `null`
+- 结构不合法的颜色对象可能返回 `null`
+- 亮度阈值固定为 `0.5`，不提供自定义阈值参数
 
 ### 错误处理
 
-- 内部首先尝试解析颜色；如果解析失败，则直接返回 `null`。
-- 当解析成功但转换为 OKLCH 格式时抛出错误（例如颜色对象 `mode` 字段为不支持的值）时，会捕获异常并返回 `null`。
-- 函数本身不会向外抛出异常，调用方只需根据返回值为 `true` / `false` / `null` 做分支处理。
-
-### 性能考虑
-
-- **时间复杂度**: O(1) —— 每次调用只进行一次解析与一次转换。
-- **空间复杂度**: O(1) —— 仅创建少量中间颜色对象。
-- **优化建议**:
-  - 对同一颜色进行多次明暗判断时，可在业务逻辑中缓存结果，避免重复解析和转换。
+- 函数不会抛出异常
+- 解析失败或颜色转换失败时静默返回 `null`
+- 内部使用 `try/catch` 捕获 `oklch` 转换异常
 
 ## 相关链接
 
-- [源码](https://github.com/esdora-js/esdora/blob/main/packages/color/src/analysis/is-dark/index.ts)
+- [源码](https://github.com/DreamyTZK/esdora/blob/main/packages/color/src/analysis/is-dark/index.ts)
+- [单元测试](https://github.com/DreamyTZK/esdora/blob/main/packages/color/src/analysis/is-dark/index.test.ts)

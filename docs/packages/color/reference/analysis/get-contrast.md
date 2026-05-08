@@ -1,78 +1,106 @@
 ---
 title: getContrast
-description: getContrast - 来自 Dora Pocket 的颜色“道具”，用于计算两种颜色之间的对比度。
+description: "@esdora/color 的 getContrast 函数，计算两种颜色之间的 WCAG 对比度。"
 ---
 
 # getContrast
 
-<!-- 1. 简介：一句话核心功能描述 -->
-
-计算两种颜色之间的 WCAG 对比度，返回值范围为 1 (最低) 到 21 (最高)。
-
-<!-- 2. 示例：由核心功能和从测试用例中提炼的场景组成 -->
+计算两种颜色之间的对比度，返回符合 WCAG（Web Content Accessibility Guidelines）标准的对比度数值。
 
 ## 示例
 
 ### 基本用法
 
 ```typescript
-import { getContrast } from '@esdora/kit'
+import { getContrast } from '@esdora/color'
 
-// 计算纯白和纯黑的对比度
-const contrast = getContrast('#FFFFFF', '#000000')
-// => 21
-
-// 计算一个较低对比度的例子
-const lowContrast = getContrast('#808080', '#FFFFFF')
-// => 2.154133400514332
+getContrast('#FFFFFF', '#000000') // => 21
+getContrast('#808080', '#FFFFFF') // => 3.949
 ```
 
-### 支持多种颜色格式
-
-函数不仅支持 HEX 字符串，还支持 RGB 字符串以及 `EsdoraColor` 对象。
+### 不同颜色格式
 
 ```typescript
-// 使用 RGB 字符串
-getContrast('rgb(255, 255, 255)', 'rgb(0, 0, 0)')
-// => 21
+import { getContrast } from '@esdora/color'
 
-// 使用 EsdoraColor 对象
+// RGB 字符串
+getContrast('rgb(255, 255, 255)', 'rgb(0, 0, 0)') // => 21
+
+// 颜色对象
 getContrast(
   { r: 255, g: 255, b: 255, mode: 'rgb' },
-  { r: 0, g: 0, b: 0, mode: 'rgb' }
-)
-// => 21
+  { r: 0, g: 0, b: 0, mode: 'rgb' },
+) // => 21
 ```
 
-<!-- 3. 签名与说明：合并了签名、参数、返回值的唯一技术核心 -->
-
-## 签名与说明
+### 无效颜色
 
 ```typescript
-/**
- * 计算两种颜色之间的对比度。
- *
- * @remarks
- * 这个函数对于确保文本和背景色符合 WCAG (Web Content Accessibility Guidelines)
- * 等可访问性标准至关重要。一个常见的标准是，普通文本的对比度应至少为 4.5:1。
- * 返回值的范围为 1 到 21。
- *
- * @param color1 - 第一个颜色，可以是十六进制、RGB 等格式的字符串，或 EsdoraColor 对象。
- * @param color2 - 第二个颜色，格式同上。
- * @returns 两种颜色之间的对比度数值。如果任一颜色无法被正确解析，则返回 `null`。
- */
-export function getContrast(color1: string | EsdoraColor, color2: string | EsdoraColor): number | null
+import { getContrast } from '@esdora/color'
+
+getContrast('invalid-color', '#000000') // => null
+getContrast('#ffffff', 'invalid-color') // => null
+getContrast('invalid-color1', 'invalid-color2') // => null
 ```
 
-<!-- 4. 注意事项与边界情况：建立用户信任 -->
+## 签名
 
-## 注意事项与边界情况
+```typescript
+function getContrast(
+  color1: string | EsdoraColor,
+  color2: string | EsdoraColor,
+): number | null
+```
 
-- **关于无效颜色**: 如果 `color1` 或 `color2` 中任何一个参数是无效的颜色值（例如，拼写错误的字符串 `'invalid-color'` 或 `null`），函数将无法进行计算并返回 `null`。
-- **关于返回值**: 成功时返回一个 `1` 到 `21` 之间的数字。对比度越高，数值越大。根据 WCAG 标准，`4.5` 通常被视为普通文本可接受的最小对比度。
+## 参数
 
-<!-- 5. 相关链接：提供相关函数及源码的链接 -->
+| 参数   | 类型                    | 描述                                  | 必需 |
+| ------ | ----------------------- | ------------------------------------- | ---- |
+| color1 | `string \| EsdoraColor` | 第一个颜色，支持 CSS 字符串或颜色对象 | 是   |
+| color2 | `string \| EsdoraColor` | 第二个颜色，支持 CSS 字符串或颜色对象 | 是   |
+
+## 返回值
+
+- **类型**: `number \| null`
+- **说明**: 两种颜色之间的 WCAG 对比度数值，范围从 1（完全相同）到 21（黑白极端）。
+- **特殊情况**: 当任一颜色无法解析时，返回 `null`。
+
+## 运行逻辑
+
+```mermaid
+flowchart TD
+    A[输入 color1, color2] --> B[parseColor 解析 color1]
+    B --> C[parseColor 解析 color2]
+    C --> D{任一解析失败?}
+    D -->|是| E[返回 null]
+    D -->|否| F[调用 wcagContrast 计算]
+    F --> G[返回对比度数值]
+```
+
+函数首先分别解析两个输入颜色，如果任一解析失败则直接返回 `null`；解析成功后调用 culori 的 `wcagContrast` 计算并返回对比度比值。
+
+## 注意事项
+
+### 输入边界
+
+- 支持 CSS 颜色字符串（如 `#FFFFFF`、`rgb(255, 255, 255)`）和 Esdora 颜色对象（如 `{ r, g, b, mode: 'rgb' }`）。
+- 传入 `null` 或其他无法解析的值时，函数返回 `null`，不会抛出异常。
+
+### 错误处理
+
+- 函数**不抛出异常**，所有错误情况通过返回 `null` 表达。
+- 即使两个颜色都无效，也返回 `null`。
+
+### 性能考虑
+
+- **时间复杂度**: O(1) — 仅涉及两次颜色解析和一次对比度计算，无遍历操作。
+- **空间复杂度**: O(1) — 不依赖额外数据结构。
+
+### 兼容性
+
+- **环境要求**: 依赖 culori 的 `wcagContrast` 函数，适用于所有支持 ESM 的现代 JavaScript 运行时。
 
 ## 相关链接
 
-- **源码**: [`packages/packages/color/src/analysis/get-contrast/index.ts`](https://github.com/esdora-js/esdora/blob/main/packages/packages/color/src/analysis/get-contrast/index.ts)
+- [源码](https://github.com/kkfive/esdora/tree/main/packages/color/src/analysis/get-contrast/index.ts)
+- [单元测试](https://github.com/kkfive/esdora/tree/main/packages/color/src/analysis/get-contrast/index.test.ts)

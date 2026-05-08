@@ -11,13 +11,13 @@
 
 ## Package 列表
 
-| Package | 路径 | 类型 | 技术栈 | 规则 |
-|---------|------|------|--------|------|
-| @esdora/kit | packages/kit | library (零依赖) | vanilla TS | [规则](packages/kit/) |
-| @esdora/color | packages/color | library | vanilla TS + culori | [规则](packages/color/) |
-| @esdora/date | packages/date | library | vanilla TS + date-fns | [规则](packages/date/) |
-| @esdora/biz | packages/biz | library (独立) | vanilla TS + business deps | [规则](packages/biz/) |
-| esdora | packages/esdora | meta package | re-exports | [规则](packages/esdora/) |
+| Package       | 路径            | 类型             | 技术栈                     | 规则                     |
+| ------------- | --------------- | ---------------- | -------------------------- | ------------------------ |
+| @esdora/kit   | packages/kit    | library (零依赖) | vanilla TS                 | [规则](packages/kit/)    |
+| @esdora/color | packages/color  | library          | vanilla TS + culori        | [规则](packages/color/)  |
+| @esdora/date  | packages/date   | library          | vanilla TS + date-fns      | [规则](packages/date/)   |
+| @esdora/biz   | packages/biz    | library (独立)   | vanilla TS + business deps | [规则](packages/biz/)    |
+| esdora        | packages/esdora | meta package     | re-exports                 | [规则](packages/esdora/) |
 
 ## 共享规则
 

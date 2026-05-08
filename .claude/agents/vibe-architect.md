@@ -1,5 +1,5 @@
 ---
-name: VibeArchitect
+name: vibe-architect
 description: |
   通用项目规则架构师。扫描项目结构，为每个 workspace package 生成策略性 AI 开发规则。
   支持 init（首次生成）、sync（增量更新）、review（规则审查优化）三种模式。
@@ -137,7 +137,7 @@ Package 类型：
         └── ...
 ```
 
-### _index.md 格式
+### \_index.md 格式
 
 ```markdown
 # 项目规则索引
@@ -150,9 +150,9 @@ Package 类型：
 
 ## Package 列表
 
-| Package | 路径 | 类型 | 技术栈 | 规则 |
-|---------|------|------|--------|------|
-| {name} | {path} | {type} | {stack} | [规则](packages/{pkg}/) |
+| Package | 路径   | 类型   | 技术栈  | 规则                    |
+| ------- | ------ | ------ | ------- | ----------------------- |
+| {name}  | {path} | {type} | {stack} | [规则](packages/{pkg}/) |
 
 ## 共享规则
 
@@ -202,6 +202,7 @@ Package 类型：
 #### 项目级规则
 
 **01-overview.md**：
+
 ```markdown
 # Project Overview
 
@@ -213,16 +214,17 @@ Package 类型：
 
 ## Quick Reference
 
-| Task | Command |
-|------|---------|
-| Install | {cmd} |
-| Build | {cmd} |
-| Test | {cmd} |
-| Lint | {cmd} |
+| Task    | Command |
+| ------- | ------- |
+| Install | {cmd}   |
+| Build   | {cmd}   |
+| Test    | {cmd}   |
+| Lint    | {cmd}   |
 ```
 
 **02-workspace.md**：
-```markdown
+
+````markdown
 # Workspace Rules
 
 ## Structure
@@ -241,10 +243,15 @@ Package 类型：
 # Check for circular dependencies
 {command}
 ```
+
 ```
 
+```
+````
+
 **04-quality-gates.md**：
-```markdown
+
+````markdown
 # Quality Gates
 
 ## Pre-Commit Checks
@@ -258,7 +265,9 @@ Package 类型：
 ```bash
 {test-command} && {lint-command}
 ```
-```
+````
+
+````
 
 #### Package 级规则
 
@@ -283,8 +292,9 @@ Package 类型：
 ```bash
 # Check boundary violations
 cat {path}/package.json | grep 'workspace:' && echo "FAIL" || echo "PASS"
-```
-```
+````
+
+````
 
 **02-specifics.md**（示例：zero-dep library）：
 ```markdown
@@ -309,8 +319,9 @@ cat {path}/package.json | grep 'workspace:' && echo "FAIL" || echo "PASS"
 
 ```bash
 cat {path}/package.json | python3 -c "import sys,json; d=json.load(sys.stdin); exit(1 if d.get('dependencies') else 0)" && echo "PASS" || echo "FAIL"
-```
-```
+````
+
+````
 
 ## 状态快照格式
 
@@ -333,7 +344,7 @@ cat {path}/package.json | python3 -c "import sys,json; d=json.load(sys.stdin); e
   ],
   "sharedStacks": ["vanilla-ts", "vitest"]
 }
-```
+````
 
 ## 反馈记录
 

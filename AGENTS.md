@@ -26,6 +26,8 @@ Follow the rules below when contributing to this codebase.
 
 - **Human API docs**: `docs/` (VitePress site at esdora.js.org)
 - **AI dev guide**: `.claude/rules/` (see `_index.md` for the full rule index)
+- **AI agents**: `.claude/agents/` (intent-driven specialized agents, e.g. `doc-generator`)
+- **AI templates**: `.claude/templates/` (reusable prompt templates, e.g. `api-doc.md`)
 
 ## Package Overview
 

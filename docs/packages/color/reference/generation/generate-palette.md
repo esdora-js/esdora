@@ -1,11 +1,11 @@
 ---
 title: generatePalette
-description: generatePalette - 来自 Dora Pocket 的颜色“道具”，用于基于色彩理论生成和谐的调色板。
+description: "@esdora/color 的 generatePalette 函数，基于基础颜色生成和谐调色板"
 ---
 
 # generatePalette
 
-基于一个基础颜色，根据不同的色彩和谐理论（如单色、类似色、互补色等）生成一个颜色数组。
+基于基础颜色生成和谐调色板，支持多种色彩理论模式（单色调、类似色、互补色、三角色、四角色、分裂互补色）。
 
 ## 示例
 
@@ -14,56 +14,70 @@ description: generatePalette - 来自 Dora Pocket 的颜色“道具”，用于
 ```typescript
 import { generatePalette } from '@esdora/color'
 
-// 默认生成一个包含 5 种颜色的单色调色板（十六进制格式）
+// 使用默认参数生成单色调色板
 generatePalette('#3498db')
-// => ['#1a5490', '#2980b9', '#3498db', '#5dade2', '#85c1e9'] // 示例输出
+// => ['#151515', '#3e3e3e', '#676767', '#909090', '#3498db']
 
-// 可以通过 count 控制颜色数量
-generatePalette('#3498db', { type: 'monochromatic', count: 3 })
-// => ['#1a5490', '#2980b9', '#5dade2'] // 示例输出
-```
+// 生成指定数量的单色调色板
+generatePalette('#3498db', { type: 'monochromatic', count: 5 })
+// => ['#151515', '#3e3e3e', '#676767', '#909090', '#3498db']
 
-### 生成互补色调色板
-
-```typescript
-import { generatePalette } from '@esdora/color'
-
-// 'complementary' 类型会生成色轮上相对的颜色
-generatePalette('#ff0000', { type: 'complementary' })
-// => 至少包含 '#ff0000' 和其互补色 '#00ffff'
-
-// 可以指定生成更多数量的颜色，函数会自动调整明暗
-generatePalette('#ff0000', { type: 'complementary', count: 4, includeBase: true })
-// => ['#ff0000', '#00ffff', '#ff4d4d', '#00b3b3'] // 示例输出
-```
-
-### 生成类似色调色板
-
-```typescript
-import { generatePalette } from '@esdora/color'
-
-// 'analogous' 类型会生成色轮上相邻的颜色，常用于创建柔和、自然的配色方案
+// 生成类似色调色板
 generatePalette('#ff6b6b', { type: 'analogous', count: 3 })
-// => ['#ff9933', '#ff6b6b', '#ff3d9e'] // 示例输出
+// => ['#ff4343', '#ff6b6b', '#ff9494']
+
+// 生成互补色调色板
+generatePalette('#ff0000', { type: 'complementary' })
+// => ['#ff0000', '#00ffff', '#ff2a2a', '#00d4d4', '#ff5454']
+
+// 生成三角色调色板
+generatePalette('#ff0000', { type: 'triadic' })
+// => ['#ff0000', '#00ff00', '#0000ff']
+
+// 生成四角色调色板
+generatePalette('#9b59b6', { type: 'tetradic' })
+// => ['#9b59b6', '#59b69a', '#b6a059', '#b65976']
+
+// 生成分裂互补色调色板
+generatePalette('#ff0000', { type: 'split-complementary' })
+// => ['#ff0000', '#00ff80', '#0080ff']
 ```
 
-### 移除基础颜色
+### 排除基础颜色
 
 ```typescript
 import { generatePalette } from '@esdora/color'
 
-// 设置 includeBase: false 可以从结果中排除原始的基础颜色
+// 不包含基础颜色
+generatePalette('#3498db', { type: 'monochromatic', count: 5, includeBase: false })
+// => ['#151515', '#3e3e3e', '#676767', '#909090', '#b9b9b9']
+
+// 三角色调色板排除基础颜色
 generatePalette('#ff0000', { type: 'triadic', includeBase: false })
-// => ['#00ff00', '#0000ff'] // 示例输出
+// => ['#00ff00', '#0000ff']
 ```
 
-## 签名与说明
-
-### 类型签名
+### 处理无效输入
 
 ```typescript
-import type { Color } from '@esdora/color'
+import { generatePalette } from '@esdora/color'
 
+// 无效颜色字符串
+generatePalette('invalid-color')
+// => null
+
+// 空字符串
+generatePalette('')
+// => null
+
+// null 输入
+generatePalette(null as any)
+// => null
+```
+
+## 签名
+
+```typescript
 export interface PaletteOptions {
   /** 生成的颜色数量，默认为 5 */
   count?: number
@@ -74,60 +88,90 @@ export interface PaletteOptions {
 }
 
 export function generatePalette(
-  baseColor: string | Color,
-  options?: PaletteOptions,
+  baseColor: string | EsdoraColor,
+  options?: PaletteOptions
 ): string[] | null
 ```
 
-### 参数说明
+## 参数
 
-| 参数                | 类型              | 描述                                                                                                                | 必需 |
-| ------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------- | ---- |
-| baseColor           | `string \| Color` | 基础颜色字符串或 `Color` 颜色对象（由 `@esdora/color` 透出），支持 HEX、RGB、HSL 等格式                             | 是   |
-| options             | `PaletteOptions`  | 可选配置对象，用于控制生成数量、调色板类型以及是否包含基础颜色                                                      | 否   |
-| options.count       | `number`          | 生成的颜色数量，默认值为 `5`（对部分调色板类型会被忽略，见下文注意事项）                                            | 否   |
-| options.type        | 字面量联合类型    | 调色板类型：`'monochromatic'`、`'analogous'`、`'complementary'`、`'triadic'`、`'tetradic'`、`'split-complementary'` | 否   |
-| options.includeBase | `boolean`         | 是否在结果中包含基础颜色本身，默认包含                                                                              | 否   |
+| 参数        | 类型                    | 描述                                          | 必需 |
+| ----------- | ----------------------- | --------------------------------------------- | ---- |
+| `baseColor` | `string \| EsdoraColor` | 基础颜色，支持 hex、rgb、hsl 等格式或颜色对象 | 是   |
+| `options`   | `PaletteOptions`        | 调色板生成选项                                | 否   |
 
-### 返回值
+### PaletteOptions
+
+| 字段          | 类型                                                                                                    | 描述             | 默认值            |
+| ------------- | ------------------------------------------------------------------------------------------------------- | ---------------- | ----------------- |
+| `count`       | `number`                                                                                                | 生成的颜色数量   | `5`               |
+| `type`        | `'monochromatic' \| 'analogous' \| 'complementary' \| 'triadic' \| 'tetradic' \| 'split-complementary'` | 调色板类型       | `'monochromatic'` |
+| `includeBase` | `boolean`                                                                                               | 是否包含基础颜色 | `true`            |
+
+## 返回值
 
 - **类型**: `string[] | null`
-- **说明**: 返回一个由十六进制颜色字符串组成的数组，每个元素都是以 `'#'` 开头的有效 HEX 颜色。
+- **说明**: 生成的调色板颜色数组，所有颜色均为十六进制格式（`#RRGGBB`）。当输入颜色无效时返回 `null`。
 - **特殊情况**:
-  - 当基础颜色无法解析或内部转换失败时，返回 `null`。
-  - 对于部分调色板类型（如 `triadic`, `tetradic`, `split-complementary`），即使传入 `count`，返回数组长度仍然是固定的（分别为 3、4、3）。
+  - 输入为无效颜色字符串、空字符串或 `null` 时返回 `null`
+  - `monochromatic` 模式下，若 `includeBase` 为 `true` 且基础颜色不在生成的颜色中，会将基础颜色插入并按亮度排序，最终仍截断至 `count` 个
+  - `analogous` 模式下，若 `includeBase` 为 `false`，返回的颜色数量可能少于 `count`
+  - `triadic`、`tetradic`、`split-complementary` 模式的固定颜色数量分别为 3、4、3，不受 `count` 参数影响
 
-### 泛型约束（如适用）
+## 运行逻辑
 
-- 本函数不使用泛型类型参数。
+```mermaid
+flowchart TD
+    A[输入 baseColor 和 options] --> B[解析基础颜色]
+    B --> C{解析成功?}
+    C -->|否| D[返回 null]
+    C -->|是| E[转换为 HSL 颜色空间]
+    E --> F{调色板类型?}
+    F -->|monochromatic| G[按亮度步长生成分阶颜色]
+    F -->|analogous| H[在色轮 60度范围内生成相邻色]
+    F -->|complementary| I[生成互补色并交替添加明度变化]
+    F -->|triadic| J[生成相差 120度的三角色]
+    F -->|tetradic| K[生成相差 90度的四角色]
+    F -->|split-complementary| L[生成互补色两侧各 30度的颜色]
+    F -->|其他| G[默认按 monochromatic 处理]
+    G --> M{includeBase?}
+    H --> M
+    I --> M
+    J --> M
+    K --> M
+    L --> M
+    M -->|是| N[将基础颜色加入调色板]
+    M -->|否| O[过滤掉基础颜色]
+    N --> P[返回调色板数组]
+    O --> P
+```
 
-## 注意事项与边界情况
+函数首先将输入颜色解析为内部颜色对象，然后转换为 HSL 色彩空间。根据指定的 `type` 选择对应的生成算法，每种算法基于色彩理论在色轮上计算色相、饱和度或明度的变化。生成完成后，根据 `includeBase` 决定是否保留基础颜色，最终返回十六进制格式的颜色数组。
 
-- **关于输出格式**: 所有生成的颜色都将以十六进制字符串（如 `#ffffff`）的形式返回。
-- **关于默认行为**: 如果不提供任何 `options`，函数将默认生成一个包含 5 种颜色的 `monochromatic` (单色) 调色板，并包含基础颜色。
-- **关于无效输入**: 当 `baseColor` 参数为无效颜色字符串（如 `'invalid-color'`）、空字符串、`null` 或无法解析的对象时，函数将返回 `null`。
-- **关于 `count` 选项**:
-  - 对于 `triadic`, `tetradic`, `split-complementary` 类型，`count` 选项无效，它们总是返回固定数量的颜色（分别为 3, 4, 3）。
-  - 对于 `monochromatic`, `analogous`, `complementary` 类型，`count` 选项有效，用于控制最终生成的颜色数量。
-- **关于鲁棒性**: 即使输入的颜色对象缺少 `h`, `s`, `l` 等属性（值为 `undefined`），函数也会使用默认值 `0` 来处理，确保不会因意外输入而崩溃。
+## 注意事项
 
 ### 输入边界
 
-- 支持 HEX、RGB、HSL 字符串以及 HSL 颜色对象作为基础颜色。
-- 当基础颜色无法被解析为合法颜色时，函数返回 `null`。
-- 在单色调色板中，当基础颜色本身不在自动生成的序列中时，会将基础颜色插入后按亮度排序，并截取到指定的 `count` 长度。
+- `baseColor` 支持 hex（如 `#3498db`）、rgb（如 `rgb(255, 107, 107)`）、hsl（如 `hsl(0, 70%, 60%)`）等标准 CSS 颜色格式，也支持 `EsdoraColor` 对象
+- 当 `baseColor` 为 `EsdoraColor` 对象且 HSL 分量为 `undefined` 时，函数会使用默认值（`h: 0`、`s: 0`、`l: 0`）继续处理，不会抛出异常
+- `count` 参数仅在 `monochromatic`、`analogous`、`complementary` 模式下生效；`triadic`、`tetradic`、`split-complementary` 模式有固定的颜色数量
+- 无效的 `type` 值会被回退到 `monochromatic` 处理
 
 ### 错误处理
 
-- 内部使用颜色解析和 HSL/HEX 转换工具，当解析或转换过程中出现异常时，会返回 `null` 而不是抛出错误。
-- 建议在调用方对返回值进行空值检查，并在必要时提供默认调色板或回退策略。
+- 函数不会抛出异常。对于无效输入（无效颜色字符串、空字符串、`null` 等），返回 `null`
+- HSL 分量为 `undefined` 时通过 `?? 0` 回退到默认值，确保生成流程不中断
 
 ### 性能考虑
 
-- 时间复杂度大致为 O(`count`)，其中 `count` 为生成的颜色数量。
-- 在需要批量为大量基础颜色生成调色板的场景下，建议在业务层做结果缓存，避免对同一基础颜色反复调用。
-- 由于内部依赖颜色空间转换（HSL/HEX），在性能敏感路径中应避免在动画帧中频繁创建大规模调色板。
+- **时间复杂度**: `O(n)` — 其中 `n` 为 `count`，主要开销为循环生成颜色和可能的排序操作
+- **空间复杂度**: `O(n)` — 生成的调色板数组占用线性空间
+
+### 兼容性
+
+- **环境要求**: 依赖 `culori` 进行颜色格式转换，适用于所有支持 ES2015+ 的运行时
 
 ## 相关链接
 
-- [源码](https://github.com/esdora-js/esdora/blob/main/packages/color/src/generation/generate-palette/index.ts)
+- [源码](/packages/color/src/generation/generate-palette/index.ts)
+- [单元测试](/packages/color/src/generation/generate-palette/index.test.ts)
