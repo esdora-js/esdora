@@ -13,11 +13,16 @@
     "@esdora/kit": "workspace:*"
   },
   "devDependencies": {
+    "@braintree/sanitize-url": "catalog:",
     "@iconify-json/svg-spinners": "catalog:",
     "@shikijs/vitepress-twoslash": "catalog:",
     "@unocss/reset": "catalog:",
     "@vueuse/core": "catalog:",
     "chokidar": "catalog:",
+    "cytoscape": "catalog:",
+    "cytoscape-cose-bilkent": "catalog:",
+    "dayjs": "catalog:",
+    "debug": "catalog:",
     "fast-glob": "catalog:",
     "floating-vue": "catalog:",
     "mermaid": "catalog:",

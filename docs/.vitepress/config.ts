@@ -3,12 +3,13 @@ import { fileURLToPath } from 'node:url'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 import { createDynamicSidebar } from './libs/dynamic-sidebar'
 import vite from './vite.config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'Dora Pocket',
   titleTemplate: ':title | Dora Pocket',
   description: 'Dora Pocket - 前端开发的四次元口袋。一个包罗万象的知识宝库，提供从 TypeScript/JavaScript 工具函数、Vue/React 组件到前端工程化最佳实践的各种"道具"，助你轻松解决开发难题。',
@@ -101,4 +102,4 @@ export default defineConfig({
       copyright: `版权所有 © 2024-${new Date().getFullYear()} Esdora`,
     },
   },
-})
+}))
