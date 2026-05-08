@@ -25,7 +25,7 @@ Follow the rules below when contributing to this codebase.
 ## Documentation Layers
 
 - **Human API docs**: `docs/` (VitePress site at esdora.js.org)
-- **AI dev guide**: This file + `.agents/rules/`
+- **AI dev guide**: `.claude/rules/` (see `_index.md` for the full rule index)
 
 ## Package Overview
 
@@ -37,11 +37,4 @@ Follow the rules below when contributing to this codebase.
 | @esdora/biz   | Business tools (qs, atom-css) | qs, cva, clsx, tailwind-merge |
 | esdora        | Meta package (re-exports all) | all workspace packages        |
 
-@include .agents/rules/01-project-overview.md
-@include .agents/rules/02-tech-stack.md
-@include .agents/rules/03-monorepo-structure.md
-@include .agents/rules/04-coding-standards.md
-@include .agents/rules/05-testing-requirements.md
-@include .agents/rules/06-git-workflow.md
-@include .agents/rules/07-release-process.md
-@include .agents/rules/08-documentation.md
+@include .claude/rules/\_index.md
