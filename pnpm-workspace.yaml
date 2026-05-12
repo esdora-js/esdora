@@ -55,7 +55,7 @@ catalog:
   unplugin-vue-components: ^32.0.0
   vite: ^8.0.11
   vite-tsconfig-paths: ^5.1.4
-  vitepress: 2.0.0-alpha.12
+  vitepress: 2.0.0-alpha.17
   vitepress-plugin-group-icons: ^1.7.5
   vitepress-plugin-mermaid: ^2.0.17
   vitest: ^4.1.5
