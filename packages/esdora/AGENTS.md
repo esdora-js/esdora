@@ -1,8 +1,9 @@
-# esdora (meta) - AI Development Guide
+# esdora Agent Overlay
 
-Package: Meta package aggregating all Esdora packages
-Location: packages/esdora/
+Package: `esdora`
+Location: `packages/esdora/`
 
-@include ../../AGENTS.md
-@include ../../.agents/rules.esdora/01-package-overview.md
-@include ../../.agents/rules.esdora/02-namespace-exports.md
+Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+
+Package-specific boundary: this is the meta package. It should only re-export
+workspace packages and should not contain independent implementation.

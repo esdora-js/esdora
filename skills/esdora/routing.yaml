@@ -1,0 +1,81 @@
+primary: esdora
+always_read:
+  - skills/esdora/rules/project-rules.md
+  - skills/esdora/rules/coding-standards.md
+  - skills/esdora/rules/agent-behavior.md
+
+routes:
+  implement_utility:
+    labels: [feature, utility, package-change, api]
+    trigger_examples:
+      - Add a utility function to kit
+      - 实现 color 工具
+      - 新增 date API
+      - 修改 biz 的 query string 行为
+    required_reads:
+      - skills/esdora/rules/package-boundaries.md
+      - skills/esdora/rules/quality-gates.md
+    workflow: skills/esdora/workflows/implement-utility.md
+
+  create_package:
+    labels: [package, scaffold, workspace, new-package]
+    trigger_examples:
+      - 新建一个包
+      - 创建 @esdora/string
+      - scaffold a new package
+      - 新增 workspace package
+      - 按项目规范创建工具包
+    required_reads:
+      - skills/esdora/rules/package-boundaries.md
+      - skills/esdora/rules/quality-gates.md
+      - skills/esdora/references/package-scaffold.md
+    workflow: skills/esdora/workflows/create-package.md
+
+  update_api_doc:
+    labels: [docs, api-reference, vitepress]
+    trigger_examples:
+      - Generate docs for isCircular
+      - 更新 color 文档
+      - 检查 API 文档是否过时
+      - 给某个函数补文档
+    required_reads:
+      - skills/esdora/rules/docs-rules.md
+      - skills/esdora/references/doc-template.md
+    workflow: skills/esdora/workflows/update-api-doc.md
+
+  verify_package:
+    labels: [verify, test, lint, typecheck, build]
+    trigger_examples:
+      - Run tests
+      - 检查这个包是否通过质量门
+      - 验证改动
+      - 跑 typecheck 和 lint
+    required_reads:
+      - skills/esdora/rules/quality-gates.md
+      - skills/esdora/rules/package-boundaries.md
+    workflow: skills/esdora/workflows/verify-package.md
+
+  maintain_ai_rules:
+    labels: [rules, skill, agent, architecture, instructions]
+    trigger_examples:
+      - 重构 AI 指令
+      - 维护 AGENTS.md
+      - 调整 Claude agent
+      - 把规则迁移成 skill
+      - 检查 skill-based architecture
+    required_reads:
+      - skills/esdora/rules/quality-gates.md
+      - skills/esdora/references/gotchas.md
+    workflow: skills/esdora/workflows/maintain-ai-rules.md
+
+  release_change:
+    labels: [release, changeset, version, changelog]
+    trigger_examples:
+      - 准备发版
+      - 新增 changeset
+      - 更新 changelog
+      - release this package
+    required_reads:
+      - skills/esdora/rules/quality-gates.md
+      - skills/esdora/rules/package-boundaries.md
+    workflow: skills/esdora/workflows/release-change.md

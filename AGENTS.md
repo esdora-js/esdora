@@ -1,16 +1,49 @@
-# Dora Pocket (esdora) - AI Development Guide
+# Dora Pocket (esdora) - Agent Entry
 
-You are working on Dora Pocket, a TypeScript utility library monorepo.
-Follow the rules below when contributing to this codebase.
+Dora Pocket is a TypeScript utility library monorepo. The canonical project
+rules, workflows, and references live in `skills/esdora/`.
 
-## Project Identity
+Formal docs live under `skills/`. Read `skills/esdora/SKILL.md` first, then
+match the task through `skills/esdora/routing.yaml`.
 
-- **Name**: Dora Pocket (四次元口袋)
-- **Type**: TypeScript utility library monorepo
-- **Packages**: @esdora/kit, @esdora/color, @esdora/date, @esdora/biz, esdora (meta)
-- **Philosophy**: Practical-first, zero-dependency core, ESM + CJS dual output
+Conflicts between loaded project instructions should resolve in this order:
+explicit user request, `skills/esdora/`, this compatibility shell, legacy
+tool-specific files.
 
-## Quick Reference
+<always-applicable>
+
+## Always Read
+
+- `skills/esdora/rules/project-rules.md`
+- `skills/esdora/rules/coding-standards.md`
+- `skills/esdora/rules/agent-behavior.md`
+
+## Core Project Facts
+
+- Packages: `@esdora/kit`, `@esdora/color`, `@esdora/date`, `@esdora/biz`,
+  `esdora`
+- Build system: pnpm workspace, turbo, tsdown
+- Test framework: Vitest
+- Docs site: VitePress under `docs/`
+
+</always-applicable>
+
+<task-routing>
+
+## Quick Routing
+
+Task routes live in `skills/esdora/routing.yaml`.
+
+For every non-trivial task:
+
+1. Read `skills/esdora/routing.yaml`.
+2. Match by `labels`, `trigger_examples`, scope, and task intent.
+3. Read the route's `required_reads` plus Always Read files.
+4. Follow the route's `workflow`.
+
+</task-routing>
+
+## Common Commands
 
 | Task         | Command          |
 | ------------ | ---------------- |
@@ -22,21 +55,11 @@ Follow the rules below when contributing to this codebase.
 | Dev mode     | `pnpm dev`       |
 | Docs site    | `pnpm docs`      |
 
-## Documentation Layers
+## Auto-Triggers
 
-- **Human API docs**: `docs/` (VitePress site at esdora.js.org)
-- **AI dev guide**: `.claude/rules/` (see `_index.md` for the full rule index)
-- **AI agents**: `.claude/agents/` (intent-driven specialized agents, e.g. `doc-generator`)
-- **AI templates**: `.claude/templates/` (reusable prompt templates, e.g. `api-doc.md`)
-
-## Package Overview
-
-| Package       | Description                   | External Deps                 |
-| ------------- | ----------------------------- | ----------------------------- |
-| @esdora/kit   | Zero-dep utility functions    | none                          |
-| @esdora/color | Color conversion/manipulation | culori                        |
-| @esdora/date  | Date utilities                | date-fns                      |
-| @esdora/biz   | Business tools (qs, atom-css) | qs, cva, clsx, tailwind-merge |
-| esdora        | Meta package (re-exports all) | all workspace packages        |
-
-@include .claude/rules/\_index.md
+- New task in the same session: re-read `skills/esdora/SKILL.md`, then re-match
+  `skills/esdora/routing.yaml`.
+- Changes to code, docs, or AI instructions: run the matched workflow's closure
+  checks before reporting completion.
+- AI instruction changes: run
+  `node skills/esdora/scripts/check-skill-architecture.mjs`.

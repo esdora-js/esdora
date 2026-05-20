@@ -1,9 +1,9 @@
-# @esdora/date - AI Development Guide
+# @esdora/date Agent Overlay
 
-Package: Date utilities powered by date-fns
-Location: packages/date/
+Package: `@esdora/date`
+Location: `packages/date/`
 
-@include ../../AGENTS.md
-@include ../../.agents/rules.date/01-package-overview.md
-@include ../../.agents/rules.date/02-date-fns-integration.md
-@include ../../.agents/rules.date/03-locale-handling.md
+Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+
+Package-specific boundary: date utilities may build on `date-fns` and shared
+`@esdora/kit` utilities.

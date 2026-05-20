@@ -1,9 +1,9 @@
-# @esdora/color - AI Development Guide
+# @esdora/color Agent Overlay
 
-Package: Color conversion and manipulation
-Location: packages/color/
+Package: `@esdora/color`
+Location: `packages/color/`
 
-@include ../../AGENTS.md
-@include ../../.agents/rules.color/01-package-overview.md
-@include ../../.agents/rules.color/02-culori-integration.md
-@include ../../.agents/rules.color/03-color-api-patterns.md
+Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+
+Package-specific boundary: color utilities may build on `culori` and shared
+`@esdora/kit` utilities.

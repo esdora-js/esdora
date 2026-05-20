@@ -1,10 +1,9 @@
-# @esdora/kit - AI Development Guide
+# @esdora/kit Agent Overlay
 
-Package: Zero-dependency utility function library
-Location: packages/kit/
+Package: `@esdora/kit`
+Location: `packages/kit/`
 
-@include ../../AGENTS.md
-@include ../../.agents/rules.kit/01-package-overview.md
-@include ../../.agents/rules.kit/02-zero-dependency-rule.md
-@include ../../.agents/rules.kit/03-function-patterns.md
-@include ../../.agents/rules.kit/04-export-conventions.md
+Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+
+Package-specific boundary: `kit` is the foundation utility package and must not
+gain runtime dependencies.
