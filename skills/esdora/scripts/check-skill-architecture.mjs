@@ -86,6 +86,7 @@ if (existsSync(join(root, routingPath))) {
 
 assert(existsSync(join(root, '.claude/skills/esdora/SKILL.md')), 'Claude native skill stub is missing')
 assert(existsSync(join(root, '.cursor/skills/esdora/SKILL.md')), 'Cursor skill registration stub is missing')
+assert(!existsSync(join(root, '.claude/rules')), '.claude/rules has been retired; canonical rules live in skills/esdora/rules/. Do not re-introduce.')
 
 if (existsSync(join(root, 'CLAUDE.md')))
   assert(read('CLAUDE.md').trim() === '@AGENTS.md', 'CLAUDE.md must contain only @AGENTS.md')

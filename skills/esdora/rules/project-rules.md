@@ -30,8 +30,6 @@ Use root scripts unless a workflow asks for a package-specific command:
 - Formal AI project skill: `skills/esdora/`
 - Compatibility shells: `AGENTS.md`, `CLAUDE.md`, package-level `AGENTS.md`,
   `.claude/agents/`, `.claude/skills/`, `.cursor/skills/`
-- Legacy Claude rules: `.claude/rules/` remains as historical compatibility
-  material; do not add new canonical rule bodies there.
 
 ## Verification
 
