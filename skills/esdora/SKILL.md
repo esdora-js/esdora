@@ -48,7 +48,7 @@ For every non-trivial task:
 ## Priority
 
 Formal docs under `skills/esdora/` are authoritative. Compatibility shells in
-`AGENTS.md`, `CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, `.cursor/`, and
+`AGENTS.md`, `CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, and
 package-level `AGENTS.md` must route here instead of duplicating rule bodies.
 
 If instructions conflict, prefer the most specific user request first, then this

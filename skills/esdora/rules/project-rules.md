@@ -28,8 +28,8 @@ Use root scripts unless a workflow asks for a package-specific command:
 
 - Human docs: `docs/`
 - Formal AI project skill: `skills/esdora/`
-- Compatibility shells: `AGENTS.md`, `CLAUDE.md`, package-level `AGENTS.md`,
-  `.claude/agents/`, `.claude/skills/`, `.cursor/skills/`
+- Compatibility shells: `AGENTS.md` (Codex-native, also read by other tools),
+  `CLAUDE.md`, package-level `AGENTS.md`, `.claude/agents/`, `.claude/skills/`
 
 ## Verification
 

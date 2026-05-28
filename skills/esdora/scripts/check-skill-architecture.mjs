@@ -88,7 +88,7 @@ if (existsSync(join(root, routingPath))) {
 }
 
 assert(existsSync(join(root, '.claude/skills/esdora/SKILL.md')), 'Claude native skill stub is missing')
-assert(existsSync(join(root, '.cursor/skills/esdora/SKILL.md')), 'Cursor skill registration stub is missing')
+assert(!existsSync(join(root, '.cursor')), '.cursor has been retired (Cursor support dropped). Do not re-introduce.')
 assert(!existsSync(join(root, '.claude/rules')), '.claude/rules has been retired; canonical rules live in skills/esdora/rules/. Do not re-introduce.')
 
 if (existsSync(join(root, 'CLAUDE.md')))
@@ -99,7 +99,6 @@ const shellFiles = [
   '.claude/agents/doc-generator.md',
   '.claude/agents/vibe-architect.md',
   '.claude/skills/esdora/SKILL.md',
-  '.cursor/skills/esdora/SKILL.md',
   ...walk('packages', rel => rel.endsWith('/AGENTS.md')),
 ]
 
@@ -125,7 +124,6 @@ const alwaysReadAuthorityFiles = [
   'skills/esdora/SKILL.md',
   'AGENTS.md',
   '.claude/skills/esdora/SKILL.md',
-  '.cursor/skills/esdora/SKILL.md',
 ]
 const literalAlwaysReadPaths = [
   'rules/project-rules.md',

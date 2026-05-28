@@ -3,7 +3,7 @@
 ## Purpose
 
 Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `skills/esdora/`,
-`.claude/agents/`, `.claude/skills/`, `.cursor/skills/`, and package-level
+`.claude/agents/`, `.claude/skills/`, and package-level
 `AGENTS.md` files.
 
 ## Steps
@@ -26,4 +26,4 @@ Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `skills/esdora/`,
 - No shell points to missing `.agents/rules.*` files.
 - `SKILL.md` stays within the line budget.
 - Route workflows and required reads exist.
-- Claude and Cursor registration entries route to the formal skill.
+- Claude registration entries route to the formal skill.
