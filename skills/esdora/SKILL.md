@@ -4,6 +4,7 @@ description: >
   Use this skill when working in the Dora Pocket / esdora TypeScript utility
   library monorepo: implementing package APIs, updating API docs, maintaining
   package boundaries, running quality gates, or evolving project AI rules.
+  触发词: 实现工具函数、新建包、更新 API 文档、检查质量门、维护 AI 指令、准备发版。
 primary: true
 ---
 
@@ -15,9 +16,8 @@ agent harnesses.
 
 ## Always Read
 
-- `skills/esdora/rules/project-rules.md`
-- `skills/esdora/rules/coding-standards.md`
-- `skills/esdora/rules/agent-behavior.md`
+Authoritative list lives in `skills/esdora/routing.yaml` under `always_read:`.
+Load that file first, then read every path it lists.
 
 ## Routing
 

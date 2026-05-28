@@ -80,8 +80,11 @@ const routingPath = 'skills/esdora/routing.yaml'
 assert(existsSync(join(root, routingPath)), `${routingPath} is missing`)
 
 if (existsSync(join(root, routingPath))) {
-  for (const path of parseRoutingPaths(read(routingPath)))
+  const routingContent = read(routingPath)
+  for (const path of parseRoutingPaths(routingContent))
     assert(existsSync(join(root, path)), `routing.yaml references missing file: ${path}`)
+  assert(/^always_read:/m.test(routingContent), 'routing.yaml must declare an always_read: block (authoritative source)')
+  assert(/^default:/m.test(routingContent), 'routing.yaml must declare a default: fallback route')
 }
 
 assert(existsSync(join(root, '.claude/skills/esdora/SKILL.md')), 'Claude native skill stub is missing')
@@ -116,6 +119,27 @@ for (const file of ['.claude/agents/doc-generator.md', '.claude/agents/vibe-arch
   const lines = read(file).trimEnd().split('\n').length
   assert(lines <= 40, `${file} has ${lines} lines; Claude agent wrappers should stay thin`)
   assert(read(file).includes('skills/esdora/SKILL.md'), `${file} must route to formal skill`)
+}
+
+const alwaysReadAuthorityFiles = [
+  'skills/esdora/SKILL.md',
+  'AGENTS.md',
+  '.claude/skills/esdora/SKILL.md',
+  '.cursor/skills/esdora/SKILL.md',
+]
+const literalAlwaysReadPaths = [
+  'rules/project-rules.md',
+  'rules/coding-standards.md',
+  'rules/agent-behavior.md',
+]
+
+for (const file of alwaysReadAuthorityFiles) {
+  if (!existsSync(join(root, file)))
+    continue
+
+  const content = read(file)
+  for (const literal of literalAlwaysReadPaths)
+    assert(!content.includes(literal), `${file} must not list always_read paths verbatim (found "${literal}"); reference routing.yaml instead`)
 }
 
 if (failures.length) {

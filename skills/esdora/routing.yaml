@@ -79,3 +79,14 @@ routes:
       - skills/esdora/rules/quality-gates.md
       - skills/esdora/rules/package-boundaries.md
     workflow: skills/esdora/workflows/release-change.md
+
+default:
+  description: |
+    Use this fallback when the task does not match any explicit route, for
+    example fixing a flaky test, tweaking CI config, deleting an internal
+    export, or other ad-hoc maintenance. Apply Always Read files and the
+    boundary/quality references below.
+  required_reads:
+    - skills/esdora/rules/quality-gates.md
+    - skills/esdora/rules/package-boundaries.md
+  workflow: skills/esdora/workflows/implement-utility.md

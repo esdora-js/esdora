@@ -14,9 +14,8 @@ tool-specific files.
 
 ## Always Read
 
-- `skills/esdora/rules/project-rules.md`
-- `skills/esdora/rules/coding-standards.md`
-- `skills/esdora/rules/agent-behavior.md`
+Authoritative list lives in `skills/esdora/routing.yaml` under `always_read:`.
+Load that file first, then read every path it lists.
 
 ## Core Project Facts
 
@@ -40,6 +39,8 @@ For every non-trivial task:
 2. Match by `labels`, `trigger_examples`, scope, and task intent.
 3. Read the route's `required_reads` plus Always Read files.
 4. Follow the route's `workflow`.
+
+If no route matches, use the `default:` node in `routing.yaml` as fallback.
 
 </task-routing>
 
