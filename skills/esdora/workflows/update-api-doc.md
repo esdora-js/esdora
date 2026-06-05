@@ -5,13 +5,15 @@
 1. Resolve the package, category, and function from the user request.
 2. Read the implementation and related tests.
 3. Read `skills/esdora/references/doc-template.md`.
-4. Determine the function complexity:
+4. Check source TSDoc for public API notes, overload behavior, experimental or
+   deprecated status, and examples that should be reflected in docs.
+5. Determine the function complexity:
    - simple: basic usage, signature, parameters, return value, notes
    - medium: include config objects, edge cases, and meaningful examples
    - complex: include runtime logic, Mermaid flow when useful, performance or
      compatibility notes
-5. Write docs under `docs/packages/{pkg}/reference/{category}/{function}.md`.
-6. Verify links to source and tests.
+6. Write docs under `docs/packages/{pkg}/reference/{category}/{function}.md`.
+7. Verify links to source and tests.
 
 ## Batch Mode
 

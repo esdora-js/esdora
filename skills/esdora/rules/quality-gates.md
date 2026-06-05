@@ -15,6 +15,12 @@ Use the smallest check set that covers the changed surface:
 - Code changes: run tests relevant to the package, then broader checks if the
   change touches shared exports or cross-package behavior.
 - Public API changes: run typecheck, tests, and build.
+- New public exports: update export snapshots with `pnpm test -- -u`, then
+  inspect the snapshot diff before reporting completion.
+- Coverage-sensitive changes: for new public APIs, bug fixes, or branch-heavy
+  logic, run the relevant `test:coverage` command and keep modified lines,
+  functions, and branches fully covered unless the project owner explicitly
+  accepts a documented exception.
 - Docs changes: run docs build when VitePress structure or Markdown syntax might
   be affected.
 - AI instruction changes: run the skill architecture check script.

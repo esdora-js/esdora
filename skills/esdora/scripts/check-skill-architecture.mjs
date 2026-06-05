@@ -60,6 +60,17 @@ function parseRoutingPaths(content) {
   return paths
 }
 
+function assertIncludes(file, needles) {
+  if (!existsSync(join(root, file))) {
+    assert(false, `${file} is missing`)
+    return
+  }
+
+  const content = read(file)
+  for (const needle of needles)
+    assert(content.includes(needle), `${file} must include "${needle}"`)
+}
+
 const skillPath = 'skills/esdora/SKILL.md'
 assert(existsSync(join(root, skillPath)), `${skillPath} is missing`)
 
@@ -139,6 +150,43 @@ for (const file of alwaysReadAuthorityFiles) {
   for (const literal of literalAlwaysReadPaths)
     assert(!content.includes(literal), `${file} must not list always_read paths verbatim (found "${literal}"); reference routing.yaml instead`)
 }
+
+assertIncludes('skills/esdora/rules/quality-gates.md', [
+  'export snapshots',
+  'test:coverage',
+  'fully covered',
+])
+
+assertIncludes('skills/esdora/rules/coding-standards.md', [
+  'Public API Stability',
+  'src/experimental/',
+  '_unstable_',
+  '@experimental',
+])
+
+assertIncludes('skills/esdora/rules/docs-rules.md', [
+  'TSDoc',
+  'overloaded APIs',
+  'Chinese TSDoc',
+])
+
+assertIncludes('skills/esdora/workflows/implement-utility.md', [
+  'stable or experimental',
+  'export snapshots',
+  'TSDoc',
+])
+
+assertIncludes('skills/esdora/workflows/update-api-doc.md', [
+  'source TSDoc',
+  'experimental or',
+  'deprecated status',
+])
+
+assertIncludes('skills/esdora/workflows/release-change.md', [
+  'SemVer',
+  '@deprecated',
+  'major release',
+])
 
 if (failures.length) {
   console.error('Skill architecture check failed:')

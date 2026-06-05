@@ -28,6 +28,20 @@
 - Avoid runtime dependencies in core utilities unless the package boundary allows
   them.
 - Keep internal helpers under `_internal/` when they are not public API.
+- Keep utilities pure where practical: do not mutate caller-owned inputs unless
+  the API explicitly documents mutation as its purpose.
+
+## Public API Stability
+
+- Decide whether a new public API is stable or experimental before exporting it.
+- Experimental APIs must live under `src/experimental/`, use an `_unstable_`
+  function name prefix, include `@experimental` in TSDoc, and export only from
+  the package's experimental entry.
+- Stable APIs should live in the appropriate feature category and avoid
+  `_unstable_` names or `@experimental` tags.
+- Graduating an experimental API requires moving it to the stable category,
+  removing `_unstable_` and `@experimental`, updating exports, docs, tests, and
+  release notes.
 
 ## Tests
 
