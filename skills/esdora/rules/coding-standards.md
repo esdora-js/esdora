@@ -28,8 +28,11 @@
 - Avoid runtime dependencies in core utilities unless the package boundary allows
   them.
 - Keep internal helpers under `_internal/` when they are not public API.
-- Keep utilities pure where practical: do not mutate caller-owned inputs unless
-  the API explicitly documents mutation as its purpose.
+- Keep utilities pure: functions must not mutate caller-owned inputs, including
+  objects, arrays, `Date` instances, maps, sets, and nested structures reachable
+  from parameters.
+- Do not add public APIs whose purpose is to mutate inputs. Return new values or
+  copied structures instead.
 
 ## Public API Stability
 
@@ -48,3 +51,6 @@
 Public functions need focused tests covering normal cases, edge cases, and error
 or boundary behavior. Mock external dependencies only when the dependency is not
 part of the behavior being tested.
+
+Public functions that accept mutable reference inputs need tests proving the
+input is unchanged after the call.
