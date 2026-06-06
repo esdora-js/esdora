@@ -1,30 +1,20 @@
 ---
 title: treeFilter
-description: treeFilter - 来自 Dora Pocket 的树结构“道具”，用于对树形数组按条件进行深度或广度优先过滤。
+description: "@esdora/kit 的 treeFilter 函数，对树形结构数组进行过滤和遍历，返回处理后的结果树型结构。"
 ---
 
 # treeFilter
 
-<!-- 1. 简介：一句话核心功能描述 -->
-
-对树形数组执行深度优先（DFS）或广度优先（BFS）遍历，并根据回调函数结果返回一个仅包含目标节点的新树。
-
-<!-- 2. 示例：由核心功能和从测试用例中提炼的场景组成 -->
+对树形结构数组进行过滤和遍历，返回处理后的结果树型结构。
 
 ## 示例
 
-### 基本用法（默认 DFS 前序遍历）
+### 基本用法
 
 ```typescript
 import { treeFilter } from '@esdora/kit'
 
-interface TreeNode {
-  id: number
-  name: string
-  children?: TreeNode[]
-}
-
-const tree: TreeNode[] = [
+const tree = [
   {
     id: 1,
     name: 'root1',
@@ -43,135 +33,89 @@ const tree: TreeNode[] = [
   {
     id: 6,
     name: 'root2',
-    children: [{ id: 7, name: 'child3' }],
-  },
-]
-
-// 过滤出 id 为奇数的节点
-const result = treeFilter(tree, node => node.id % 2 === 1)
-// => [
-//   {
-//     id: 1,
-//     name: 'root1',
-//     children: [
-//       {
-//         id: 5,
-//         name: 'child2',
-//       },
-//     ],
-//   },
-// ]
-```
-
-### 后序遍历过滤子树（DFS post）
-
-```typescript
-import { treeFilter } from '@esdora/kit'
-
-const result = treeFilter(
-  tree,
-  node => node.id % 2 === 1,
-  { mode: 'dfs', order: 'post' },
-)
-// => [
-//   {
-//     id: 1,
-//     name: 'root1',
-//     children: [
-//       { id: 5, name: 'child2' },
-//     ],
-//   },
-// ]
-```
-
-### 广度优先遍历（BFS）
-
-```typescript
-import { treeFilter } from '@esdora/kit'
-
-const bfsResult = treeFilter(
-  tree,
-  node => node.id <= 2,
-  { mode: 'bfs' },
-)
-// => [
-//   {
-//     id: 1,
-//     name: 'root1',
-//     children: [
-//       {
-//         id: 2,
-//         name: 'child1',
-//         children: [],
-//       },
-//     ],
-//   },
-// ]
-```
-
-### 自定义子节点属性名
-
-```typescript
-import { treeFilter } from '@esdora/kit'
-
-interface Category {
-  id: number
-  name: string
-  subcategories?: Category[]
-}
-
-const categories: Category[] = [
-  {
-    id: 1,
-    name: 'Category 1',
-    subcategories: [
-      { id: 2, name: 'Subcategory 1' },
-      { id: 3, name: 'Subcategory 2' },
+    children: [
+      { id: 7, name: 'child3' },
     ],
   },
 ]
 
-const resultWithCustomChildren = treeFilter(
-  categories,
-  item => item.id !== 2,
-  { childrenKey: 'subcategories' },
-)
+treeFilter(tree, item => item.id % 2 === 1)
 // => [
-//   {
-//     id: 1,
-//     name: 'Category 1',
-//     subcategories: [
-//       { id: 3, name: 'Subcategory 2' },
-//     ],
-//   },
-// ]
+//      {
+//        id: 1,
+//        name: 'root1',
+//        children: [
+//          { id: 5, name: 'child2' },
+//        ],
+//      },
+//    ]
 ```
 
-<!-- 3. 签名与说明：合并了签名、参数、返回值的唯一技术核心 -->
+### 使用 BFS 模式
 
-## 签名与说明
+```typescript
+import { treeFilter } from '@esdora/kit'
 
-### 类型签名
+treeFilter(tree, item => item.id <= 2, { mode: 'bfs' })
+// => [
+//      {
+//        id: 1,
+//        name: 'root1',
+//        children: [
+//          {
+//            id: 2,
+//            name: 'child1',
+//            children: [],
+//          },
+//        ],
+//      },
+//    ]
+```
+
+### 自定义子节点键名
+
+```typescript
+import { treeFilter } from '@esdora/kit'
+
+const customTree = [
+  {
+    id: 1,
+    name: 'parent',
+    items: [
+      { id: 2, name: 'child' },
+    ],
+  },
+]
+
+treeFilter(customTree, () => true, { childrenKey: 'items' })
+// => [
+//      {
+//        id: 1,
+//        name: 'parent',
+//        items: [
+//          { id: 2, name: 'child' },
+//        ],
+//      },
+//    ]
+```
+
+### 空子节点数组
+
+```typescript
+import { treeFilter } from '@esdora/kit'
+
+const tree = [{ id: 1, name: 'test', children: [] }]
+
+treeFilter(tree, () => true)
+// => [{ id: 1, name: 'test', children: [] }]
+```
+
+## 签名
 
 ```typescript
 export interface TreeFilterOptions {
-  /**
-   * 遍历模式：
-   * - 'dfs'：深度优先遍历（默认）
-   * - 'bfs'：广度优先遍历
-   */
   mode?: 'dfs' | 'bfs'
-
-  /**
-   * 遍历顺序，仅在深度优先时有效：
-   * - 'pre'：前序遍历（默认）
-   * - 'post'：后序遍历
-   */
   order?: 'pre' | 'post'
-
-  /**
-   * 子节点属性名，默认为 'children'
-   */
   childrenKey?: string
 }
 
@@ -182,56 +126,100 @@ export function treeFilter<T extends Record<string, any>>(
 ): T[]
 ```
 
-### 参数说明
+## 参数
 
-| 参数    | 类型                   | 描述                                     | 必需 |
-| ------- | ---------------------- | ---------------------------------------- | ---- |
-| array   | `T[]`                  | 要过滤的树形数组，每一项代表一个树节点   | 是   |
-| fn      | `(item: T) => boolean` | 节点过滤函数，返回 `true` 表示保留该节点 | 是   |
-| options | `TreeFilterOptions`    | 遍历和子节点配置项                       | 否   |
+| 参数      | 类型                   | 描述                                               | 必需 |
+| --------- | ---------------------- | -------------------------------------------------- | ---- |
+| `array`   | `T[]`                  | 要处理的树形结构数组                               | 是   |
+| `fn`      | `(item: T) => boolean` | 对每个节点执行的回调函数，返回 `true` 保留该节点   | 是   |
+| `options` | `TreeFilterOptions`    | 可选配置对象，包含遍历模式、遍历顺序、子节点键名等 | 否   |
 
-**配置项 TreeFilterOptions**
+### TreeFilterOptions
 
-| 字段        | 类型              | 描述                                                                      | 默认值       |
-| ----------- | ----------------- | ------------------------------------------------------------------------- | ------------ |
-| mode        | `'dfs' \| 'bfs'`  | 遍历模式：`'dfs'` 深度优先，`'bfs'` 广度优先                              | `'dfs'`      |
-| order       | `'pre' \| 'post'` | 深度优先遍历的顺序：`'pre'` 前序、`'post'` 后序，仅在 `mode='dfs'` 时有效 | `'pre'`      |
-| childrenKey | `string`          | 子节点数组所在的属性名                                                    | `'children'` |
+| 字段          | 类型              | 描述                                                             | 默认值       |
+| ------------- | ----------------- | ---------------------------------------------------------------- | ------------ |
+| `mode`        | `'dfs' \| 'bfs'`  | 遍历模式，`dfs` 为深度优先，`bfs` 为广度优先                     | `'dfs'`      |
+| `order`       | `'pre' \| 'post'` | 遍历顺序，仅在 `mode: 'dfs'` 时有效，`pre` 为前序，`post` 为后序 | `'pre'`      |
+| `childrenKey` | `string`          | 子节点属性名                                                     | `'children'` |
 
-### 返回值
+## 返回值
 
 - **类型**: `T[]`
-- **说明**:
-  - 返回一个新的树形数组，结构与输入树保持一致，仅包含过滤函数返回 `true` 的节点
-  - 返回结果为浅拷贝，不会修改原始树结构
+- **说明**: 过滤后的树形结构数组，保持原有的层级关系，仅包含满足条件的节点。如果父节点被过滤掉，其所有子节点也会被移除。
+- **特殊情况**:
+  - 输入空数组 `[]` 时，返回 `[]`
+  - 没有任何节点满足条件时，返回 `[]`
+  - 子节点属性为 `null` 或 `undefined` 时，保持原值不变
+  - 子节点属性为空数组 `[]` 时，保持空数组
 
-<!-- 4. 注意事项与边界情况：建立用户信任 -->
+## 运行逻辑
 
-## 注意事项与边界情况
+```mermaid
+flowchart TD
+    A[输入 tree 数组] --> B{第一个参数是数组?}
+    B -->|否| C[抛出 TypeError]
+    B -->|是| D{数组为空?}
+    D -->|是| E[返回 []]
+    D -->|否| F[解析选项 mode/order/childrenKey]
+    F --> G{mode === 'bfs'?}
+    G -->|是| H[BFS 递归过滤]
+    G -->|否| I{order === 'post'?}
+    I -->|是| J[DFS 后序递归过滤]
+    I -->|否| K[DFS 前序递归过滤]
+    H --> L[遍历每个节点]
+    J --> L
+    K --> L
+    L --> M{子节点属性存在且为数组?}
+    M -->|是| N[递归处理子节点]
+    M -->|否| O{子节点属性为 null/undefined?}
+    O -->|是| P[保持原值]
+    O -->|否| Q{子节点属性非数组?}
+    Q -->|是| R[抛出 TypeError]
+    N --> S[应用过滤函数 fn]
+    P --> S
+    S --> T{fn 返回 true?}
+    T -->|是| U[保留节点]
+    T -->|否| V[丢弃节点]
+    U --> W[返回过滤后的树]
+    V --> W
+```
+
+函数根据 `mode` 和 `order` 选择对应的遍历策略：
+
+- **DFS 前序（默认）**：先处理当前节点，再递归处理子节点。过滤时子节点已经过过滤，父节点可以看到过滤后的子节点结果。
+- **DFS 后序**：先递归处理子节点，再处理当前节点。
+- **BFS**：按层级递归处理，实际实现与 DFS 类似，但语义上表示广度优先。
+
+无论哪种模式，核心逻辑一致：对每个节点，先递归处理其子节点，然后用过滤函数判断是否保留该节点。被过滤掉的节点及其子树都会被移除。
+
+## 注意事项
 
 ### 输入边界
 
-- 当第一个参数 `array` 不是数组（例如 `null`、`undefined`、字符串等）时，会抛出 `TypeError('Expected an array as the first argument')`。
-- 当输入为空数组时，会直接返回空数组 `[]`，不会调用回调函数 `fn`。
-- 当子节点属性（默认 `children` 或自定义 `childrenKey`）存在且不是数组时，会抛出 `TypeError('Expected \'<childrenKey>\' to be an array')`。
-
-### 行为细节
-
-- 仅当过滤函数 `fn` 对某个节点返回 `true` 时，该节点才会出现在返回结果中。
-- 所有遍历模式（DFS 前序、DFS 后序、BFS）都会保持原有的层级结构，只是移除了不满足条件的节点。
-- 在 BFS 模式下，过滤后的结果树结构与 DFS 模式保持一致（测试用例中对比了同一条件的 BFS 与 DFS 结果）。
-- 自定义 `childrenKey` 时，过滤逻辑与默认 `children` 完全一致，可用于适配各种字段命名的树结构。
+- 第一个参数必须是数组，否则会抛出 `TypeError`
+- 树节点应为对象类型（`Record<string, any>`），否则子节点属性验证可能失败
+- 子节点属性（默认 `children`）可以为 `null`、`undefined` 或数组，其他类型会抛出 `TypeError`
+- 空数组输入会返回空数组，不会抛出异常
 
 ### 错误处理
 
-- 不会静默忽略错误输入：
-  - 非数组的根节点会立即抛出 `TypeError`。
-  - 非数组类型的子节点属性会在访问时抛出 `TypeError`。
-- 建议在外层使用 `try/catch` 包裹潜在不可信数据源，捕获这些类型错误并给出友好提示。
+- 当第一个参数不是数组时，抛出 `TypeError: Expected an array as the first argument`
+- 当子节点属性存在但不是数组时，抛出 `TypeError: Expected 'children' to be an array`（包含节点 id 或 name 信息）
+- 过滤函数 `fn` 抛出的异常会直接向上传播
 
-<!-- 5. 相关链接：提供相关函数及源码的链接 -->
+### 性能考虑
+
+- **时间复杂度**: `O(n)` — 其中 n 为树中所有节点数量。每个节点恰好访问一次，过滤函数执行一次。
+- **空间复杂度**: `O(h)` — 其中 h 为树的最大深度。递归调用栈的深度取决于树的层级。对于极深的树，可能触发栈溢出。
+- 每次过滤都会创建新的节点对象（`{ ...item, [childrenKey]: childrenResult }`），不会修改原始树
+- 如果过滤函数开销较大，建议在过滤前对树进行扁平化预处理
+
+### 兼容性
+
+- **环境要求**: ES2015+（使用 `Array.isArray`、对象展开运算符 `...`）
+- 支持所有现代浏览器和 Node.js 环境
 
 ## 相关链接
 
-- [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/filter/index.ts)
-- [单元测试](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/tree/filter/index.test.ts)
+- [源码](https://github.com/kkfive/esdora/tree/main/packages/kit/src/tree/filter/index.ts)
+- [单元测试](https://github.com/kkfive/esdora/tree/main/packages/kit/src/tree/filter/index.test.ts)

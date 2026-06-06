@@ -21,6 +21,8 @@ cache
 bin/*
 .workflow
 
+# Claude Code
+.claude/memory/
 .claude/settings.local.json
 .temp-types
 

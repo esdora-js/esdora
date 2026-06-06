@@ -1,136 +1,115 @@
 ---
 title: to
-description: "to - Dora Pocket 中 @esdora/kit 库提供的 Promise 错误处理工具函数，用于将 Promise 结果转换为 [error, data] 元组并消除显式 try/catch。"
+description: "@esdora/kit 的 to 函数，将 Promise 转换为 [错误, 数据] 元组，避免 try/catch"
 ---
 
 # to
 
-将任意 `Promise` 的结果转换为 `[error, data]` 元组，方便在 `async/await` 流程中以更加直观的方式处理成功与失败。
+将 Promise 转换为一个元组 `[error, data]`，让你可以用解构替代 `try/catch` 来处理异步错误。
 
 ## 示例
 
-### 基本用法：处理成功结果
+### 基本用法 — 成功场景
 
 ```typescript
 import { to } from '@esdora/kit'
 
-async function fetchUser() {
-  const promise = Promise.resolve({ id: 1, name: 'Alice' })
-  const [error, user] = await to(promise)
+const promise = Promise.resolve(41)
 
-  if (error) {
-    return null
-  }
-
-  return user
-}
-
-const user = await fetchUser()
-// => { id: 1, name: 'Alice' }
+const [err, data] = await to(promise)
+// => [null, 41]
 ```
 
-### 捕获错误而不抛出异常
+### 基本用法 — 失败场景
 
 ```typescript
 import { to } from '@esdora/kit'
 
-async function fetchWithError() {
-  // eslint-disable-next-line prefer-promise-reject-errors
-  const promise = Promise.reject('Network Error')
-  const [error, data] = await to(promise)
+// eslint-disable-next-line prefer-promise-reject-errors
+const promise = Promise.reject('Error')
 
-  if (error) {
-    console.error(error)
-    // => 'Network Error'
-    return null
-  }
-
-  return data
-}
-
-await fetchWithError()
-// => null
+const [err, data] = await to(promise)
+// => ['Error', undefined]
 ```
 
-### 为错误附加上下文信息
+### 为错误对象附加额外信息
 
 ```typescript
 import { to } from '@esdora/kit'
 
-async function fetchWithContext() {
-  // eslint-disable-next-line prefer-promise-reject-errors
-  const promise = Promise.reject({ code: 404, message: 'Not Found' })
-  const [error] = await to<{ name: string }, { code: number, message: string, requestId: string }>(
-    promise as unknown as Promise<{ name: string }>,
-    { requestId: 'xyz-123' },
-  )
+// eslint-disable-next-line prefer-promise-reject-errors
+const promise = Promise.reject({ error: 'Error message' })
 
-  return error
-}
-
-const error = await fetchWithContext()
-// => { code: 404, message: 'Not Found', requestId: 'xyz-123' }
+const [err] = await to(promise, { extraKey: 1 })
+// => [{ error: 'Error message', extraKey: 1 }, undefined]
 ```
 
-## 签名与说明
-
-### 类型签名
+### 显式指定泛型类型
 
 ```typescript
-export function to<T, U = Error>(
+import { to } from '@esdora/kit'
+
+const [_, user] = await to<{ name: string }>(Promise.resolve({ name: '123' }))
+// => [null, { name: '123' }]
+```
+
+## 签名
+
+```typescript
+function to<T, U = Error>(
   promise: Promise<T>,
   errorExt?: object,
 ): Promise<[U, undefined] | [null, T]>
 ```
 
-### 参数说明
+## 参数
 
-| 参数     | 类型                  | 描述                                                      | 必需 |
-| -------- | --------------------- | --------------------------------------------------------- | ---- |
-| promise  | `Promise<T>`          | 需要被包装的 Promise，`T` 为其成功结果的类型              | 是   |
-| errorExt | `object \| undefined` | 可选的扩展信息对象，当 Promise 被拒绝时会合并到错误对象上 | 否   |
+| 参数       | 类型         | 描述                             | 必需 |
+| ---------- | ------------ | -------------------------------- | ---- |
+| `promise`  | `Promise<T>` | 要包装的 Promise 实例            | 是   |
+| `errorExt` | `object`     | 可选，合并到错误对象上的额外属性 | 否   |
 
-### 返回值
+## 返回值
 
 - **类型**: `Promise<[U, undefined] | [null, T]>`
-- **说明**:
-  - 返回一个**永远不会 reject** 的 Promise
-  - 当输入 Promise 成功时，解析为 `[null, data]`
-  - 当输入 Promise 失败时，解析为 `[error, undefined]`
+- **说明**: 始终 resolve 为一个元组。第一个元素是错误，第二个元素是数据。
 - **特殊情况**:
-  - 当传入 `errorExt` 且 Promise 被拒绝时，最终的错误值为 `Object.assign({}, err, errorExt)`
-  - 如果错误值本身不是对象（例如字符串），扩展属性会按 JavaScript 的对象合并规则尝试添加
+  - Promise resolve 时返回 `[null, data]`
+  - Promise reject 时返回 `[error, undefined]`
+  - 如果传入了 `errorExt`，错误对象会与 `errorExt` 浅合并
 
-### 泛型约束（如适用）
+## 运行逻辑
 
-- **`T`**: 表示 Promise 成功解析时的数据类型，例如 `number`、`User` 等。
-- **`U`**: 表示错误类型，默认是 `Error`；当你在项目中使用自定义错误类型时，可以显式指定。
+```mermaid
+stateDiagram-v2
+    [*] --> 等待Promise
+    等待Promise --> 成功: promise.resolve(data)
+    等待Promise --> 失败: promise.reject(err)
+    成功 --> [*]: 返回 [null, data]
+    失败 --> 有errorExt?: 判断
+    有errorExt? --> 是: Object.assign({}, err, errorExt)
+    有errorExt? --> 否: 保持原错误
+    是 --> [*]: 返回 [parsedError, undefined]
+    否 --> [*]: 返回 [err, undefined]
+```
 
-## 注意事项与边界情况
+`to` 的核心思想是**将异常状态正常化**：无论 Promise 是成功还是失败，返回的 Promise 始终 resolve，永远不会 reject。这样调用方就不需要 `try/catch`，而是通过解构元组来判断结果。
+
+## 注意事项
 
 ### 输入边界
 
-- `promise` 参数应为一个合法的 `Promise` 实例；传入其它值会在运行时导致类型错误。
-- 不支持传入非 Promise 值（例如普通对象或函数），这类使用方式会违背 TypeScript 类型签名。
-- `errorExt` 建议为普通对象，便于通过 `Object.assign` 正确合并属性。
+- `promise` 必须是有效的 Promise 实例（或 thenable）
+- `errorExt` 为可选参数，不传时错误对象原样返回
+- 当 `errorExt` 传入时，会执行浅合并（`Object.assign`），不会深拷贝嵌套对象
 
 ### 错误处理
 
-- `to` 自身不会抛出异常，而是将错误封装在返回的元组中：
-  - 成功：`[null, data]`
-  - 失败：`[error, undefined]`
-- 推荐在业务代码中**始终检查元组的第一个元素**来判断是否出错，而不是依赖 `try...catch`。
-- 当你需要增加请求上下文信息（如 `requestId`、`traceId`、接口名称等）时，可以通过 `errorExt` 提供，以便在日志或监控中追踪。
-
-### 性能考虑
-
-- **时间复杂度**: O(1)，仅在原有 Promise 上追加一次 `then`/`catch` 链。
-- **空间复杂度**: O(1)，只创建一个包含两个元素的元组和极少量中间变量。
-- **优化建议**:
-  - 在性能敏感的热路径中，`to` 的开销可以认为与手写 `try...catch` 接近。
-  - 更适合作为统一错误处理风格的工具，而不是解决极端性能问题的手段。
+- 本函数**不会抛出异常**，它内部通过 `.catch` 捕获 Promise 的 reject，并将错误放入元组第一个位置
+- 返回的 Promise 始终 resolve，不会 reject
+- 如果原 Promise reject 的值不是对象类型（如字符串、数字），`errorExt` 的合并行为会将其包装为对象
 
 ## 相关链接
 
-- [源码](https://github.com/esdora-js/esdora/blob/main/packages/kit/src/promise/to/index.ts)
-- [参考实现：await-to-js](https://github.com/scopsy/await-to-js)
+- [源码](https://github.com/kkfive/esdora/blob/main/packages/kit/src/promise/to/index.ts)
+- [单元测试](https://github.com/kkfive/esdora/blob/main/packages/kit/src/promise/to/index.test.ts)

@@ -1,85 +1,80 @@
 ---
 title: isAccessible
-description: "isAccessible - Dora Pocket 中 @esdora/color 库提供的对比度分析工具函数，用于检查两种颜色之间的对比度是否符合 WCAG 可访问性标准。"
+description: "@esdora/color 的 isAccessible 函数，检查两种颜色之间的对比度是否符合 WCAG 可访问性标准。"
 ---
 
 # isAccessible
 
-基于 WCAG (Web 内容可访问性指南) 标准，检查两种颜色之间的对比度是否满足不同级别与文本大小下的可访问性要求。
+检查两种颜色之间的对比度是否符合 WCAG 可访问性标准。
 
 ## 示例
 
-### 基本用法（AA 级，普通文本）
+### 基本用法
 
 ```typescript
 import { isAccessible } from '@esdora/color'
 
-// 默认检查标准 (AA 级，普通文本)
-isAccessible('#000000', '#FFFFFF')
-// => true
-
-// 对比度不足的情况
-isAccessible('#999999', '#FFFFFF')
-// => false
+// 默认 AA 级别，普通文本
+isAccessible('#000000', '#FFFFFF') // => true
+isAccessible('#999999', '#FFFFFF') // => false
 ```
 
-### 不同级别与文本大小
+### 不同 WCAG 级别
 
 ```typescript
 import { isAccessible } from '@esdora/color'
 
-// AAA 级别（普通文本），要求对比度至少 7:1
-isAccessible('#767676', '#FFFFFF', { level: 'AAA' })
-// => false
-
-// AA 级别 + 大文本，要求对比度至少 3:1
-isAccessible('#767676', '#FFFFFF', { level: 'AA', size: 'large' })
-// => true
-
-// AAA 级别 + 大文本，要求对比度至少 4.5:1
-isAccessible('#767676', '#FFFFFF', { level: 'AAA', size: 'large' })
-// => true
+// AAA 级别要求更高
+isAccessible('#000000', '#FFFFFF', { level: 'AAA' }) // => true
+isAccessible('#767676', '#FFFFFF', { level: 'AAA' }) // => false
 ```
 
-### 多种颜色格式与无效输入
+### 大文本场景
+
+```typescript
+import { isAccessible } from '@esdora/color'
+
+// 大文本在 AA 级别下对比度要求更低（3:1）
+isAccessible('#949494', '#FFFFFF', { level: 'AA', size: 'large' }) // => true
+
+// 大文本在 AAA 级别下要求 4.5:1
+isAccessible('#767676', '#FFFFFF', { level: 'AAA', size: 'large' }) // => true
+isAccessible('#999999', '#FFFFFF', { level: 'AAA', size: 'large' }) // => false
+```
+
+### 多种颜色格式
 
 ```typescript
 import { isAccessible } from '@esdora/color'
 
 // RGB 字符串
-isAccessible('rgb(0, 0, 0)', 'rgb(255, 255, 255)')
-// => true
+isAccessible('rgb(0, 0, 0)', 'rgb(255, 255, 255)') // => true
+
+// HSL 字符串
+isAccessible('hsl(0, 0%, 0%)', 'hsl(0, 0%, 100%)') // => true
 
 // 颜色对象
 isAccessible(
   { r: 0, g: 0, b: 0, mode: 'rgb' },
   { r: 255, g: 255, b: 255, mode: 'rgb' },
-)
-// => true
-
-// 无效输入将返回 null
-isAccessible('invalid-color', '#FFFFFF')
-// => null
+) // => true
 ```
 
-## 签名与说明
+### 无效输入
 
-### 类型签名
+```typescript
+import { isAccessible } from '@esdora/color'
+
+// 无效颜色返回 null
+isAccessible('invalid-color', '#FFFFFF') // => null
+isAccessible('#000000', 'invalid-color') // => null
+```
+
+## 签名
 
 ```typescript
 export interface AccessibilityOptions {
-  /**
-   * WCAG 可访问性级别
-   * - 'AA': 标准级别，对比度要求 4.5:1 (普通文本) 或 3:1 (大文本)
-   * - 'AAA': 增强级别，对比度要求 7:1 (普通文本) 或 4.5:1 (大文本)
-   */
   level?: 'AA' | 'AAA'
-
-  /**
-   * 文本大小
-   * - 'normal': 普通文本 (小于 18pt 或 14pt 粗体)
-   * - 'large': 大文本 (18pt 及以上或 14pt 粗体及以上)
-   */
   size?: 'normal' | 'large'
 }
 
@@ -90,54 +85,64 @@ export function isAccessible(
 ): boolean | null
 ```
 
-### 参数说明
+## 参数
 
-| 参数            | 类型                    | 描述                                                                         | 必需 |
-| --------------- | ----------------------- | ---------------------------------------------------------------------------- | ---- |
-| `color1`        | `string \| EsdoraColor` | 第一个颜色，通常是文本颜色。支持 Hex、RGB、HSL 字符串或 `EsdoraColor` 对象。 | 是   |
-| `color2`        | `string \| EsdoraColor` | 第二个颜色，通常是背景颜色。支持 Hex、RGB、HSL 字符串或 `EsdoraColor` 对象。 | 是   |
-| `options`       | `AccessibilityOptions`  | 可访问性选项对象，用于指定 WCAG 级别与文本大小。                             | 否   |
-| `options.level` | `'AA' \| 'AAA'`         | WCAG 可访问性级别；`'AA'` 为标准级别，`'AAA'` 为增强级别。                   | 否   |
-| `options.size`  | `'normal' \| 'large'`   | 文本大小；`'normal'` 表示普通文本，`'large'` 表示大文本。                    | 否   |
+| 参数    | 类型                    | 描述                         | 必需 |
+| ------- | ----------------------- | ---------------------------- | ---- |
+| color1  | `string \| EsdoraColor` | 第一个颜色（通常是文本颜色） | 是   |
+| color2  | `string \| EsdoraColor` | 第二个颜色（通常是背景颜色） | 是   |
+| options | `AccessibilityOptions`  | 可访问性选项                 | 否   |
 
-### 返回值
+### AccessibilityOptions
 
-- **类型**: `boolean \| null`
-- **说明**:
-  - 返回 `true` 表示两种颜色在指定级别与文本大小下满足 WCAG 对比度要求。
-  - 返回 `false` 表示对比度不足，不满足可访问性要求。
-  - 返回 `null` 表示无法解析颜色或无法计算对比度（例如输入无效）。
-- **特殊情况**:
-  - 当仅传入部分选项（仅 `level` 或仅 `size`）时，未提供的字段将使用默认值。
-  - 当 `color1` 或 `color2` 任何一方为无效颜色（包括 `null`、`undefined` 或无法解析的字符串）时，返回 `null`。
+| 字段  | 类型                  | 描述              | 默认值     |
+| ----- | --------------------- | ----------------- | ---------- |
+| level | `'AA' \| 'AAA'`       | WCAG 可访问性级别 | `'AA'`     |
+| size  | `'normal' \| 'large'` | 文本大小          | `'normal'` |
 
-### 泛型约束（如适用）
+## 返回值
 
-本函数未使用泛型类型参数。
+- **类型**: `boolean | null`
+- **说明**: 如果两种颜色的对比度符合指定的 WCAG 标准则返回 `true`，不符合则返回 `false`。
+- **特殊情况**: 当任一颜色输入无效时，返回 `null`。
 
-## 注意事项与边界情况
+## 运行逻辑
+
+```mermaid
+flowchart TD
+    A[输入 color1, color2, options] --> B[解析选项，使用默认值]
+    B --> C[调用 getContrast 计算对比度]
+    C --> D{对比度为 null?}
+    D -->|是| E[返回 null]
+    D -->|否| F{level === 'AA'?}
+    F -->|是| G[size === 'large'?]
+    G -->|是| H[minContrast = 3]
+    G -->|否| I[minContrast = 4.5]
+    F -->|否| J[size === 'large'?]
+    J -->|是| K[minContrast = 4.5]
+    J -->|否| L[minContrast = 7]
+    H --> M[返回 contrast >= minContrast]
+    I --> M
+    K --> M
+    L --> M
+```
+
+函数首先通过 `getContrast` 计算两种颜色的 WCAG 对比度。如果输入颜色无效，直接返回 `null`。然后根据 `level` 和 `size` 的组合确定最小对比度阈值，最后将实际对比度与阈值比较并返回布尔结果。
+
+## 注意事项
 
 ### 输入边界
 
-- 支持多种颜色格式：十六进制字符串（如 `'#000000'`）、RGB/HSL 字符串（如 `'rgb(0, 0, 0)'`、`'hsl(0, 0%, 0%)'`）以及 `EsdoraColor` 颜色对象。
-- 若输入为空字符串或格式不正确的颜色字符串（如 `'invalid-color'`），会被视为无效输入。
-- 当传入 `null`、`undefined` 或结构不完整的颜色对象时，同样视为无效输入。
+- 支持的颜色格式包括 HEX 字符串（如 `#000000`）、RGB 字符串（如 `rgb(0, 0, 0)`）、HSL 字符串（如 `hsl(0, 0%, 0%)`）以及 `EsdoraColor` 对象。
+- 当不传入 `options` 时，默认使用 `AA` 级别和 `normal` 文本大小。
+- 可以只传入 `level` 或 `size` 中的某一个，另一个会使用默认值。
 
 ### 错误处理
 
-- 对于无法解析或无法转换的颜色，内部对比度计算会返回 `null`，并直接映射为函数返回值 `null`。
-- 函数本身不会抛出异常，调用方只需要判断返回值是否为 `null` 或 `false` 即可进行后续逻辑处理。
-- 当只提供 `level` 或 `size` 时，未指定的字段会使用默认值：
-  - `level` 默认值为 `'AA'`
-  - `size` 默认值为 `'normal'`
-
-### 性能考虑
-
-- **时间复杂度**: O(1) —— 每次调用只进行常数次的颜色解析与对比度计算。
-- **空间复杂度**: O(1) —— 仅创建少量中间颜色对象。
-- **优化建议**:
-  - 在需要对同一对颜色多次检查不同级别或文本大小时，可以在业务层缓存其对比度结果，减少重复计算。
+- 当任一颜色输入无效（如非法字符串、`null`、`undefined`）时，函数返回 `null`，不会抛出异常。
+- 返回值类型为 `boolean | null`，调用方应处理 `null` 的情况。
 
 ## 相关链接
 
-- [源码](https://github.com/esdora-js/esdora/blob/main/packages/color/src/analysis/is-accessible/index.ts)
+- [源码](/packages/color/src/analysis/is-accessible/index.ts)
+- [单元测试](/packages/color/src/analysis/is-accessible/index.test.ts)

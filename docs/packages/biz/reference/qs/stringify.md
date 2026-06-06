@@ -1,100 +1,139 @@
 ---
-title: stringify
-description: "stringify - Dora Pocket 中 @esdora/biz 库重新导出的查询字符串生成函数，用于直接将对象转换为 `qs` 风格的查询字符串。"
+title: stringify / stringifySearch
+description: "@esdora/biz 的 qs 字符串化函数，将对象转换为 URL 查询字符串"
 ---
 
-# stringify
+# stringify / stringifySearch
 
-重新导出 `qs.stringify` 以便直接使用其完整能力，适合需要完全控制编码选项或已经熟悉 `qs` 行为的场景。
+将普通对象序列化为 URL 查询字符串。提供两个导出：
+
+- `stringify` —— 直接重新导出 `qs.stringify`，行为与 [qs](https://github.com/ljharb/qs) 库完全一致。
+- `stringifySearch` —— 基于 `qs.stringify` 的便捷包装，预置了常用默认值，简化常规场景下的查询字符串生成。
 
 ## 示例
 
 ### 基本用法
 
 ```typescript
-import { stringify } from '@esdora/biz/qs'
+import { stringifySearch } from '@esdora/biz'
 
-const query = stringify({ foo: 'bar', baz: 'qux' })
+stringifySearch({ foo: 'bar', baz: 'qux' })
 // => 'foo=bar&baz=qux'
 ```
 
-### 边界情况：空对象
+### 处理空对象
 
 ```typescript
-import { stringify } from '@esdora/biz/qs'
+import { stringifySearch } from '@esdora/biz'
+
+stringifySearch({})
+// => ''
+```
+
+### 处理数值
+
+```typescript
+import { stringifySearch } from '@esdora/biz'
+
+stringifySearch({ id: 123, count: 456 })
+// => 'id=123&count=456'
+```
+
+### 数组默认格式
+
+```typescript
+import { stringifySearch } from '@esdora/biz'
+
+stringifySearch({ ids: [1, 2, 3] })
+// => 'ids%5B0%5D=1&ids%5B1%5D=2&ids%5B2%5D=3'
+```
+
+### 使用 arrayFormat 选项
+
+```typescript
+import { stringifySearch } from '@esdora/biz'
+
+stringifySearch({ ids: [1, 2, 3] }, { arrayFormat: 'brackets' })
+// => 'ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3'
+```
+
+### 禁用 URL 编码
+
+```typescript
+import { stringifySearch } from '@esdora/biz'
+
+stringifySearch({ name: 'John Doe' }, { encode: false })
+// => 'name=John Doe'
+```
+
+### 直接使用 qs.stringify
+
+```typescript
+import { stringify } from '@esdora/biz'
+
+stringify({ foo: 'bar', baz: 'qux' })
+// => 'foo=bar&baz=qux'
 
 stringify({})
 // => ''
 ```
 
-### 数组与编码控制（与 stringifySearch 测试一致）
+## 签名
 
 ```typescript
-import { stringify } from '@esdora/biz/qs'
-
-stringify({ ids: [1, 2, 3] }, { arrayFormat: 'brackets' })
-// => 'ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3'
-
-stringify({ name: 'John Doe' }, { encode: false })
-// => 'name=John Doe'
-```
-
-## 签名与说明
-
-### 类型签名
-
-```typescript
-function stringify(
-  obj: QueryObject,
-  options?: StringifyOptions
+// stringifySearch —— 便捷包装
+export function stringifySearch(
+  params: QueryObject,
+  options?: StringifyOptions,
 ): string
+
+// stringify —— 直接重新导出 qs.stringify
+export { stringify } from 'qs'
 ```
 
-> 说明：源码中通过 `export { stringify } from 'qs'` 直接重导，因此签名与 `qs.stringify` 相同；此处使用 `QueryObject` 便于结合 TypeScript 推断。
+## 参数
 
-### 参数说明
+### stringifySearch
 
-| 参数    | 类型               | 描述                                               | 必需 |
-| ------- | ------------------ | -------------------------------------------------- | ---- |
-| obj     | `QueryObject`      | 待转换的对象，可包含嵌套对象与数组                 | 是   |
-| options | `StringifyOptions` | `qs.stringify` 支持的全部选项，如 `arrayFormat` 等 | 否   |
+| 参数      | 类型               | 描述                                                | 必需 |
+| --------- | ------------------ | --------------------------------------------------- | ---- |
+| `params`  | `QueryObject`      | 要转换为查询字符串的键值对对象                      | 是   |
+| `options` | `StringifyOptions` | `qs` 库的字符串化选项，用于控制数组格式、编码行为等 | 否   |
 
-### 返回值
+### StringifyOptions
+
+`StringifyOptions` 继承自 `qs.IStringifyOptions`，常用字段如下：
+
+| 字段                 | 类型                                             | 描述                             | 默认值      |
+| -------------------- | ------------------------------------------------ | -------------------------------- | ----------- |
+| `arrayFormat`        | `'brackets' \| 'indices' \| 'repeat' \| 'comma'` | 数组序列化格式                   | `'indices'` |
+| `encode`             | `boolean`                                        | 是否对键和值进行 URL 编码        | `true`      |
+| `delimiter`          | `string`                                         | 键值对之间的分隔符               | `'&'`       |
+| `allowDots`          | `boolean`                                        | 是否使用点号表示嵌套对象         | `false`     |
+| `strictNullHandling` | `boolean`                                        | 是否将 `null` 值序列化为空字符串 | `false`     |
+
+## 返回值
 
 - **类型**: `string`
-- **说明**: 不含前导 `?` 的查询字符串
-- **特殊情况**: 空对象返回空字符串；`encode: false` 时保持原始字符
+- **说明**: 序列化后的查询字符串，不含前导 `?`。
+- **特殊情况**:
+  - 当 `params` 为空对象 `{}` 时，返回空字符串 `''`。
+  - 当传入 `null` 或 `undefined` 值时，默认会被省略；可通过 `strictNullHandling` 等选项改变行为。
 
-### 泛型约束（如适用）
-
-- 该函数不暴露泛型，但 `QueryObject` 允许你通过类型别名定义更具体的结构（如 `Record<'id' | 'name', string>`）。
-
-## 注意事项与边界情况
+## 注意事项
 
 ### 输入边界
 
-- 空对象直接返回 `''`，可安全拼接到 URL
-- 数组与嵌套对象遵循 `qs` 的序列化规则；如需更简单的 `repeat` 格式可通过 `options` 控制
-- 值为 `undefined` 的键会被自动忽略，`null` 会被转换成字符串 `"null"`
+- `params` 为空对象 `{}` 时返回空字符串，不会抛出异常。
+- 嵌套对象默认使用方括号表示法（如 `a[b]=c`），可通过 `allowDots` 改为点号表示法。
+- 数组默认使用索引格式（`ids[0]=1`），可通过 `arrayFormat` 切换为括号格式、重复键或逗号分隔。
 
 ### 错误处理
 
-- **异常类型**: 当对象包含循环引用或不可序列化值时，`qs.stringify` 可能抛出 `Error`
-- **处理建议**: 序列化前移除循环引用或 DOM 节点；必要时使用 `try...catch`
-
-### 性能考虑
-
-- **时间复杂度**: O(n)，`n` 为需要遍历的键值对数量
-- **空间复杂度**: O(n)，输出字符串长度与输入规模成正比
-- **优化建议**: 对频繁更新的查询对象使用缓存或 diff，避免重复全量序列化
-
-### 兼容性
-
-- 适用于 Node.js ≥ 14 与现代浏览器环境
-- 输出格式与 `parse`、`parseSearch`、`qs.parse` 完全对称，可在前后端之间往返
+- 本函数不主动抛出异常，底层由 `qs` 库处理序列化逻辑。
+- 若传入非对象类型（如 `null`、`undefined`），`qs` 可能返回空字符串或产生非预期结果，建议调用前确保 `params` 为有效对象。
 
 ## 相关链接
 
-- 源码: `packages/biz/src/qs/stringify.ts`
-- 类型定义: `packages/biz/src/qs/types.ts`
-- 测试: `packages/biz/test/query.test.ts`
+- [源码](https://github.com/DreamyTZK/esdora/blob/main/packages/biz/src/qs/stringify/index.ts)
+- [单元测试](https://github.com/DreamyTZK/esdora/blob/main/packages/biz/src/qs/stringify/index.test.ts)

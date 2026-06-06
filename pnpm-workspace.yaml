@@ -1,67 +1,73 @@
 ignoreWorkspaceRootCheck: true
 
-publicHoistPattern:
-  - lefthook
-  - eslint
-  - '@commitlint/*'
-  - czg
 shellEmulator: true
-trustPolicy: no-downgrade
+trustPolicy: off
 
 packages:
   - playground
   - docs
   - packages/*
+  - examples/*
+  - internal/*
 
 catalog:
-  '@antfu/eslint-config': ^8.2.0
+  '@antfu/eslint-config': ^9.0.0
+  '@braintree/sanitize-url': ^7.1.2
   '@changesets/changelog-github': ^0.7.0
   '@changesets/cli': ^2.31.0
-  '@commitlint/cli': ^20.5.3
-  '@commitlint/config-conventional': ^20.5.3
+  '@commitlint/cli': ^21.0.2
+  '@commitlint/config-conventional': ^21.0.2
   '@iconify-json/svg-spinners': ^1.2.4
   '@shikijs/vitepress-twoslash': 3.13.0
   '@types/culori': ^4.0.1
-  '@types/node': ^24.12.2
+  '@types/node': ^24.13.0
   '@types/qs': ^6.15.1
-  '@unocss/reset': ^66.6.8
-  '@vitest/coverage-v8': ^4.1.5
-  '@vitest/ui': ^4.1.5
+  '@unocss/reset': ^66.7.0
+  '@vitest/coverage-v8': ^4.1.8
+  '@vitest/ui': ^4.1.8
   '@vueuse/core': ^13.9.0
-  chokidar: ^5.0.0
+  chokidar: ^4.0.3
   class-variance-authority: ^0.7.1
   clsx: ^2.1.1
-  commitlint-plugin-function-rules: ^4.3.2
+  commitlint-plugin-function-rules: ^5.0.1
   culori: ^4.0.2
-  cz-git: ^1.13.0
-  czg: ^1.13.0
-  date-fns: ^4.1.0
-  eslint: ^10.3.0
+  cytoscape: ^3.34.0
+  cytoscape-cose-bilkent: ^4.1.0
+  cz-git: ^1.13.1
+  czg: ^1.13.1
+  date-fns: ^4.4.0
+  dayjs: ^1.11.21
+  debug: ^4.4.3
+  eslint: ^10.4.1
   eslint-plugin-format: ^2.0.1
   fast-glob: ^3.3.3
   floating-vue: ^5.2.2
-  lefthook: ^2.1.6
-  mermaid: ^11.14.0
+  lefthook: ^2.1.9
+  mermaid: ^11.15.0
   pinia: ^3.0.4
-  pnpm: ^11.0.8
-  qs: ^6.15.1
-  tailwind-merge: ^3.5.0
-  tinyexec: ^1.1.2
-  tsdown: ^0.22.0
-  tsx: ^4.21.0
-  turbo: ^2.9.9
+  pnpm: ^11.5.2
+  qs: ^6.15.2
+  tailwind-merge: ^3.6.0
+  tinyexec: ^1.2.4
+  tsdown: ^0.22.2
+  tsx: ^4.22.4
+  turbo: ^2.9.16
   typescript: ^6.0.3
-  unocss: ^66.6.8
-  unplugin-vue-components: ^32.0.0
-  vite: ^8.0.11
+  unocss: ^66.7.0
+  unplugin-vue-components: ^30.0.0
+  vite: ^8.0.16
   vite-tsconfig-paths: ^5.1.4
-  vitepress: 2.0.0-alpha.12
+  vitepress: 2.0.0-alpha.17
   vitepress-plugin-group-icons: ^1.7.5
   vitepress-plugin-mermaid: ^2.0.17
-  vitest: ^4.1.5
+  vitest: ^4.1.8
   vitest-package-exports: ^1.2.0
-  vue: ^3.5.34
-  yaml: ^2.8.4
+  vue: ^3.5.35
+  yaml: ^2.9.0
+
+onlyBuiltDependencies:
+  - esbuild
+  - lefthook
 
 peerDependencyRules:
   allowedVersions:
@@ -70,5 +76,3 @@ peerDependencyRules:
 allowBuilds:
   esbuild: true
   lefthook: true
-preferFrozenLockfile: true
-autoInstallPeers: true

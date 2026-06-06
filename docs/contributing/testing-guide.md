@@ -32,7 +32,7 @@ description: 了解如何为 Dora Pocket 项目编写和运行单元测试，以
 
 - **检查测试覆盖率**:
   ```sh
-  pnpm coverage
+  pnpm test:coverage
   ```
   这个命令会在 `coverage/` 目录下生成一份详细的测试覆盖率报告，你可以在浏览器中打开 `index.html` 查看。
 
@@ -43,7 +43,7 @@ description: 了解如何为 Dora Pocket 项目编写和运行单元测试，以
 1.  **文件位置**: 测试文件应与源文件放在**同一目录**下，并以 **`.test.ts`** 结尾。
 
     ```
-    - /packages/packages/kit/src/function/clamp/
+    - packages/kit/src/function/clamp/
       - index.ts      (源文件)
       - index.test.ts (测试文件)
     ```
@@ -97,6 +97,6 @@ pnpm build
 
 你的 Pull Request **必须**保证你修改或新增的代码行、函数和分支都被单元测试完全覆盖。
 
-- 在本地运行 `pnpm coverage` 来检查你的覆盖率报告。
+- 在本地运行 `pnpm test:coverage` 来检查你的覆盖率报告。
 - CI 流程会自动使用 [**Codecov**](https://app.codecov.io/gh/esdora-js/esdora) 进行覆盖率检查，任何未达到 100% 的 PR 都将无法合并。
 - 你可以访问我们的 [Codecov 配置](https://github.com/esdora-js/esdora/blob/main/codecov.yml)来了解具体的忽略规则和阈值设置。
