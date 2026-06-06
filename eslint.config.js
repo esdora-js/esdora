@@ -13,5 +13,8 @@ export default antfu(
       'docs/templates/**',
       'docs/contributing/documentation/**',
     ],
+    rules: {
+      'pnpm/yaml-enforce-settings': 'off',
+    },
   },
 )
