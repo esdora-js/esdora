@@ -101,6 +101,7 @@ if (existsSync(join(root, routingPath))) {
 assert(existsSync(join(root, '.claude/skills/esdora/SKILL.md')), 'Claude native skill stub is missing')
 assert(!existsSync(join(root, '.cursor')), '.cursor has been retired (Cursor support dropped). Do not re-introduce.')
 assert(!existsSync(join(root, '.claude/rules')), '.claude/rules has been retired; canonical rules live in skills/esdora/rules/. Do not re-introduce.')
+assert(!existsSync(join(root, '.claude/templates/api-doc.md')), '.claude/templates/api-doc.md duplicates skills/esdora/references/doc-template.md; keep one canonical API doc template.')
 
 if (existsSync(join(root, 'CLAUDE.md')))
   assert(read('CLAUDE.md').trim() === '@AGENTS.md', 'CLAUDE.md must contain only @AGENTS.md')
@@ -118,8 +119,20 @@ for (const file of shellFiles) {
     continue
 
   const content = read(file)
+  const lines = content.trimEnd().split('\n').length
   assert(!content.includes('.agents/rules'), `${file} references removed .agents/rules path`)
   assert(!content.includes('@include ../../.agents'), `${file} contains removed @include path`)
+
+  if (file === 'AGENTS.md') {
+    assert(lines <= 55, `${file} has ${lines} lines; root compatibility shell should stay thin`)
+    assert(!content.includes('## Common Commands'), `${file} must not duplicate command tables; read package.json`)
+    assert(!content.includes('## Core Project Facts'), `${file} must not duplicate project facts; route to skills/esdora/`)
+  }
+
+  if (file.startsWith('packages/') && file.endsWith('/AGENTS.md')) {
+    assert(lines <= 8, `${file} has ${lines} lines; package overlay should stay thin`)
+    assert(!content.includes('Package-specific boundary'), `${file} must not duplicate package boundaries; use skills/esdora/rules/package-boundaries.md`)
+  }
 }
 
 for (const file of ['.claude/agents/doc-generator.md', '.claude/agents/vibe-architect.md']) {
@@ -156,6 +169,11 @@ assertIncludes('skills/esdora/rules/quality-gates.md', [
   'test:coverage',
   'fully covered',
 ])
+
+if (existsSync(join(root, 'skills/esdora/references/package-scaffold.md'))) {
+  const packageScaffold = read('skills/esdora/references/package-scaffold.md')
+  assert(!packageScaffold.includes('Package-specific boundary:'), 'package-scaffold.md must not generate package AGENTS boundary text')
+}
 
 assertIncludes('skills/esdora/rules/coding-standards.md', [
   'Public API Stability',

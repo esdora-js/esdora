@@ -118,6 +118,7 @@ Package: `@esdora/{name}`
 Location: `packages/{name}/`
 
 Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
-
-Package-specific boundary: {one-sentence boundary}
 ```
+
+Do not duplicate package boundary rules in package overlays. Add or update
+boundaries in `skills/esdora/rules/package-boundaries.md`.

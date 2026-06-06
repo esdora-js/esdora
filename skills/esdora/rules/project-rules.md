@@ -1,28 +1,17 @@
 # Project Rules
 
-## Identity
-
-- Name: Dora Pocket / esdora / 四次元口袋
-- Type: TypeScript utility library monorepo
-- Packages: `@esdora/kit`, `@esdora/color`, `@esdora/date`, `@esdora/biz`, `esdora`
-- Philosophy: practical-first utilities, zero-dependency core, ESM-first with CJS output
-
 ## Workspace
 
-This is a pnpm workspace orchestrated by turbo. Packages live under
-`packages/*`; read `pnpm-workspace.yaml` and package `package.json` files as the
-authoritative source for membership, scripts, dependencies, and exports.
+Read `pnpm-workspace.yaml` and package `package.json` files as the authoritative
+source for workspace membership, scripts, dependencies, package metadata, and
+exports. Do not maintain duplicated package inventories or dependency lists in
+rules.
 
 ## Commands
 
-Use root scripts unless a workflow asks for a package-specific command:
-
-- Install: `pnpm install`
-- Build: `pnpm build`
-- Test: `pnpm test`
-- Lint: `pnpm lint`
-- Typecheck: `pnpm typecheck`
-- Docs: `pnpm docs`
+Use root `package.json` scripts unless a workflow asks for a package-specific
+command. When scripts change, prefer the current `package.json` over older docs
+or generated notes.
 
 ## Documentation Layers
 
@@ -31,10 +20,10 @@ Use root scripts unless a workflow asks for a package-specific command:
 - Compatibility shells: `AGENTS.md` (Codex-native, also read by other tools),
   `CLAUDE.md`, package-level `AGENTS.md`, `.claude/agents/`, `.claude/skills/`
 
+Compatibility shells must route to `skills/esdora/`; do not copy durable rule,
+workflow, reference, package boundary, or command bodies into shells.
+
 ## Verification
 
-For broad changes, run:
-
-```bash
-pnpm typecheck && pnpm lint && pnpm test
-```
+For broad changes, select checks through `skills/esdora/rules/quality-gates.md`
+and run the current scripts from root `package.json`.
