@@ -59,6 +59,12 @@ jobs:
       - name: Run lint
         run: pnpm run lint
 
+      - name: Skill architecture check
+        run: pnpm run lint:skills
+
+      - name: Trace AI instruction loading
+        run: pnpm run lint:skill-graph
+
       - name: Run typecheck
         run: pnpm run typecheck
 
