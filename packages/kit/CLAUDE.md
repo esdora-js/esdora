@@ -1,0 +1,3 @@
+# Kit Package
+
+@./AGENTS.md

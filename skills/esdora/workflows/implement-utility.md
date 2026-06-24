@@ -13,13 +13,20 @@
    changes.
 7. Run the narrowest relevant tests first, then broader checks when needed.
 
-## Package Notes
+## Package-Specific Rules
 
-- `kit`: no runtime dependencies.
-- `color`: use `culori` for color math where appropriate.
-- `date`: use `date-fns` for date operations where appropriate.
-- `biz`: keep business utilities standalone.
-- `esdora`: re-export only.
+If the target package has `.agents/rules/`, read those files for:
+- Dependency constraints (e.g., zero runtime dependencies, standalone requirement)
+- Library integration patterns (e.g., which external libraries to use)
+- Package role (e.g., meta-package that only re-exports)
+
+Common package rules:
+- Kit: `@packages/kit/.agents/rules/package-boundary.md`
+- Biz: `@packages/biz/.agents/rules/package-boundary.md`
+- Date: `@packages/date/.agents/rules/package-boundary.md`
+- Esdora: `@packages/esdora/.agents/rules/meta-package.md`
+
+AI should automatically detect the target package and read its specific rules.
 
 ## Verification
 

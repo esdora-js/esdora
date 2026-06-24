@@ -3,4 +3,7 @@
 Package: `@esdora/biz`
 Location: `packages/biz/`
 
-Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+## Package Rules & References
+
+@./.agents/rules/package-boundary.md
+@./.agents/references/export-notes.md
