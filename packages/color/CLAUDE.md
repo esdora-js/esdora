@@ -1,0 +1,3 @@
+# Color Package
+
+@./AGENTS.md

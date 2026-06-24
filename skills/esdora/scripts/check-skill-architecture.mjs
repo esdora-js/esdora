@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join, normalize } from 'node:path'
 import process from 'node:process'
 
 const root = process.cwd()
@@ -14,12 +14,16 @@ function assert(condition, message) {
     failures.push(message)
 }
 
+const SKIP_DIRS = new Set(['node_modules', '.git'])
+
 function walk(dir, predicate, out = []) {
   const abs = join(root, dir)
   if (!existsSync(abs))
     return out
 
   for (const entry of readdirSync(abs)) {
+    if (SKIP_DIRS.has(entry))
+      continue
     const rel = join(dir, entry)
     const st = statSync(join(root, rel))
     if (st.isDirectory()) {
@@ -205,6 +209,53 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
   '@deprecated',
   'major release',
 ])
+
+// ── Package boundary localization ─────────────────────────────
+// Every package listed in package-boundaries.md must carry localized
+// rules under packages/<pkg>/.agents/rules/, and its AGENTS.md must
+// @import them. Guards against the color-style omission regression.
+{
+  const boundariesPath = 'skills/esdora/rules/package-boundaries.md'
+  if (existsSync(join(root, boundariesPath))) {
+    const boundaries = read(boundariesPath)
+    const pkgRe = /\|\s*`(@esdora\/[\w-]+|esdora)`\s*\|/g
+    const listed = [...boundaries.matchAll(pkgRe)].map(m => m[1])
+    for (const name of listed) {
+      const dir = name === 'esdora' ? 'esdora' : name.replace('@esdora/', '')
+      const rulesDir = `packages/${dir}/.agents/rules`
+      assert(existsSync(join(root, rulesDir)), `${name} is listed in package-boundaries.md but ${rulesDir}/ is missing`)
+      const agents = `packages/${dir}/AGENTS.md`
+      if (existsSync(join(root, agents)))
+        assert(read(agents).includes('@./.agents/rules/'), `${agents} must @import a file under .agents/rules/ (package ${name} has localized rules)`)
+    }
+  }
+}
+
+// ── @import target existence ──────────────────────────────────
+// Resolve @./, @../, and @name.md references in AI-instruction files
+// and verify each target exists. Catches broken compatibility-shell
+// include chains across CLAUDE.md / AGENTS.md / .agents/.
+{
+  const importRe = /^[ \t]*@(\.{1,2}\/[^\s`<>)]+|[A-Za-z][\w-]*\.md)/gm
+  const mdFiles = [
+    ...new Set([
+      'AGENTS.md',
+      'CLAUDE.md',
+      ...walk('packages', rel => rel.endsWith('.md')),
+      ...walk('skills', rel => rel.endsWith('.md')),
+      ...walk('.claude', rel => rel.endsWith('.md')),
+    ]),
+  ]
+  for (const file of mdFiles) {
+    if (!existsSync(join(root, file)))
+      continue
+    for (const token of read(file).matchAll(importRe)) {
+      const rel = token[1].replace(/[`.,;)]+$/, '')
+      const target = normalize(join(root, dirname(file), rel))
+      assert(existsSync(target), `${file}: broken @import → ${rel}`)
+    }
+  }
+}
 
 if (failures.length) {
   console.error('Skill architecture check failed:')
