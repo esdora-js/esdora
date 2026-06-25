@@ -244,6 +244,53 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
   }
 }
 
+// ── Category-level localized rules ────────────────────────────
+// Same full-coverage rule as package-level, but for a single category of
+// tools inside a package: packages/<pkg>/src/<cat>/.agents/. No package
+// uses category-level rules today, so this is a dormant guard that activates
+// the moment one is added — its .md files must be @import'd by that
+// category's AGENTS.md/CLAUDE.md. See references/instruction-loading.md.
+{
+  const pkgsAbs = join(root, 'packages')
+  if (existsSync(pkgsAbs)) {
+    for (const pkg of readdirSync(pkgsAbs)) {
+      if (SKIP_DIRS.has(pkg))
+        continue
+      const srcAbs = join(pkgsAbs, pkg, 'src')
+      if (!existsSync(srcAbs))
+        continue
+      for (const cat of readdirSync(srcAbs)) {
+        if (SKIP_DIRS.has(cat))
+          continue
+        const catAbs = join(srcAbs, cat)
+        if (!statSync(catAbs).isDirectory())
+          continue
+        const agentsAbs = join(catAbs, '.agents')
+        if (!existsSync(agentsAbs))
+          continue
+        const catRel = `packages/${pkg}/src/${cat}`
+        const shellAgents = `${catRel}/AGENTS.md`
+        const shellClaude = `${catRel}/CLAUDE.md`
+        const shell = existsSync(join(root, shellAgents)) ? shellAgents : shellClaude
+        if (!existsSync(join(root, shell))) {
+          assert(false, `${catRel} has .agents/ but no AGENTS.md/CLAUDE.md to @import them`)
+          continue
+        }
+        const shellContent = read(shell)
+        for (const sub of ['rules', 'references']) {
+          const subDir = `${catRel}/.agents/${sub}`
+          if (!existsSync(join(root, subDir)))
+            continue
+          for (const f of readdirSync(join(root, subDir)).filter(_ => _.endsWith('.md'))) {
+            const token = `@./.agents/${sub}/${f}`
+            assert(shellContent.includes(token), `${shell} must @import ${token} (exists under ${subDir}/ but not imported)`)
+          }
+        }
+      }
+    }
+  }
+}
+
 // ── @import target existence ──────────────────────────────────
 // Resolve @./, @../, and @name.md references in AI-instruction files
 // and verify each target exists. Catches broken compatibility-shell
