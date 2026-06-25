@@ -432,11 +432,13 @@ function judgeRuns(caseDef, tool, runs) {
   for (const target of caseDef.prefer_reads || [])
     preferHit[target] = preferJudgements.flat().filter(h => h.target === target && h.ok).length
 
+  const errors = runs.map(r => r.error).filter(Boolean)
   const n = caseDef.n
   return {
     caseId: caseDef.id,
     tool,
     n,
+    errors,
     reads: { pass: readsPassCount, n, k: caseDef.k, ok: readsPassCount >= caseDef.k, misses: collectMisses(readsJudgements) },
     expectNot: caseDef.expect_not?.length
       ? { pass: notPassCount, n, k: caseDef.k, ok: notPassCount >= caseDef.k }
@@ -476,6 +478,8 @@ function report(result) {
     fails.push(`behavior.lite: ${result.lite.pass}/${result.lite.n} (need ${result.lite.k}) — reply lacked all expected keywords`)
   if (result.strict && !result.strict.ok)
     fails.push(`behavior.strict: ${result.strict.pass}/${result.strict.n} (need ${result.strict.k})${result.strict.dry ? ' [mocked]' : ''}`)
+  if (result.errors?.length)
+    fails.push(`agent 调用失败: ${result.errors.length}/${result.n} 次 — 首个: ${result.errors[0]}`)
 
   if (fails.length)
     lines.push(color(RED, '  🔴 FAIL'))
@@ -521,7 +525,7 @@ function summaryTable(results) {
       r.expectNot ? `${r.expectNot.pass}/${r.expectNot.n}` : '—',
       r.lite ? `${r.lite.pass}/${r.lite.n}` : '—',
       r.strict ? `${r.strict.pass}/${r.strict.n}` : (r.todoStrict ? 'TODO' : '—'),
-      hardPass(r) ? '✅' : '🔴',
+      hardPass(r) ? '✅' : (r.errors?.length ? '🔴ERR' : '🔴'),
     ])
   }
   return renderTable(rows)
@@ -596,6 +600,10 @@ function parseArgs(argv) {
 
 function main() {
   const opts = parseArgs(process.argv.slice(2))
+
+  // Prune stale worktrees left by a previously killed run (real runs only).
+  if (!opts.dryRun)
+    runGit(['worktree', 'prune'])
 
   const selected = cases.filter(c => !opts.caseId || c.id === opts.caseId)
   if (!selected.length) {

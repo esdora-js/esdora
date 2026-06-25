@@ -65,6 +65,9 @@ jobs:
       - name: Trace AI instruction loading
         run: pnpm run lint:skill-graph
 
+      - name: AI load-test harness self-check
+        run: pnpm run test:ai-load:dry
+
       - name: Run typecheck
         run: pnpm run typecheck
 

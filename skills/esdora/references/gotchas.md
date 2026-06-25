@@ -19,6 +19,8 @@ source of truth and keep rules focused on boundary strategy.
 
 ## AI Instruction Loading Verification
 
+Full three-tier loading model (global / package / category) in `references/instruction-loading.md`.
+
 Package rules load differently per agent tool:
 
 - Claude Code: `@import` in `CLAUDE.md` / `AGENTS.md` expands recursively, so
