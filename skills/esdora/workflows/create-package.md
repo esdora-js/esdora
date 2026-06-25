@@ -32,14 +32,20 @@ clarifying question:
    `skills/esdora/references/package-scaffold.md`.
 4. Configure `package.json` exports for ESM + CJS dual output and
    `"sideEffects": false`.
-5. Add `tsdown.config.ts`, `tsconfig.json`, `src/index.ts`, an initial test, and
-   a package `AGENTS.md` overlay.
-6. Add docs stubs under `docs/packages/{name}/`.
-7. If the new package should be included by the `esdora` meta package, update
+5. Add `tsdown.config.ts`, `tsconfig.json`, `src/index.ts`, and an initial test.
+6. Add the package AI overlay per `package-scaffold.md`: `AGENTS.md` +
+   `CLAUDE.md` thin shells and `.agents/rules/package-boundary.md` with the
+   package-specific boundary (role, dependency policy, verification).
+7. Register the package in the `skills/esdora/rules/package-boundaries.md`
+   table — one row: `` `@esdora/{name}` `` + a one-line boundary. The
+   architecture check requires every `packages/*` to be listed and to carry
+   `.agents/rules/`.
+8. Add docs stubs under `docs/packages/{name}/`.
+9. If the new package should be included by the `esdora` meta package, update
    `packages/esdora/package.json` dependencies and `packages/esdora/index.ts`.
-8. Update any package docs index or navigation only after checking the existing
-   VitePress config and docs structure.
-9. Add a changeset if the package is intended to be published.
+10. Update any package docs index or navigation only after checking the existing
+    VitePress config and docs structure.
+11. Add a changeset if the package is intended to be published.
 
 ## Done When
 

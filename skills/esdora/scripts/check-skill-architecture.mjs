@@ -241,6 +241,19 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
         }
       }
     }
+
+    // Reverse: every packages/* with a package.json must be listed in the
+    // table and carry .agents/rules/. Catches a new package scaffolded but not
+    // registered, or registered without localized rules.
+    const pkgDirs = readdirSync(join(root, 'packages'))
+      .filter(d => !SKIP_DIRS.has(d) && statSync(join(root, 'packages', d)).isDirectory())
+    for (const dir of pkgDirs) {
+      if (!existsSync(join(root, 'packages', dir, 'package.json')))
+        continue
+      const name = dir === 'esdora' ? 'esdora' : `@esdora/${dir}`
+      assert(listed.includes(name), `${name} (packages/${dir}/) exists but is not listed in package-boundaries.md — add a table row`)
+      assert(existsSync(join(root, 'packages', dir, '.agents/rules')), `packages/${dir}/ has no .agents/rules/ — add localized rules`)
+    }
   }
 }
 
@@ -296,7 +309,9 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
 // and verify each target exists. Catches broken compatibility-shell
 // include chains across CLAUDE.md / AGENTS.md / .agents/.
 {
-  const importRe = /^[ \t]*@(\.{1,2}\/[^\s`<>)]+|[A-Za-z][\w-]*\.md)/gm
+  // @import-looking lines inside fenced code blocks are doc examples (e.g.
+  // scaffold templates), not real include directives — skip them.
+  const lineRe = /^[ \t]*@(\.{1,2}\/[^\s`<>)]+|[A-Za-z][\w-]*\.md)/
   const mdFiles = [
     ...new Set([
       'AGENTS.md',
@@ -309,8 +324,18 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
   for (const file of mdFiles) {
     if (!existsSync(join(root, file)))
       continue
-    for (const token of read(file).matchAll(importRe)) {
-      const rel = token[1].replace(/[`.,;)]+$/, '')
+    let inFence = false
+    for (const line of read(file).split('\n')) {
+      if (/^\s*```/.test(line)) {
+        inFence = !inFence
+        continue
+      }
+      if (inFence)
+        continue
+      const m = line.match(lineRe)
+      if (!m)
+        continue
+      const rel = m[1].replace(/[`.,;)]+$/, '')
       const target = normalize(join(root, dirname(file), rel))
       assert(existsSync(target), `${file}: broken @import → ${rel}`)
     }

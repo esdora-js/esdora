@@ -8,6 +8,10 @@ Adapt package boundaries from `skills/esdora/rules/package-boundaries.md`.
 ```text
 packages/{name}/
 ├── AGENTS.md
+├── CLAUDE.md
+├── .agents/
+│   └── rules/
+│       └── package-boundary.md
 ├── README.md
 ├── package.json
 ├── tsconfig.json
@@ -111,14 +115,33 @@ zero-dependency packages, use only the local `@` alias.
 
 ## Package AGENTS Overlay
 
+Each package carries its own boundary rule under `.agents/rules/` and imports
+it from a thin `AGENTS.md` (Codex entry) + `CLAUDE.md` (Claude entry). See
+`references/instruction-loading.md` for the loading model.
+
+`packages/{name}/AGENTS.md`:
+
 ```markdown
 # @esdora/{name} Agent Overlay
 
 Package: `@esdora/{name}`
 Location: `packages/{name}/`
 
-Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+## Package Rules
+
+@./.agents/rules/package-boundary.md
 ```
 
-Do not duplicate package boundary rules in package overlays. Add or update
-boundaries in `skills/esdora/rules/package-boundaries.md`.
+`packages/{name}/CLAUDE.md`:
+
+```markdown
+# {Name} Package
+
+@./AGENTS.md
+```
+
+`packages/{name}/.agents/rules/package-boundary.md` holds the package-specific
+boundary (role, dependency policy, verification). Also register the package in
+the global table at `skills/esdora/rules/package-boundaries.md` — the
+architecture check enforces consistency both ways (every `packages/*` must be
+listed and carry `.agents/rules/`).
