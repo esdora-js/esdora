@@ -4,6 +4,8 @@
 
 Read each package's `package.json` as the authoritative dependency source.
 
+This table is kept in sync with `packages/*` by `check-skill-architecture.mjs`.
+
 | Package         | Boundary                                                                   |
 | --------------- | -------------------------------------------------------------------------- |
 | `@esdora/kit`   | Foundation utility package. It must not have runtime dependencies.         |
@@ -16,7 +18,8 @@ Read each package's `package.json` as the authoritative dependency source.
 
 - Avoid circular dependencies between workspace packages.
 - Keep `kit` dependency-free at runtime.
-- Keep `biz` standalone unless a deliberate architecture change is requested.
+- `biz` may depend on workspace packages only with a deliberate architecture
+  change.
 - Keep `esdora` implementation-free; add new logic to the owning package and
   re-export it from the meta package.
 - Use external dependencies where the package exists to wrap them (`color`,

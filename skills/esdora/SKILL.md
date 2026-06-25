@@ -32,18 +32,7 @@ For every non-trivial task:
 
 ## Common Tasks
 
-- Package API implementation or package changes:
-  `skills/esdora/workflows/implement-utility.md`
-- New workspace package scaffolding:
-  `skills/esdora/workflows/create-package.md`
-- API reference docs:
-  `skills/esdora/workflows/update-api-doc.md`
-- Build, test, lint, typecheck, package verification:
-  `skills/esdora/workflows/verify-package.md`
-- AI rules, agents, skills, and project instruction maintenance:
-  `skills/esdora/workflows/maintain-ai-rules.md`
-- Release and versioned change preparation:
-  `skills/esdora/workflows/release-change.md`
+Task routes live in `skills/esdora/routing.yaml`; match the task there.
 
 ## Priority
 

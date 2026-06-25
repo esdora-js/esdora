@@ -1,10 +1,12 @@
 # Gotchas
 
-## Broken Package AGENTS Includes
+## Package AGENTS Overlays Stay Thin
 
-Package-level `AGENTS.md` files previously referenced `../../.agents/rules.*`,
-but this project did not contain a `.agents/` directory. Keep package-level
-entries as thin overlays and route canonical rules through `skills/esdora/`.
+Package-level `AGENTS.md` / `CLAUDE.md` must stay thin shells — they only
+`@import` the package's `.agents/rules/`. Do not copy rule bodies into them.
+(History: overlays once referenced a non-existent `../../.agents/rules.*`; the
+full-coverage check in `check-skill-architecture.mjs` now enforces that every
+`.agents/{rules,references}/*.md` is `@import`'d by its package shell.)
 
 ## Duplicate AI Rule Bodies
 
@@ -19,7 +21,8 @@ source of truth and keep rules focused on boundary strategy.
 
 ## AI Instruction Loading Verification
 
-Full three-tier loading model (global / package / category) in `references/instruction-loading.md`.
+Scope tiers (where a rule lives) and loading conditions (when it loads) are
+documented in `references/instruction-loading.md`.
 
 Package rules load differently per agent tool:
 

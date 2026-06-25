@@ -55,6 +55,8 @@ clarifying question:
 - `pnpm -C packages/{name} typecheck` passes when the package has that script.
 - `pnpm -C packages/{name} test` passes when tests exist.
 - `pnpm lint:skills` still passes if AI overlays changed.
+- `pnpm lint:skill-graph` passes if AI overlays changed (new packages alter the
+  loading graph).
 
 For broad package creation, also run:
 

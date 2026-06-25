@@ -8,7 +8,8 @@
    - minor: backward-compatible public features
    - patch: backward-compatible bug fixes
 3. Add a changeset for user-facing package changes unless policy says it is not
-   needed.
+   needed. Changeset bodies describe user-facing release impact, not development
+   process.
 4. For deprecations, keep the API available for at least one minor release,
    mark it with `@deprecated`, document the replacement, and only remove it in a
    major release.

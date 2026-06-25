@@ -6,6 +6,10 @@ Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `skills/esdora/`,
 `.claude/agents/`, `.claude/skills/`, and package-level
 `AGENTS.md` files.
 
+Judge against the desired governance and quality standard. Treat current files
+as evidence, not as a reason to preserve weaker rules when project intent
+points to a stronger, reviewable constraint.
+
 ## Steps
 
 1. Keep `skills/esdora/` as the canonical source of rules, workflows, and
@@ -19,7 +23,11 @@ Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `skills/esdora/`,
    into shells.
 4. Put constraints in `rules/`, procedures in `workflows/`, and background or
    templates in `references/`.
-5. Run `node skills/esdora/scripts/check-skill-architecture.mjs`.
+5. Run the verification trio:
+   - `pnpm lint:skills` (static architecture)
+   - `pnpm lint:skill-graph` (loading reachability graph)
+   - `pnpm test:ai-load:dry` (harness self-check, zero cost; run real
+     `pnpm test:ai-load` locally on demand)
 
 ## Done When
 
@@ -27,3 +35,4 @@ Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `skills/esdora/`,
 - `SKILL.md` stays within the line budget.
 - Route workflows and required reads exist.
 - Claude registration entries route to the formal skill.
+- `pnpm lint:skill-graph` and `pnpm test:ai-load:dry` pass.

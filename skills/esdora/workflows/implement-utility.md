@@ -24,6 +24,7 @@ If the target package has `.agents/rules/`, read those files for:
 Common package rules:
 
 - Kit: `@packages/kit/.agents/rules/package-boundary.md`
+- Color: `@packages/color/.agents/rules/package-boundary.md`
 - Biz: `@packages/biz/.agents/rules/package-boundary.md`
 - Date: `@packages/date/.agents/rules/package-boundary.md`
 - Esdora: `@packages/esdora/.agents/rules/meta-package.md`

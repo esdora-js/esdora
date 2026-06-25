@@ -6,11 +6,6 @@ Read formal skill files before acting on non-trivial work. Use
 `skills/esdora/routing.yaml` to select only the workflow and references needed
 for the current task.
 
-When auditing or maintaining project AI rules, judge against the desired
-governance and quality standard. Treat current files as evidence, not as a
-reason to preserve weaker rules when project intent points to a stronger,
-reviewable constraint.
-
 ## Editing
 
 - Respect existing user changes. Do not revert unrelated work.

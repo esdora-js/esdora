@@ -16,12 +16,12 @@ the agent reads the referenced file itself. A subdirectory
 `CLAUDE.md`/`AGENTS.md` loads only when the agent operates inside that
 subdirectory — that is the location condition.
 
-## Where a rule belongs (by scope)
+## Scope tiers (where a rule lives)
 
-Put a rule in its **smallest applicable scope**. Physical location is the
+Put a rule in its **smallest applicable scope tier**. Physical location is the
 loading condition: the deeper a rule lives, the more precisely it loads.
 
-| Scope                         | Location                                                             | Loads when                 |
+| Scope tier                    | Location                                                             | Loads when                 |
 | ----------------------------- | -------------------------------------------------------------------- | -------------------------- |
 | Cross-package / project-wide  | `skills/esdora/rules/` (`always_read` or a route's `required_reads`) | always / route match       |
 | Whole package                 | `packages/<pkg>/.agents/rules/`                                      | operating in the package   |

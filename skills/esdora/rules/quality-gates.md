@@ -23,7 +23,7 @@ Use the smallest check set that covers the changed surface:
   accepts a documented exception.
 - Docs changes: run docs build when VitePress structure or Markdown syntax might
   be affected.
-- AI instruction changes: run the skill architecture check script.
+- AI instruction changes: run `pnpm lint:skills` and `pnpm lint:skill-graph`.
 
 ## Release Safety
 
