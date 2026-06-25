@@ -224,9 +224,22 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
       const dir = name === 'esdora' ? 'esdora' : name.replace('@esdora/', '')
       const rulesDir = `packages/${dir}/.agents/rules`
       assert(existsSync(join(root, rulesDir)), `${name} is listed in package-boundaries.md but ${rulesDir}/ is missing`)
+      // Every file under .agents/{rules,references}/ must be @import'd by the
+      // package AGENTS.md. @import is file-level (no dir glob), so coverage is
+      // explicit — this catches the "added a rule file, forgot the import" drift.
       const agents = `packages/${dir}/AGENTS.md`
-      if (existsSync(join(root, agents)))
-        assert(read(agents).includes('@./.agents/rules/'), `${agents} must @import a file under .agents/rules/ (package ${name} has localized rules)`)
+      if (existsSync(join(root, agents))) {
+        const agentsContent = read(agents)
+        for (const sub of ['rules', 'references']) {
+          const subDir = `packages/${dir}/.agents/${sub}`
+          if (!existsSync(join(root, subDir)))
+            continue
+          for (const f of readdirSync(join(root, subDir)).filter(_ => _.endsWith('.md'))) {
+            const token = `@./.agents/${sub}/${f}`
+            assert(agentsContent.includes(token), `${agents} must @import ${token} (exists under .agents/${sub}/ but not imported — add the @import or remove the file)`)
+          }
+        }
+      }
     }
   }
 }
