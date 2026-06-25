@@ -4,10 +4,10 @@ How project rules reach the agent's context, and where each rule belongs.
 
 ## Three loading conditions
 
-| Condition | Mechanism | Loads when |
-| --- | --- | --- |
-| Always | `routing.yaml` `always_read` | every task |
-| Task (route) | a route's `required_reads` | task matches that route |
+| Condition            | Mechanism                                 | Loads when                       |
+| -------------------- | ----------------------------------------- | -------------------------------- |
+| Always               | `routing.yaml` `always_read`              | every task                       |
+| Task (route)         | a route's `required_reads`                | task matches that route          |
 | Location (directory) | `CLAUDE.md` / `AGENTS.md` `@import` chain | agent operates in that directory |
 
 Claude Code expands `@import` recursively (≤5 levels) when it loads a
@@ -21,11 +21,11 @@ subdirectory — that is the location condition.
 Put a rule in its **smallest applicable scope**. Physical location is the
 loading condition: the deeper a rule lives, the more precisely it loads.
 
-| Scope | Location | Loads when |
-| --- | --- | --- |
-| Cross-package / project-wide | `skills/esdora/rules/` (`always_read` or a route's `required_reads`) | always / route match |
-| Whole package | `packages/<pkg>/.agents/rules/` | operating in the package |
-| One category inside a package | `packages/<pkg>/src/<cat>/.agents/rules/` | operating in that category |
+| Scope                         | Location                                                             | Loads when                 |
+| ----------------------------- | -------------------------------------------------------------------- | -------------------------- |
+| Cross-package / project-wide  | `skills/esdora/rules/` (`always_read` or a route's `required_reads`) | always / route match       |
+| Whole package                 | `packages/<pkg>/.agents/rules/`                                      | operating in the package   |
+| One category inside a package | `packages/<pkg>/src/<cat>/.agents/rules/`                            | operating in that category |
 
 Package-level rules still apply at the category level (directory loading
 recurses upward), so a category directory only adds its own specifics — it

@@ -16,11 +16,13 @@
 ## Package-Specific Rules
 
 If the target package has `.agents/rules/`, read those files for:
+
 - Dependency constraints (e.g., zero runtime dependencies, standalone requirement)
 - Library integration patterns (e.g., which external libraries to use)
 - Package role (e.g., meta-package that only re-exports)
 
 Common package rules:
+
 - Kit: `@packages/kit/.agents/rules/package-boundary.md`
 - Biz: `@packages/biz/.agents/rules/package-boundary.md`
 - Date: `@packages/date/.agents/rules/package-boundary.md`
