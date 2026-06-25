@@ -171,25 +171,38 @@ function parseCodexJsonl(stdout) {
 // by pathMatches to normalize observed paths to repo-relative form.
 
 function runClaude(task, cwd) {
-  const stdout = execFileSync(
-    'claude',
-    ['-p', task, '--output-format', 'stream-json', '--dangerously-skip-permissions'],
-    { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 },
-  )
-  return { ...parseClaudeStreamJson(stdout), cwd }
+  try {
+    const stdout = execFileSync(
+      'claude',
+      ['-p', task, '--output-format', 'stream-json', '--verbose', '--dangerously-skip-permissions'],
+      { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 },
+    )
+    return { ...parseClaudeStreamJson(stdout), cwd }
+  }
+  catch (err) {
+    const partial = err.stdout ? parseClaudeStreamJson(err.stdout.toString()) : { readPaths: [], replyText: '' }
+    return { ...partial, cwd, error: `claude failed: ${(err.message || '').split('\n')[0]}` }
+  }
 }
 
 function runCodex(task, cwd) {
   const lastMsgFile = join(cwd, '.codex-last-message.txt')
-  const stdout = execFileSync(
-    'codex',
-    ['exec', task, '--sandbox', 'workspace-write', '--skip-git-repo-check', '--json', '-o', lastMsgFile],
-    { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 },
-  )
-  const parsed = parseCodexJsonl(stdout)
-  if (!parsed.replyText && existsSync(lastMsgFile))
-    parsed.replyText = readFileSync(lastMsgFile, 'utf8').trim()
-  return { ...parsed, cwd }
+  try {
+    const stdout = execFileSync(
+      'codex',
+      ['exec', task, '--sandbox', 'workspace-write', '--skip-git-repo-check', '--json', '-o', lastMsgFile],
+      { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 },
+    )
+    const parsed = parseCodexJsonl(stdout)
+    if (!parsed.replyText && existsSync(lastMsgFile))
+      parsed.replyText = readFileSync(lastMsgFile, 'utf8').trim()
+    return { ...parsed, cwd }
+  }
+  catch (err) {
+    // codex may exit non-zero (e.g. upstream 503 turn.failed); salvage partial stdout.
+    const partial = err.stdout ? parseCodexJsonl(err.stdout.toString()) : { readPaths: [], replyText: '' }
+    return { ...partial, cwd, error: `codex failed: ${(err.message || '').split('\n')[0]}` }
+  }
 }
 
 // ── dry-run mock transcripts ─────────────────────────────────────────
