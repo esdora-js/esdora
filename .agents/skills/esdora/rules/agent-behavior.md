@@ -3,7 +3,7 @@
 ## Context
 
 Read formal skill files before acting on non-trivial work. Use
-`skills/esdora/routing.yaml` to select only the workflow and references needed
+`.agents/skills/esdora/routing.yaml` to select only the workflow and references needed
 for the current task.
 
 ## Editing
@@ -12,7 +12,7 @@ for the current task.
 - Keep changes scoped to the requested task.
 - Prefer edits that preserve established package patterns.
 - Do not duplicate rule bodies across shells; compatibility files should route
-  to `skills/esdora/`.
+  to `.agents/skills/esdora/`.
 
 ## Communication
 

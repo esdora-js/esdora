@@ -58,7 +58,7 @@ function countDescriptionLines(frontmatter) {
 
 function parseRoutingPaths(content) {
   const paths = []
-  const pathPattern = /^\s*-\s+(skills\/esdora\/\S+)|^\s*(workflow):\s+(skills\/esdora\/\S+)/gm
+  const pathPattern = /^\s*-\s+(\.agents\/skills\/esdora\/\S+)|^\s*(workflow):\s+(\.agents\/skills\/esdora\/\S+)/gm
   for (const match of content.matchAll(pathPattern))
     paths.push(match[1] ?? match[3])
   return paths
@@ -75,7 +75,7 @@ function assertIncludes(file, needles) {
     assert(content.includes(needle), `${file} must include "${needle}"`)
 }
 
-const skillPath = 'skills/esdora/SKILL.md'
+const skillPath = '.agents/skills/esdora/SKILL.md'
 assert(existsSync(join(root, skillPath)), `${skillPath} is missing`)
 
 if (existsSync(join(root, skillPath))) {
@@ -91,7 +91,7 @@ if (existsSync(join(root, skillPath))) {
   assert(bodyLines <= 90, `SKILL.md body has ${bodyLines} lines; max is 90`)
 }
 
-const routingPath = 'skills/esdora/routing.yaml'
+const routingPath = '.agents/skills/esdora/routing.yaml'
 assert(existsSync(join(root, routingPath)), `${routingPath} is missing`)
 
 if (existsSync(join(root, routingPath))) {
@@ -104,8 +104,8 @@ if (existsSync(join(root, routingPath))) {
 
 assert(existsSync(join(root, '.claude/skills/esdora/SKILL.md')), 'Claude native skill stub is missing')
 assert(!existsSync(join(root, '.cursor')), '.cursor has been retired (Cursor support dropped). Do not re-introduce.')
-assert(!existsSync(join(root, '.claude/rules')), '.claude/rules has been retired; canonical rules live in skills/esdora/rules/. Do not re-introduce.')
-assert(!existsSync(join(root, '.claude/templates/api-doc.md')), '.claude/templates/api-doc.md duplicates skills/esdora/references/doc-template.md; keep one canonical API doc template.')
+assert(!existsSync(join(root, '.claude/rules')), '.claude/rules has been retired; canonical rules live in .agents/skills/esdora/rules/. Do not re-introduce.')
+assert(!existsSync(join(root, '.claude/templates/api-doc.md')), '.claude/templates/api-doc.md duplicates .agents/skills/esdora/references/doc-template.md; keep one canonical API doc template.')
 
 if (existsSync(join(root, 'CLAUDE.md')))
   assert(read('CLAUDE.md').trim() === '@AGENTS.md', 'CLAUDE.md must contain only @AGENTS.md')
@@ -130,12 +130,12 @@ for (const file of shellFiles) {
   if (file === 'AGENTS.md') {
     assert(lines <= 55, `${file} has ${lines} lines; root compatibility shell should stay thin`)
     assert(!content.includes('## Common Commands'), `${file} must not duplicate command tables; read package.json`)
-    assert(!content.includes('## Core Project Facts'), `${file} must not duplicate project facts; route to skills/esdora/`)
+    assert(!content.includes('## Core Project Facts'), `${file} must not duplicate project facts; route to .agents/skills/esdora/`)
   }
 
   if (file.startsWith('packages/') && file.endsWith('/AGENTS.md')) {
     assert(lines <= 10, `${file} has ${lines} lines; package overlay should stay thin`)
-    assert(!content.includes('Package-specific boundary'), `${file} must not duplicate package boundaries; use skills/esdora/rules/package-boundaries.md`)
+    assert(!content.includes('Package-specific boundary'), `${file} must not duplicate package boundaries; use .agents/skills/esdora/rules/package-boundaries.md`)
   }
 }
 
@@ -145,11 +145,11 @@ for (const file of ['.claude/agents/doc-generator.md', '.claude/agents/vibe-arch
 
   const lines = read(file).trimEnd().split('\n').length
   assert(lines <= 40, `${file} has ${lines} lines; Claude agent wrappers should stay thin`)
-  assert(read(file).includes('skills/esdora/SKILL.md'), `${file} must route to formal skill`)
+  assert(read(file).includes('.agents/skills/esdora/SKILL.md'), `${file} must route to formal skill`)
 }
 
 const alwaysReadAuthorityFiles = [
-  'skills/esdora/SKILL.md',
+  '.agents/skills/esdora/SKILL.md',
   'AGENTS.md',
   '.claude/skills/esdora/SKILL.md',
 ]
@@ -168,43 +168,43 @@ for (const file of alwaysReadAuthorityFiles) {
     assert(!content.includes(literal), `${file} must not list always_read paths verbatim (found "${literal}"); reference routing.yaml instead`)
 }
 
-assertIncludes('skills/esdora/rules/quality-gates.md', [
+assertIncludes('.agents/skills/esdora/rules/quality-gates.md', [
   'export snapshots',
   'test:coverage',
   'fully covered',
 ])
 
-if (existsSync(join(root, 'skills/esdora/references/package-scaffold.md'))) {
-  const packageScaffold = read('skills/esdora/references/package-scaffold.md')
+if (existsSync(join(root, '.agents/skills/esdora/references/package-scaffold.md'))) {
+  const packageScaffold = read('.agents/skills/esdora/references/package-scaffold.md')
   assert(!packageScaffold.includes('Package-specific boundary:'), 'package-scaffold.md must not generate package AGENTS boundary text')
 }
 
-assertIncludes('skills/esdora/rules/coding-standards.md', [
+assertIncludes('.agents/skills/esdora/rules/coding-standards.md', [
   'Public API Stability',
   'src/experimental/',
   '_unstable_',
   '@experimental',
 ])
 
-assertIncludes('skills/esdora/rules/docs-rules.md', [
+assertIncludes('.agents/skills/esdora/rules/docs-rules.md', [
   'TSDoc',
   'overloaded APIs',
   'Chinese TSDoc',
 ])
 
-assertIncludes('skills/esdora/workflows/implement-utility.md', [
+assertIncludes('.agents/skills/esdora/workflows/implement-utility.md', [
   'stable or experimental',
   'export snapshots',
   'TSDoc',
 ])
 
-assertIncludes('skills/esdora/workflows/update-api-doc.md', [
+assertIncludes('.agents/skills/esdora/workflows/update-api-doc.md', [
   'source TSDoc',
   'experimental or',
   'deprecated status',
 ])
 
-assertIncludes('skills/esdora/workflows/release-change.md', [
+assertIncludes('.agents/skills/esdora/workflows/release-change.md', [
   'SemVer',
   '@deprecated',
   'major release',
@@ -215,7 +215,7 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
 // rules under packages/<pkg>/.agents/rules/, and its AGENTS.md must
 // @import them. Guards against the color-style omission regression.
 {
-  const boundariesPath = 'skills/esdora/rules/package-boundaries.md'
+  const boundariesPath = '.agents/skills/esdora/rules/package-boundaries.md'
   if (existsSync(join(root, boundariesPath))) {
     const boundaries = read(boundariesPath)
     const pkgRe = /\|\s*`(@esdora\/[\w-]+|esdora)`\s*\|/g
@@ -317,7 +317,7 @@ assertIncludes('skills/esdora/workflows/release-change.md', [
       'AGENTS.md',
       'CLAUDE.md',
       ...walk('packages', rel => rel.endsWith('.md')),
-      ...walk('skills', rel => rel.endsWith('.md')),
+      ...walk('.agents/skills', rel => rel.endsWith('.md')),
       ...walk('.claude', rel => rel.endsWith('.md')),
     ]),
   ]

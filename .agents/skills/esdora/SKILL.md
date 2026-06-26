@@ -16,27 +16,27 @@ agent harnesses.
 
 ## Always Read
 
-Authoritative list lives in `skills/esdora/routing.yaml` under `always_read:`.
+Authoritative list lives in `.agents/skills/esdora/routing.yaml` under `always_read:`.
 Load that file first, then read every path it lists.
 
 ## Routing
 
-Task routes live in `skills/esdora/routing.yaml`.
+Task routes live in `.agents/skills/esdora/routing.yaml`.
 
 For every non-trivial task:
 
-1. Read `skills/esdora/routing.yaml`.
+1. Read `.agents/skills/esdora/routing.yaml`.
 2. Match the task by `labels`, `trigger_examples`, scope, and user intent.
 3. Read the route's `required_reads` in addition to Always Read files.
 4. Follow the route's `workflow`.
 
 ## Common Tasks
 
-Task routes live in `skills/esdora/routing.yaml`; match the task there.
+Task routes live in `.agents/skills/esdora/routing.yaml`; match the task there.
 
 ## Priority
 
-Formal docs under `skills/esdora/` are authoritative. Compatibility shells in
+Formal docs under `.agents/skills/esdora/` are authoritative. Compatibility shells in
 `AGENTS.md`, `CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, and
 package-level `AGENTS.md` must route here instead of duplicating rule bodies.
 

@@ -27,7 +27,7 @@
 //            (typically via shell `cat`/`sed`, surfaced as command_execution).
 //            prefer_reads can genuinely fire here.
 
-const IMPLEMENT_WORKFLOW = 'skills/esdora/workflows/implement-utility.md'
+const IMPLEMENT_WORKFLOW = '.agents/skills/esdora/workflows/implement-utility.md'
 
 const cases = [
   // ── A: always-read baseline ───────────────────────────────────────
@@ -35,12 +35,12 @@ const cases = [
     id: 'A1-always-read',
     tools: ['claude', 'codex'],
     task: '看一下 packages/kit 的代码结构,简单说说',
-    expect_reads: ['skills/esdora/routing.yaml'],
+    expect_reads: ['.agents/skills/esdora/routing.yaml'],
     prefer_reads: [
-      'skills/esdora/SKILL.md',
-      'skills/esdora/rules/project-rules.md',
-      'skills/esdora/rules/coding-standards.md',
-      'skills/esdora/rules/agent-behavior.md',
+      '.agents/skills/esdora/SKILL.md',
+      '.agents/skills/esdora/rules/project-rules.md',
+      '.agents/skills/esdora/rules/coding-standards.md',
+      '.agents/skills/esdora/rules/agent-behavior.md',
     ],
     expect_not: [],
     behavior: { lite: null, strict: null },
@@ -173,8 +173,8 @@ const cases = [
     id: 'C1-create-package',
     tools: ['claude', 'codex'],
     task: '新建一个 @esdora/string 包',
-    expect_reads: ['skills/esdora/workflows/create-package.md'],
-    prefer_reads: ['skills/esdora/references/package-scaffold.md'],
+    expect_reads: ['.agents/skills/esdora/workflows/create-package.md'],
+    prefer_reads: ['.agents/skills/esdora/references/package-scaffold.md'],
     expect_not: [],
     behavior: { lite: null, strict: null },
     n: 5,
@@ -184,10 +184,10 @@ const cases = [
     id: 'C2-update-api-doc',
     tools: ['claude', 'codex'],
     task: '给 kit 的 isBlank 补 API 文档',
-    expect_reads: ['skills/esdora/workflows/update-api-doc.md'],
+    expect_reads: ['.agents/skills/esdora/workflows/update-api-doc.md'],
     prefer_reads: [
-      'skills/esdora/references/doc-template.md',
-      'skills/esdora/rules/docs-rules.md',
+      '.agents/skills/esdora/references/doc-template.md',
+      '.agents/skills/esdora/rules/docs-rules.md',
     ],
     expect_not: [],
     behavior: { lite: { any: ['TSDoc'], n: 5, k: 4 }, strict: null },
@@ -198,7 +198,7 @@ const cases = [
     id: 'C3-verify-package',
     tools: ['claude', 'codex'],
     task: '验证 kit 这个包是否通过质量门',
-    expect_reads: ['skills/esdora/workflows/verify-package.md'],
+    expect_reads: ['.agents/skills/esdora/workflows/verify-package.md'],
     prefer_reads: [],
     expect_not: [],
     behavior: { lite: { any: ['pnpm test', 'typecheck', 'coverage', '质量门'], n: 5, k: 4 }, strict: null },
@@ -209,8 +209,8 @@ const cases = [
     id: 'C4-maintain-ai-rules',
     tools: ['claude', 'codex'],
     task: '检查项目的 skill-based architecture 是否健康',
-    expect_reads: ['skills/esdora/workflows/maintain-ai-rules.md'],
-    prefer_reads: ['skills/esdora/references/gotchas.md'],
+    expect_reads: ['.agents/skills/esdora/workflows/maintain-ai-rules.md'],
+    prefer_reads: ['.agents/skills/esdora/references/gotchas.md'],
     expect_not: [],
     behavior: { lite: null, strict: null },
     n: 5,
@@ -220,7 +220,7 @@ const cases = [
     id: 'C5-release-change',
     tools: ['claude', 'codex'],
     task: '给 kit 新增的 isBlank 准备发版',
-    expect_reads: ['skills/esdora/workflows/release-change.md'],
+    expect_reads: ['.agents/skills/esdora/workflows/release-change.md'],
     prefer_reads: [],
     expect_not: [],
     behavior: {

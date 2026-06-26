@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `skills/esdora/`,
+Use this workflow for changes to `AGENTS.md`, `CLAUDE.md`, `.agents/skills/esdora/`,
 `.claude/agents/`, `.claude/skills/`, and package-level
 `AGENTS.md` files.
 
@@ -12,14 +12,14 @@ points to a stronger, reviewable constraint.
 
 ## Steps
 
-1. Keep `skills/esdora/` as the canonical source of rules, workflows, and
+1. Keep `.agents/skills/esdora/` as the canonical source of rules, workflows, and
    references.
 2. Keep shells thin:
-   - `AGENTS.md` routes to `skills/esdora/SKILL.md` and `routing.yaml`.
+   - `AGENTS.md` routes to `.agents/skills/esdora/SKILL.md` and `routing.yaml`.
    - `CLAUDE.md` contains only `@AGENTS.md`.
    - `.claude/agents/*.md` may define Claude-specific tool/model metadata, but
      the body must route to this skill.
-3. Keep task routes in `skills/esdora/routing.yaml`; do not copy route tables
+3. Keep task routes in `.agents/skills/esdora/routing.yaml`; do not copy route tables
    into shells.
 4. Put constraints in `rules/`, procedures in `workflows/`, and background or
    templates in `references/`.

@@ -16,14 +16,14 @@ or generated notes.
 ## Documentation Layers
 
 - Human docs: `docs/`
-- Formal AI project skill: `skills/esdora/`
+- Formal AI project skill: `.agents/skills/esdora/`
 - Compatibility shells: `AGENTS.md` (Codex-native, also read by other tools),
   `CLAUDE.md`, package-level `AGENTS.md`, `.claude/agents/`, `.claude/skills/`
 
-Compatibility shells must route to `skills/esdora/`; do not copy durable rule,
+Compatibility shells must route to `.agents/skills/esdora/`; do not copy durable rule,
 workflow, reference, package boundary, or command bodies into shells.
 
 ## Verification
 
-For broad changes, select checks through `skills/esdora/rules/quality-gates.md`
+For broad changes, select checks through `.agents/skills/esdora/rules/quality-gates.md`
 and run the current scripts from root `package.json`.

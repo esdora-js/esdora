@@ -29,14 +29,14 @@ clarifying question:
    - `kit` only for foundation-package constraints, not for its IIFE build.
    - `esdora` only for meta packages.
 3. Create the package files listed in
-   `skills/esdora/references/package-scaffold.md`.
+   `.agents/skills/esdora/references/package-scaffold.md`.
 4. Configure `package.json` exports for ESM + CJS dual output and
    `"sideEffects": false`.
 5. Add `tsdown.config.ts`, `tsconfig.json`, `src/index.ts`, and an initial test.
 6. Add the package AI overlay per `package-scaffold.md`: `AGENTS.md` +
    `CLAUDE.md` thin shells and `.agents/rules/package-boundary.md` with the
    package-specific boundary (role, dependency policy, verification).
-7. Register the package in the `skills/esdora/rules/package-boundaries.md`
+7. Register the package in the `.agents/skills/esdora/rules/package-boundaries.md`
    table — one row: `` `@esdora/{name}` `` + a one-line boundary. The
    architecture check requires every `packages/*` to be listed and to carry
    `.agents/rules/`.

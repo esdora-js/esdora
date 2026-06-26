@@ -11,7 +11,7 @@ Generate API docs from source and tests:
 
 - Source: `packages/{pkg}/src/**`
 - Tests: colocated `*.test.ts` files or package test directories
-- Template: `skills/esdora/references/doc-template.md`
+- Template: `.agents/skills/esdora/references/doc-template.md`
 
 ## Requirements
 

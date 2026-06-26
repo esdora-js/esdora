@@ -3,7 +3,7 @@
 ## Steps
 
 1. Identify the changed packages or docs area.
-2. Select checks per `skills/esdora/rules/quality-gates.md`; run and report
+2. Select checks per `.agents/skills/esdora/rules/quality-gates.md`; run and report
    results.
 3. Run broader checks when exports, package boundaries, or shared config
    changed.

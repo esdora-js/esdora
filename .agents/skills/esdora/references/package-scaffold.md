@@ -1,7 +1,7 @@
 # Package Scaffold Reference
 
 Use this as the default scaffold for a new ordinary `@esdora/*` utility package.
-Adapt package boundaries from `skills/esdora/rules/package-boundaries.md`.
+Adapt package boundaries from `.agents/skills/esdora/rules/package-boundaries.md`.
 
 ## Files
 
@@ -142,6 +142,6 @@ Location: `packages/{name}/`
 
 `packages/{name}/.agents/rules/package-boundary.md` holds the package-specific
 boundary (role, dependency policy, verification). Also register the package in
-the global table at `skills/esdora/rules/package-boundaries.md` — the
+the global table at `.agents/skills/esdora/rules/package-boundaries.md` — the
 architecture check enforces consistency both ways (every `packages/*` must be
 listed and carry `.agents/rules/`).

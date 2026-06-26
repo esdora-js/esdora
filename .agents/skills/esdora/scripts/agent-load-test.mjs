@@ -6,9 +6,9 @@
 // LOCAL-ONLY. Burns API budget and mutates files. Never wired into CI.
 //
 // Usage:
-//   node skills/esdora/scripts/agent-load-test.mjs --dry-run
-//   node skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool claude
-//   node skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool codex --no-strict
+//   node .agents/skills/esdora/scripts/agent-load-test.mjs --dry-run
+//   node .agents/skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool claude
+//   node .agents/skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool codex --no-strict
 //
 // Flags:
 //   --case <id>     run a single case by id (default: all)
@@ -30,7 +30,26 @@ import { fileURLToPath } from 'node:url'
 import cases from './agent-load-test.cases.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const REPO_ROOT = resolve(__dirname, '..', '..', '..')
+
+// Find the repo root by walking up from the script's location until we hit a
+// pnpm-workspace.yaml. This decouples root resolution from the script's own
+// directory depth, so relocating the scripts tree never silently breaks
+// worktree/git/cwd normalization. Falls back to the legacy triple-.. if no
+// marker is found (defensive — should not happen in a real checkout).
+function findRepoRoot(start) {
+  let dir = start
+  for (let i = 0; i < 10; i++) {
+    if (existsSync(join(dir, 'pnpm-workspace.yaml')))
+      return dir
+    const parent = dirname(dir)
+    if (parent === dir)
+      break
+    dir = parent
+  }
+  return resolve(start, '..', '..', '..')
+}
+
+const REPO_ROOT = findRepoRoot(__dirname)
 
 // ── tiny helpers ────────────────────────────────────────────────────
 
@@ -221,7 +240,7 @@ function mockRun(caseId, tool, runIdx) {
   for (const p of c.expect_reads || [])
     readPaths.add(p)
   // A1 also loads routing (its expect_reads).
-  readPaths.add('skills/esdora/routing.yaml')
+  readPaths.add('.agents/skills/esdora/routing.yaml')
 
   // prefer_reads: codex hits some; claude hits none (@import expansion).
   if (tool === 'codex' && c.prefer_reads?.length && seed < 3)
@@ -557,7 +576,7 @@ const USAGE = `\
 agent-load-test — local AI load-behavior harness (NOT for CI)
 
 Usage:
-  node skills/esdora/scripts/agent-load-test.mjs [flags]
+  node .agents/skills/esdora/scripts/agent-load-test.mjs [flags]
 
 Flags:
   --case <id>     run a single case by id (default: all)
@@ -567,8 +586,8 @@ Flags:
   -h, --help      show this help
 
 Examples:
-  node skills/esdora/scripts/agent-load-test.mjs --dry-run
-  node skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool claude
+  node .agents/skills/esdora/scripts/agent-load-test.mjs --dry-run
+  node .agents/skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool claude
 `
 
 function parseArgs(argv) {

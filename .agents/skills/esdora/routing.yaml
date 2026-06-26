@@ -1,8 +1,8 @@
 primary: esdora
 always_read:
-  - skills/esdora/rules/project-rules.md
-  - skills/esdora/rules/coding-standards.md
-  - skills/esdora/rules/agent-behavior.md
+  - .agents/skills/esdora/rules/project-rules.md
+  - .agents/skills/esdora/rules/coding-standards.md
+  - .agents/skills/esdora/rules/agent-behavior.md
 
 routes:
   implement_utility:
@@ -13,9 +13,9 @@ routes:
       - 新增 date API
       - 修改 biz 的 query string 行为
     required_reads:
-      - skills/esdora/rules/package-boundaries.md
-      - skills/esdora/rules/quality-gates.md
-    workflow: skills/esdora/workflows/implement-utility.md
+      - .agents/skills/esdora/rules/package-boundaries.md
+      - .agents/skills/esdora/rules/quality-gates.md
+    workflow: .agents/skills/esdora/workflows/implement-utility.md
 
   create_package:
     labels: [package, scaffold, workspace, new-package]
@@ -26,10 +26,10 @@ routes:
       - 新增 workspace package
       - 按项目规范创建工具包
     required_reads:
-      - skills/esdora/rules/package-boundaries.md
-      - skills/esdora/rules/quality-gates.md
-      - skills/esdora/references/package-scaffold.md
-    workflow: skills/esdora/workflows/create-package.md
+      - .agents/skills/esdora/rules/package-boundaries.md
+      - .agents/skills/esdora/rules/quality-gates.md
+      - .agents/skills/esdora/references/package-scaffold.md
+    workflow: .agents/skills/esdora/workflows/create-package.md
 
   update_api_doc:
     labels: [docs, api-reference, vitepress]
@@ -39,9 +39,9 @@ routes:
       - 检查 API 文档是否过时
       - 给某个函数补文档
     required_reads:
-      - skills/esdora/rules/docs-rules.md
-      - skills/esdora/references/doc-template.md
-    workflow: skills/esdora/workflows/update-api-doc.md
+      - .agents/skills/esdora/rules/docs-rules.md
+      - .agents/skills/esdora/references/doc-template.md
+    workflow: .agents/skills/esdora/workflows/update-api-doc.md
 
   verify_package:
     labels: [verify, test, lint, typecheck, build]
@@ -51,9 +51,9 @@ routes:
       - 验证改动
       - 跑 typecheck 和 lint
     required_reads:
-      - skills/esdora/rules/quality-gates.md
-      - skills/esdora/rules/package-boundaries.md
-    workflow: skills/esdora/workflows/verify-package.md
+      - .agents/skills/esdora/rules/quality-gates.md
+      - .agents/skills/esdora/rules/package-boundaries.md
+    workflow: .agents/skills/esdora/workflows/verify-package.md
 
   maintain_ai_rules:
     labels: [rules, skill, agent, architecture, instructions]
@@ -64,9 +64,9 @@ routes:
       - 把规则迁移成 skill
       - 检查 skill-based architecture
     required_reads:
-      - skills/esdora/rules/quality-gates.md
-      - skills/esdora/references/gotchas.md
-    workflow: skills/esdora/workflows/maintain-ai-rules.md
+      - .agents/skills/esdora/rules/quality-gates.md
+      - .agents/skills/esdora/references/gotchas.md
+    workflow: .agents/skills/esdora/workflows/maintain-ai-rules.md
 
   release_change:
     labels: [release, changeset, version, changelog]
@@ -76,9 +76,9 @@ routes:
       - 更新 changelog
       - release this package
     required_reads:
-      - skills/esdora/rules/quality-gates.md
-      - skills/esdora/rules/package-boundaries.md
-    workflow: skills/esdora/workflows/release-change.md
+      - .agents/skills/esdora/rules/quality-gates.md
+      - .agents/skills/esdora/rules/package-boundaries.md
+    workflow: .agents/skills/esdora/workflows/release-change.md
 
 default:
   description: |
@@ -87,6 +87,6 @@ default:
     export, or other ad-hoc maintenance. Apply Always Read files and the
     boundary/quality references below.
   required_reads:
-    - skills/esdora/rules/quality-gates.md
-    - skills/esdora/rules/package-boundaries.md
-  workflow: skills/esdora/workflows/implement-utility.md
+    - .agents/skills/esdora/rules/quality-gates.md
+    - .agents/skills/esdora/rules/package-boundaries.md
+  workflow: .agents/skills/esdora/workflows/implement-utility.md

@@ -27,10 +27,12 @@ const SKIP_DIRS = new Set(['node_modules', '.git'])
 const MAX_IMPORT_DEPTH = 5
 
 const IMPORT_RE = /^[ \t]*@(\.{1,2}\/[^\s`<>)]+|[A-Za-z][\w-]*\.md)/gm
-// Root-relative paths quoted in prose (skills/.../x.md, packages/.../x.md, ...).
-const PROSE_PATH_RE = /`((?:skills|packages|references|workflows|rules)\/[^`]+\.(?:md|yaml))`/g
+// Root-relative paths quoted in prose (.agents/skills/.../x.md,
+// packages/.../x.md, ...). Note: bare dir names (references|workflows|rules)
+// match relative refs from inside the skill tree; skills/ kept for back-compat.
+const PROSE_PATH_RE = /`((?:\.agents\/skills|skills|packages|references|workflows|rules)\/[^`]+\.(?:md|yaml))`/g
 // Bare "Read <path>" references.
-const READ_REF_RE = /\bRead\s+`?([\w\-/]+\.(?:md|yaml))`?/g
+const READ_REF_RE = /\bRead\s+`?([\w\-/.]+\.(?:md|yaml))`?/g
 
 function toPosix(p) {
   return p.replace(/\\/g, '/')
@@ -39,7 +41,7 @@ function toPosix(p) {
 function resolveRel(fromFile, ref) {
   // Refs from prose are root-relative when they start with a known root dir;
   // @import refs are relative to the importing file's directory.
-  if (/^(?:skills|packages|references|workflows|rules)\//.test(ref))
+  if (/^(?:\.agents\/skills|skills|packages|references|workflows|rules)\//.test(ref))
     return toPosix(normalize(ref))
   return toPosix(normalize(join(dirname(fromFile), ref)))
 }
@@ -72,14 +74,14 @@ function parseRoutingHints(routingPath) {
     return []
   const text = readFile(routingPath)
   const targets = new Set()
-  // List items anywhere: "  - skills/esdora/...".
-  for (const m of text.matchAll(/^\s*-\s+(skills\/[^\s#]+)|^\s*-\s+(packages\/[^\s#]+)/gm)) {
-    const p = (m[1] ?? m[2]).replace(/[`,"']+$/, '')
+  // List items anywhere: "  - .agents/skills/esdora/...".
+  for (const m of text.matchAll(/^\s*-\s+(\.agents\/skills\/[^\s#]+)|^\s*-\s+(skills\/[^\s#]+)|^\s*-\s+(packages\/[^\s#]+)/gm)) {
+    const p = (m[1] ?? m[2] ?? m[3]).replace(/[`,"']+$/, '')
     if (p)
       targets.add(toPosix(normalize(p)))
   }
-  // workflow: skills/esdora/workflows/x.md
-  for (const m of text.matchAll(/^\s*workflow:\s+(skills\/\S+)/gm)) {
+  // workflow: .agents/skills/esdora/workflows/x.md
+  for (const m of text.matchAll(/^\s*workflow:\s+(\.agents\/skills\/\S+|skills\/\S+)/gm)) {
     targets.add(toPosix(normalize(m[1].replace(/[`,"']+$/, ''))))
   }
   return [...targets]
@@ -278,8 +280,8 @@ const assertions = []
 // 2. routing.yaml always_read files are reachable by both Claude and Codex.
 {
   const alwaysRead = []
-  if (exists('skills/esdora/routing.yaml')) {
-    const text = readFile('skills/esdora/routing.yaml')
+  if (exists('.agents/skills/esdora/routing.yaml')) {
+    const text = readFile('.agents/skills/esdora/routing.yaml')
     // Collect the always_read: block items.
     const lines = text.split('\n')
     let inBlock = false
@@ -291,7 +293,7 @@ const assertions = []
       if (inBlock) {
         if (/^\S/.test(line))
           break
-        const m = line.match(/^\s*-\s+(skills\/\S+)/)
+        const m = line.match(/^\s*-\s+(\.agents\/skills\/\S+|skills\/\S+)/)
         if (m)
           alwaysRead.push(toPosix(normalize(m[1].replace(/[`,"']+$/, ''))))
       }

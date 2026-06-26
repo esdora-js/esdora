@@ -11,7 +11,7 @@ full-coverage check in `check-skill-architecture.mjs` now enforces that every
 ## Duplicate AI Rule Bodies
 
 Long `.claude/agents/*.md` files are hard to keep aligned with Codex and other
-harnesses. Store durable bodies in `skills/esdora/`; keep Claude agents as
+harnesses. Store durable bodies in `.agents/skills/esdora/`; keep Claude agents as
 thin wrappers with tool metadata only.
 
 ## Enumerating Dependencies in Rules
@@ -41,3 +41,39 @@ Three verification commands cover this from cheap to expensive:
   Burns API and mutates files (worktree-scoped). Use `--dry-run` for a no-cost
   self-check, `--case <id>` / `--tool claude|codex` to scope, `--no-strict` to
   skip file-mutation checks.
+
+## Verifying a specific agent actually loads the skill
+
+The static commands above prove reachability, not that a real agent run pulls
+the skill into context. To confirm empirically, from cheapest to heaviest:
+
+1. **One-shot JSONL probe** (single agent call, lowest cost, most direct).
+   Drive the agent once with JSON output, then inspect which skill files it
+   actually read via shell. Codex:
+   ```bash
+   codex exec "<task>" --sandbox read-only --skip-git-repo-check --json \
+     > /tmp/codex.jsonl 2>&1
+   grep -oE '"command":"[^"]*"' /tmp/codex.jsonl | grep -iE 'cat.*\.agents/skills'
+   ```
+   Claude Code:
+   ```bash
+   claude -p "<task>" --output-format stream-json --verbose \
+     > /tmp/claude.jsonl 2>&1
+   grep -oE '"file_path":"[^"]*"' /tmp/claude.jsonl | grep '\.agents/skills'
+   ```
+   A populated list means the agent found and read the skill tree. This is
+   the simplest way to answer "does agent X load the skill?".
+
+2. **Structured harness assertion** (`pnpm test:ai-load --case A1 --tool codex`):
+   runs N isolated worktree sessions and asserts `expect_reads` for each. The
+   default `n: 5` is heavy (one worktree install per session); scope to one
+   case and add `--no-strict` for a faster check.
+
+3. **Static reachability** (`pnpm lint:skill-graph`): proves the `@import` /
+   hint path exists, but does NOT prove a real agent reads it. Treat as a
+   necessary-but-insufficient check; combine with method 1 or 2.
+
+Note: discovering the skill (Codex indexing `.agents/skills/esdora/SKILL.md`
+frontmatter) is separate from reading its body. The full `SKILL.md` and
+`routing.yaml` are still loaded by the agent following prose hints — the
+`--json` probe in method 1 captures that follow-on read behavior.
