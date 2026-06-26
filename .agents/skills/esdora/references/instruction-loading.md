@@ -21,12 +21,16 @@ shapes which rules reliably reach context:
 - **Codex**: reads `AGENTS.md` natively, treats `@import` as plain text, and
   scans `$REPO_ROOT/.agents/skills/` to discover skills. Package rules load
   only if the agent reads them itself (typically via shell `cat` / `rg`).
-- **ZCode**: reads the workspace `AGENTS.md` (does not merge across directory
-  levels, does not recurse into child directories, does not expand `@import`).
-  Skills are invoked explicitly via `$skill-name`, or imported from external
-  Agent skill directories (it scans `.claude/skills/` and `.agents/skills/`
-  as import sources). Loading therefore relies on `AGENTS.md` prose hints plus
-  `$` invocation — directory scanning is not an automatic per-task load path.
+- **ZCode**: auto-injects the workspace `AGENTS.md` as the primary project
+  source at session start (does not merge across directory levels, does not
+  recurse into child directories, does not expand `@import`). It does **not**
+  scan the in-repo `.agents/skills/` for auto-loading — skills are only
+  available via `$skill-name`, sourced from the global `~/.agents/skills/`
+  (not a per-project directory). Therefore the only project context ZCode gets
+  automatically is `AGENTS.md` itself: this is why `AGENTS.md` inlines the
+  always-on constraints instead of being a pure route pointer. To use this
+  project's skill via `$`, import it into `~/.agents/skills/esdora/` (see
+  `gotchas.md`).
 
 A subdirectory `CLAUDE.md`/`AGENTS.md` loads only when the agent operates
 inside that subdirectory — that is the location condition.

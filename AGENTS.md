@@ -3,12 +3,25 @@
 Dora Pocket is a TypeScript utility library monorepo. The canonical project
 rules, workflows, and references live in `.agents/skills/esdora/`.
 
-Read `.agents/skills/esdora/SKILL.md` first, then match the task through
-`.agents/skills/esdora/routing.yaml`.
+## Always-on constraints
 
-Conflicts between loaded project instructions should resolve in this order:
-explicit user request, `.agents/skills/esdora/`, this compatibility shell, legacy
-tool-specific files.
+Inlined so agents that only read this file (e.g. ZCode, which does not expand
+`@import` or scan the skill tree) start with the constitution in context.
+Full rules live in `.agents/skills/esdora/rules/`.
+
+- `@esdora/kit` must stay **zero runtime dependencies**.
+- Utilities are **pure**: never mutate caller-owned inputs; return new values.
+- Decide each new public API **stable or experimental** before export;
+  experimental ones live under `src/experimental/` with `_unstable_` prefix.
+- Respond in **Simplified Chinese** for project work; keep code/paths/IDs in
+  English.
+- Read `packages/<pkg>/.agents/rules/` before changing a package.
+- Run the relevant quality gate (tests / typecheck / lint) before reporting a
+  code change done.
+
+Read `.agents/skills/esdora/SKILL.md` first, then match the task through
+`.agents/skills/esdora/routing.yaml`. Conflicts resolve in order: explicit user
+request, `.agents/skills/esdora/`, this shell, legacy files.
 
 <always-applicable>
 

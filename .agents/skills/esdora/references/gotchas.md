@@ -29,7 +29,19 @@ Package rules load differently per agent tool:
 - Claude Code: `@import` in `CLAUDE.md` / `AGENTS.md` expands recursively, so
   package `.agents/rules/` enter context without producing a `Read` call.
 - Codex: `@import` is plain text; package rules load only if the agent reads
-  them itself (typically via shell `cat` / `rg`).
+  them itself (typically via shell `cat` / `rg`). It does scan
+  `$REPO_ROOT/.agents/skills/` to discover skills natively.
+- ZCode: only auto-injects the workspace `AGENTS.md` — no `@import` expansion,
+  no child-directory recursion, no in-repo skill scanning. This is why
+  `AGENTS.md` inlines the always-on constraints: it is the sole context ZCode
+  receives automatically. Project skills are NOT auto-discovered; to call this
+  skill via `$esdora`, symlink it into the global skill dir:
+  ```bash
+  ln -s "$PWD/.agents/skills/esdora" "$HOME/.agents/skills/esdora"
+  ```
+  Then `$esdora` is available project-wide (the symlink resolves to the repo
+  copy, so edits track the repo). Without this, ZCode relies entirely on the
+  `AGENTS.md` prose hints to read skill files on demand.
 
 Three verification commands cover this from cheap to expensive:
 
