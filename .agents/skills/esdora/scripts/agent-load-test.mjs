@@ -162,6 +162,7 @@ const FILE_READ_CMDS = /\b(?:cat|bat|head|tail|sed|less|more|rg|grep|nl|view|rea
 function parseCodexJsonl(stdout) {
   const readPaths = []
   const replyParts = []
+  const errorReasons = []
   for (const line of stdout.split('\n')) {
     const trimmed = line.trim()
     if (!trimmed.startsWith('{'))
@@ -173,6 +174,16 @@ function parseCodexJsonl(stdout) {
     catch {
       continue
     }
+    // codex emits the real failure cause as top-level stream events, not via a
+    // nonzero exit. turn.failed is the authoritative "this turn died" signal;
+    // top-level error carries HTTP 4xx/5xx (auth/billing/rate-limit) messages.
+    // The "Under-development features enabled" item is a noisy config warning,
+    // not a failure — skip it so it never masks the real reason.
+    if (event.type === 'turn.failed' && event.error?.message)
+      errorReasons.push(event.error.message)
+    if (event.type === 'error' && typeof event.message === 'string'
+      && !event.message.startsWith('Under-development features'))
+      errorReasons.push(event.message)
     const item = event.item ?? event
     if (event.type !== 'item.completed' || !item)
       continue
@@ -191,7 +202,7 @@ function parseCodexJsonl(stdout) {
     if (item.type === 'agent_message' && typeof item.text === 'string')
       replyParts.push(item.text)
   }
-  return { readPaths, replyText: replyParts.join('\n').trim() }
+  return { readPaths, replyText: replyParts.join('\n').trim(), errorReason: errorReasons[0] || '' }
 }
 
 // ── agent adapters ──────────────────────────────────────────────────
@@ -225,12 +236,23 @@ function runCodex(task, cwd) {
     const parsed = parseCodexJsonl(stdout)
     if (!parsed.replyText && existsSync(lastMsgFile))
       parsed.replyText = readFileSync(lastMsgFile, 'utf8').trim()
-    return { ...parsed, cwd }
+    // Even on a zero exit, a turn.failed/error event means the turn produced
+    // nothing usable — surface the real reason instead of looking healthy.
+    const result = { ...parsed, cwd }
+    if (parsed.errorReason)
+      result.error = `codex failed: ${parsed.errorReason}`
+    return result
   }
   catch (err) {
-    // codex may exit non-zero (e.g. upstream 503 turn.failed); salvage partial stdout.
-    const partial = err.stdout ? parseCodexJsonl(err.stdout.toString()) : { readPaths: [], replyText: '' }
-    return { ...partial, cwd, error: `codex failed: ${(err.message || '').split('\n')[0]}` }
+    // codex exits non-zero on upstream failures (403/429/503 turn.failed).
+    // Salvage partial stdout and prefer the reason codex itself emitted over
+    // Node's generic "Command failed: codex exec ..." wrapper, which hides the
+    // actual cause (billing/auth/rate-limit) from the report.
+    const partial = err.stdout
+      ? parseCodexJsonl(err.stdout.toString())
+      : { readPaths: [], replyText: '', errorReason: '' }
+    const reason = partial.errorReason || (err.message || '').split('\n')[0]
+    return { ...partial, cwd, error: `codex failed: ${reason}` }
   }
 }
 
@@ -238,26 +260,35 @@ function runCodex(task, cwd) {
 // failure (--retry). codex/claude failures are often transient HTTP 429 from
 // the provider; a short sleep before each call + exponential backoff on retry
 // lets a rate-limited provider recover instead of failing the whole case.
-function callAgent(tool, task, cwd, opts) {
+//
+// `label` (e.g. "reads 2/5") tags each progress line so the long silent
+// stretch of buffered codex/claude calls shows what is running — and prints a
+// failure the moment it happens instead of only in the per-case report.
+function callAgent(tool, task, cwd, opts, label = '') {
   const run = tool === 'claude' ? () => runClaude(task, cwd) : () => runCodex(task, cwd)
   const sleepMs = opts.sleepMs || 0
   const retries = opts.retries || 0
   const maxAttempts = retries + 1
+  const tag = label ? ` ${label}` : ''
   let result
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     if (attempt > 0) {
       resetWorktree(cwd)
       const backoff = (sleepMs || 2000) * 2 ** (attempt - 1)
-      console.error(color(YEL, `  ↻ ${tool} 重试 ${attempt}/${retries}，退避 ${backoff}ms`))
+      console.error(color(YEL, `  ↻ ${tool}${tag} 重试 ${attempt}/${retries}，退避 ${backoff}ms`))
       sleep(backoff)
     }
-    else if (sleepMs > 0) {
-      console.error(color(DIM, `  · ${tool} 限速 sleep ${sleepMs}ms`))
-      sleep(sleepMs)
+    else {
+      if (sleepMs > 0) {
+        console.error(color(DIM, `  · ${tool}${tag} 限速 sleep ${sleepMs}ms`))
+        sleep(sleepMs)
+      }
+      console.error(color(DIM, `  · ${tool}${tag} 调用中…`))
     }
     result = run()
     if (!result.error)
       return result
+    console.error(color(RED, `  ✗ ${tool}${tag} ${result.error}`))
   }
   return result
 }
@@ -476,7 +507,7 @@ function runCase(caseDef, tool, opts) {
         ensureWorktreeDeps(wt.path)
         depsInstalled = true
       }
-      runs.push(callAgent(tool, caseDef.task, wt.path, opts))
+      runs.push(callAgent(tool, caseDef.task, wt.path, opts, `reads ${i + 1}/${n}`))
       resetWorktree(wt.path)
     }
 
@@ -488,7 +519,7 @@ function runCase(caseDef, tool, opts) {
           ensureWorktreeDeps(wt.path)
           depsInstalled = true
         }
-        callAgent(tool, caseDef.task, wt.path, opts)
+        callAgent(tool, caseDef.task, wt.path, opts, `strict ${i + 1}/${strictDef.n}`)
         const check = runStrictChecks(caseDef, wt.path)
         if (check.ran && check.passed)
           passCount++
