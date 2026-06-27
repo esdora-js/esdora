@@ -74,12 +74,14 @@ function runShell(cmd, opts = {}) {
   return execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...opts })
 }
 
-// Synchronous sleep (ms). The whole script is execFileSync-based, so we block
-// the main thread via Atomics.wait rather than introducing async/await.
+// Synchronous sleep (ms). Spawn a `sleep` subprocess rather than Atomics.wait:
+// the main process blocks in waitpid (still responsive to signals/heartbeat),
+// whereas Atomics.wait holds the thread and background-task watchdogs can
+// mistake the unresponsive main thread for a hang and SIGKILL it.
 function sleep(ms) {
   if (ms <= 0)
     return
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms)
+  execFileSync('sleep', [String(ms / 1000)], { stdio: 'ignore' })
 }
 
 // Normalize an observed path to a repo-relative string for comparison.
