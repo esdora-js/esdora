@@ -74,6 +74,14 @@ function runShell(cmd, opts = {}) {
   return execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...opts })
 }
 
+// Synchronous sleep (ms). The whole script is execFileSync-based, so we block
+// the main thread via Atomics.wait rather than introducing async/await.
+function sleep(ms) {
+  if (ms <= 0)
+    return
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms)
+}
+
 // Normalize an observed path to a repo-relative string for comparison.
 // Absolute paths are resolved, then stripped of either the run's cwdRoot
 // (worktree) or REPO_ROOT prefix; relative paths are returned as-is (already
@@ -224,6 +232,34 @@ function runCodex(task, cwd) {
   }
 }
 
+// Run one agent call with optional rate-limit pacing (--sleep) and retry on
+// failure (--retry). codex/claude failures are often transient HTTP 429 from
+// the provider; a short sleep before each call + exponential backoff on retry
+// lets a rate-limited provider recover instead of failing the whole case.
+function callAgent(tool, task, cwd, opts) {
+  const run = tool === 'claude' ? () => runClaude(task, cwd) : () => runCodex(task, cwd)
+  const sleepMs = opts.sleepMs || 0
+  const retries = opts.retries || 0
+  const maxAttempts = retries + 1
+  let result
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    if (attempt > 0) {
+      resetWorktree(cwd)
+      const backoff = (sleepMs || 2000) * 2 ** (attempt - 1)
+      console.error(color(YEL, `  ↻ ${tool} 重试 ${attempt}/${retries}，退避 ${backoff}ms`))
+      sleep(backoff)
+    }
+    else if (sleepMs > 0) {
+      console.error(color(DIM, `  · ${tool} 限速 sleep ${sleepMs}ms`))
+      sleep(sleepMs)
+    }
+    result = run()
+    if (!result.error)
+      return result
+  }
+  return result
+}
+
 // ── dry-run mock transcripts ─────────────────────────────────────────
 // Deterministic fakes so --dry-run exercises judgement + reporting without
 // spending API budget. Designed to produce a mix of PASS / ⚠️ / 🔴 outcomes
@@ -274,11 +310,44 @@ function mockRun(caseId, tool, runIdx) {
 
 // ── worktree isolation for strict checks ─────────────────────────────
 
+// A leftover worktree from an aborted run still checks out `alt/<caseId>`,
+// pinning the branch. `git worktree prune` only drops entries whose directory
+// is gone; a surviving /tmp dir evades prune and makes `git branch -D` fail
+// with "cannot delete branch used by worktree" — which makeWorktree's catch
+// silently swallowed, so the later `worktree add -b` then crashed on the
+// still-existing branch. Remove the stale worktree (record + dir) first so
+// the branch is free to delete.
+function removeStaleWorktreeForBranch(branch) {
+  const target = `refs/heads/${branch}`
+  let out
+  try {
+    out = runGit(['worktree', 'list', '--porcelain'])
+  }
+  catch {
+    return
+  }
+  for (const block of out.split('\n\n')) {
+    const lines = block.split('\n')
+    const wtPath = lines.find(l => l.startsWith('worktree '))?.slice('worktree '.length)
+    const br = lines.find(l => l.startsWith('branch '))?.slice('branch '.length)
+    if (br !== target || !wtPath)
+      continue
+    try {
+      runGit(['worktree', 'remove', '--force', wtPath])
+    }
+    catch {
+      rmSync(wtPath, { recursive: true, force: true })
+      try { runGit(['worktree', 'prune']) } catch {}
+    }
+  }
+}
+
 function makeWorktree(caseId) {
   const base = mkdtempSync(join(tmpdir(), `esdora-alt-`))
   rmSync(base, { recursive: true, force: true })
   const branch = `alt/${caseId}`
-  // Discard any stale branch from a previous aborted run.
+  // Discard any stale worktree + branch from a previous aborted run.
+  removeStaleWorktreeForBranch(branch)
   try {
     runGit(['branch', '-D', branch])
   }
@@ -405,7 +474,7 @@ function runCase(caseDef, tool, opts) {
         ensureWorktreeDeps(wt.path)
         depsInstalled = true
       }
-      runs.push(tool === 'claude' ? runClaude(caseDef.task, wt.path) : runCodex(caseDef.task, wt.path))
+      runs.push(callAgent(tool, caseDef.task, wt.path, opts))
       resetWorktree(wt.path)
     }
 
@@ -417,7 +486,7 @@ function runCase(caseDef, tool, opts) {
           ensureWorktreeDeps(wt.path)
           depsInstalled = true
         }
-        tool === 'claude' ? runClaude(caseDef.task, wt.path) : runCodex(caseDef.task, wt.path)
+        callAgent(tool, caseDef.task, wt.path, opts)
         const check = runStrictChecks(caseDef, wt.path)
         if (check.ran && check.passed)
           passCount++
@@ -582,16 +651,19 @@ Flags:
   --case <id>     run a single case by id (default: all)
   --tool <t>      claude | codex (default: both)
   --no-strict     skip behavior.strict file-mutation checks
+  --sleep <ms>    pause (ms) before each agent call — eases provider rate limits
+  --retry <n>     retry failed calls (e.g. HTTP 429) with exponential backoff
   --dry-run       use mock transcripts (no agent calls, no API spend)
   -h, --help      show this help
 
 Examples:
   node .agents/skills/esdora/scripts/agent-load-test.mjs --dry-run
   node .agents/skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool claude
+  node .agents/skills/esdora/scripts/agent-load-test.mjs --case B1-kit --tool codex --sleep 8000 --retry 2
 `
 
 function parseArgs(argv) {
-  const opts = { caseId: null, tool: null, noStrict: false, dryRun: false }
+  const opts = { caseId: null, tool: null, noStrict: false, dryRun: false, sleepMs: 0, retries: 0 }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === '--case') {
@@ -606,9 +678,20 @@ function parseArgs(argv) {
     else if (a === '--dry-run') {
       opts.dryRun = true
     }
+    else if (a === '--sleep') {
+      opts.sleepMs = Number.parseInt(argv[++i] ?? '', 10)
+    }
+    else if (a === '--retry') {
+      opts.retries = Number.parseInt(argv[++i] ?? '', 10)
+    }
     else if (a === '-h' || a === '--help') {
       process.stdout.write(USAGE)
       process.exit(0)
+    }
+    else if (a === '--') {
+      // pnpm/npm 透传时可能把分隔符 `--` 也传进来，忽略即可，
+      // 后续的 --case/--tool 仍按正常 flag 解析。
+      continue
     }
     else {
       console.error(color(RED, `unknown flag: ${a}`))
