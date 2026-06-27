@@ -1,0 +1,3 @@
+# Esdora Package
+
+@./AGENTS.md

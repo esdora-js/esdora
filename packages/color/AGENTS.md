@@ -3,4 +3,6 @@
 Package: `@esdora/color`
 Location: `packages/color/`
 
-Read the root `AGENTS.md`, then use `skills/esdora/routing.yaml`.
+## Package Rules
+
+@./.agents/rules/package-boundary.md

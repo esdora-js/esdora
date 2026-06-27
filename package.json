@@ -2,7 +2,7 @@
   "type": "module",
   "version": "0.1.1",
   "private": true,
-  "packageManager": "pnpm@11.8.0",
+  "packageManager": "pnpm@11.9.0",
   "engines": {
     "node": ">=22.16.0",
     "pnpm": ">=11.0.8"
@@ -14,7 +14,8 @@
     "stub": "pnpm -r run stub --if-present",
     "lint": "eslint --cache .",
     "lint:fix": "eslint --fix .",
-    "lint:skills": "node skills/esdora/scripts/check-skill-architecture.mjs",
+    "lint:skills": "node .agents/skills/esdora/scripts/check-skill-architecture.mjs",
+    "lint:skill-graph": "node .agents/skills/esdora/scripts/trace-skill-loading.mjs",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "docs:preview": "pnpm -C docs run docs:preview",
@@ -29,6 +30,8 @@
     "catalog": "pnpx codemod pnpm/catalog",
     "postinstall": "lefthook install",
     "ci:publish": "pnpm changeset publish --provenance",
+    "test:ai-load": "node .agents/skills/esdora/scripts/agent-load-test.mjs",
+    "test:ai-load:dry": "node .agents/skills/esdora/scripts/agent-load-test.mjs --dry-run",
     "clean": "node ./scripts/clean.mjs"
   },
   "devDependencies": {

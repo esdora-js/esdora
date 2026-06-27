@@ -14,6 +14,7 @@ const allowedScopes = [
   'deploy',
   'other',
   'release',
+  'deps',
 ]
 
 // precomputed scope

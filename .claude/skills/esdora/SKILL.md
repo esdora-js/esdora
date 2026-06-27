@@ -9,7 +9,7 @@ description: >
 
 # Esdora Claude Code Entry
 
-Formal skill content lives at `skills/esdora/SKILL.md`.
+Formal skill content lives at `.agents/skills/esdora/SKILL.md`.
 
 Read that file immediately, then follow its Always Read list and
-`skills/esdora/routing.yaml` task routing.
+`.agents/skills/esdora/routing.yaml` task routing.
