@@ -101,6 +101,46 @@ function isExternalLink(href: string): boolean
 - **时间复杂度**: O(1) — 仅涉及固定次数的字符串前缀比较
 - **空间复杂度**: O(1) — 仅创建一次 `trim()` 后的字符串副本
 
+## isExternalLinkStrict
+
+检查链接是否为外部链接（严格模式）。
+
+此函数仅识别以 `http://` 或 `https://` 开头的完整 URL 为外部链接。所有其他格式（包括协议相对 URL、特殊协议、相对路径等）均被视为内部链接。适用于需要明确区分 HTTP/HTTPS 外部资源的场景。
+
+### 示例
+
+```typescript
+import { isExternalLinkStrict } from '@esdora/kit'
+
+// HTTP/HTTPS 完整 URL（外部链接）
+isExternalLinkStrict('https://example.com') // => true
+isExternalLinkStrict('http://example.com/path') // => true
+
+// 协议相对 URL（内部链接）
+isExternalLinkStrict('//cdn.example.com/script.js') // => false
+
+// 特殊协议（内部链接）
+isExternalLinkStrict('mailto:test@example.com') // => false
+
+// 相对路径（内部链接）
+isExternalLinkStrict('/path/to/page') // => false
+```
+
+### 签名
+
+```typescript
+function isExternalLinkStrict(href: string): boolean
+```
+
+### 与 isExternalLink 的区别
+
+| 行为                   | `isExternalLink`（智能模式） | `isExternalLinkStrict`（严格模式） |
+| ---------------------- | ---------------------------- | ---------------------------------- |
+| `http://` / `https://` | 外部                         | 外部                               |
+| `//cdn.example.com`    | 外部                         | 内部                               |
+| `mailto:` / `tel:`     | 外部                         | 内部                               |
+| 相对路径 / 无协议      | 内部                         | 内部                               |
+
 ## 相关链接
 
 - [源码](https://github.com/kkfive/esdora/blob/main/packages/kit/src/is/is-external-link/index.ts)
