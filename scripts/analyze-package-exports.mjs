@@ -565,37 +565,40 @@ function deriveDocUrl(symbol, originFile, pkgDirName, docsFileset) {
   const symbolKebab = toKebab(symbol)
   const refBase = `packages/${pkgDirName}/reference/`
 
-  // 候选枚举（站点路径）按优先级
+  // 候选枚举（站点路径）按优先级，每项标注是否为"伴生页"（需锚点）
   const segParts = segPath.split('/').filter(Boolean)
   const candidates = []
 
   if (segPath === '') {
     // src/index.ts 直接声明（包根桶，如 color 的显式类型）—— 仅符号维度
-    candidates.push(`${refBase}${symbolKebab}`)
+    candidates.push({ path: `${refBase}${symbolKebab}`, anchor: null })
   }
   else if (segParts.length === 1) {
     // src/<cat>/index.ts 形态：cat 桶（如 constant/index.ts、atom-css/index.ts）
     const cat = segParts[0]
     // 1. reference/<cat>/<symbol-kebab>（如 constant/date-format、atom-css/cn）
-    candidates.push(`${refBase}${cat}/${symbolKebab}`)
+    candidates.push({ path: `${refBase}${cat}/${symbolKebab}`, anchor: null })
     // 2. reference/<cat>（桶整体页，少命中）
-    candidates.push(`${refBase}${cat}`)
+    candidates.push({ path: `${refBase}${cat}`, anchor: null })
   }
   else {
     // src/<cat>/<fn>/index.ts 或 src/<cat>/<fn>.ts 形态
     const cat = segParts[0]
     const fn = segParts.slice(1).join('/')
     // 1. reference/<cat>/<symbol-kebab>（符号专属页，如 is/is-email-strict 独立页）
-    candidates.push(`${refBase}${cat}/${symbolKebab}`)
-    // 2. reference/<cat>/<fn>（目录页，如 tree/map、function/safe；符号与文件同名时也命中）
-    candidates.push(`${refBase}${cat}/${fn}`)
+    candidates.push({ path: `${refBase}${cat}/${symbolKebab}`, anchor: null })
+    // 2. reference/<cat>/<fn>（目录页，如 tree/map、function/safe）
+    //    若 symbolKebab !== fn，说明是同源文件的伴生符号（如 isExternalLinkStrict
+    //    与 isExternalLink 共享 index.ts），命中时追加 #symbol-kebab 锚点指向页内 heading
+    const needsAnchor = symbolKebab !== fn
+    candidates.push({ path: `${refBase}${cat}/${fn}`, anchor: needsAnchor ? symbolKebab : null })
     // 3. reference/<cat>/<fn>/<symbol-kebab>（同桶多符号嵌套独立页，兜底）
-    candidates.push(`${refBase}${cat}/${fn}/${symbolKebab}`)
+    candidates.push({ path: `${refBase}${cat}/${fn}/${symbolKebab}`, anchor: null })
   }
 
   for (const candidate of candidates) {
-    if (docsFileset.has(candidate))
-      return candidate
+    if (docsFileset.has(candidate.path))
+      return candidate.anchor ? `${candidate.path}#${candidate.anchor}` : candidate.path
   }
   return null
 }

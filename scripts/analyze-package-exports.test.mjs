@@ -411,10 +411,18 @@ describe('deriveDocUrl — 候选枚举与存在性命中', () => {
       .toBe('packages/kit/reference/is/is-email-strict')
   })
 
-  it('函数子目录形态：symbol-kebab 未命中时回退到 reference/<cat>/<fn>', () => {
+  it('函数子目录形态：symbol-kebab 未命中时回退到 reference/<cat>/<fn>（符号≠文件名追加锚点）', () => {
     // 符号经 kebab 后的候选页不存在，但文件目录页存在 → 命中目录页
+    // isEmailStrict 与 is-email 不同 → 追加 #is-email-strict 锚点
     const fileset = new Set(['packages/kit/reference/is/is-email'])
     expect(deriveDocUrl('isEmailStrict', ORIGIN_KIT, 'kit', fileset))
+      .toBe('packages/kit/reference/is/is-email#is-email-strict')
+  })
+
+  it('符号名与文件名相同时：回退到目录页不追加锚点', () => {
+    // isEmail 经 kebab = is-email，与文件名一致 → 无锚点
+    const fileset = new Set(['packages/kit/reference/is/is-email'])
+    expect(deriveDocUrl('isEmail', ORIGIN_KIT, 'kit', fileset))
       .toBe('packages/kit/reference/is/is-email')
   })
 
