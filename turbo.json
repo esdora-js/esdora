@@ -32,6 +32,10 @@
     "lint:exports": {
       "outputs": [],
       "dependsOn": []
+    },
+    "docs:llms": {
+      "dependsOn": ["^build"],
+      "outputs": ["packages/*/llms.md", "llms.txt"]
     }
   }
 }

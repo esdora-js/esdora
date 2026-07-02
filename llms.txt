@@ -1,0 +1,19 @@
+# esdora
+
+> AI-friendly index of esdora packages
+
+- @esdora/biz: Business utilities package with query string parsing (qs) and extensible for future business tools
+  → https://esdora.js.org/packages/biz
+  → llms.md: packages/biz/llms.md
+- @esdora/color: Color conversion and manipulation with CSS string support
+  → https://esdora.js.org/packages/color
+  → llms.md: packages/color/llms.md
+- @esdora/date: A modern, immutable date utility library, powered by date-fns for reliability and enhanced with unique convenience functions.
+  → https://esdora.js.org/packages/date
+  → llms.md: packages/date/llms.md
+- esdora: A comprehensive collection of development tools and utilities - Meta package that aggregates all Esdora packages
+  → (no dedicated docs page yet — see llms.md for API index)
+  → llms.md: packages/esdora/llms.md
+- @esdora/kit: Zero-dependency TypeScript utilities: type guards, tree operations, URL parsing, number clamping, and promise helpers
+  → https://esdora.js.org/packages/kit
+  → llms.md: packages/kit/llms.md

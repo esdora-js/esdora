@@ -41,6 +41,7 @@
   "types": "./dist/index.d.mts",
   "files": [
     "dist",
+    "llms.md",
     "readme.md"
   ],
   "scripts": {

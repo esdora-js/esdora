@@ -39,7 +39,8 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "files": [
-    "dist"
+    "dist",
+    "llms.md"
   ],
   "scripts": {
     "build": "tsdown",

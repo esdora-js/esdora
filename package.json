@@ -20,6 +20,7 @@
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "docs:preview": "pnpm -C docs run docs:preview",
+    "docs:llms": "node scripts/analyze-package-exports.mjs --docs",
     "test": "turbo test",
     "test:scripts": "vitest run --config vitest.config.ts",
     "test:coverage": "turbo test:coverage",
