@@ -18,7 +18,6 @@
     "type-guards",
     "tree",
     "url",
-    "is",
     "zero-dependency"
   ],
   "sideEffects": false,
