@@ -12,7 +12,16 @@
     "url": "git+https://github.com/esdora-js/esdora.git"
   },
   "bugs": "https://github.com/esdora-js/esdora/issues",
-  "keywords": [],
+  "keywords": [
+    "color",
+    "colour",
+    "color-conversion",
+    "oklch",
+    "hsl",
+    "culori",
+    "accessibility",
+    "contrast"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {

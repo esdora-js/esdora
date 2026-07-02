@@ -2,7 +2,7 @@
   "name": "@esdora/kit",
   "type": "module",
   "version": "0.6.0",
-  "description": "A library of tools commonly used for development",
+  "description": "Zero-dependency TypeScript utilities: type guards, tree operations, URL parsing, number clamping, and promise helpers",
   "author": "Esdora <https://github.com/esdora-js/esdora>",
   "license": "MIT",
   "funding": "https://github.com/esdora-js/esdora",
@@ -12,7 +12,15 @@
     "url": "git+https://github.com/esdora-js/esdora.git"
   },
   "bugs": "https://github.com/esdora-js/esdora/issues",
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "utilities",
+    "type-guards",
+    "tree",
+    "url",
+    "is",
+    "zero-dependency"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {

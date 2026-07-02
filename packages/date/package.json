@@ -12,7 +12,15 @@
     "url": "git+https://github.com/esdora-js/esdora.git"
   },
   "bugs": "https://github.com/esdora-js/esdora/issues",
-  "keywords": [],
+  "keywords": [
+    "date",
+    "date-fns",
+    "datetime",
+    "time",
+    "calendar",
+    "format",
+    "immutable"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
