@@ -59,6 +59,10 @@ jobs:
       - name: Run lint
         run: pnpm run lint
 
+      - name: Export surface audit
+        run: pnpm run lint:exports
+        continue-on-error: true # report-only: 待连续零冲突验证后移除，切 hard-fail
+
       - name: Skill architecture check
         run: pnpm run lint:skills
 
