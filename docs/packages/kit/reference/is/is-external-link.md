@@ -103,5 +103,6 @@ function isExternalLink(href: string): boolean
 
 ## 相关链接
 
-- [源码](https://github.com/kkfive/esdora/blob/main/packages/kit/src/is/is-external-link/index.ts)
-- [单元测试](https://github.com/kkfive/esdora/blob/main/packages/kit/src/is/is-external-link/index.test.ts)
+- [源码](https://github.com/kkfive/esdora/blob/main/packages/kit/src/is/is-external-link/is-external-link.ts)
+- [单元测试](https://github.com/kkfive/esdora/blob/main/packages/kit/src/is/is-external-link/is-external-link.test.ts)
+- [isExternalLinkStrict](./is-external-link-strict.md) — 严格模式，仅识别 HTTP/HTTPS 完整 URL

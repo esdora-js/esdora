@@ -1,1 +1,5 @@
-export * from './safe'
+export {
+  _JSON,
+  createSafe,
+  safe,
+} from './safe'

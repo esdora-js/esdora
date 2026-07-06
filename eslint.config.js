@@ -9,6 +9,12 @@ export default antfu(
   },
   {
     ignores: [
+      'packages/*/llms.md',
+      'llms.txt',
+    ],
+  },
+  {
+    ignores: [
       '**/templates/**',
       'docs/templates/**',
       'docs/contributing/documentation/**',

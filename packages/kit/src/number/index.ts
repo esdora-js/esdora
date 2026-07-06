@@ -1,1 +1,1 @@
-export * from './clamp'
+export { clamp } from './clamp'

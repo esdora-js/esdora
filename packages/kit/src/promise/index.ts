@@ -1,1 +1,1 @@
-export * from './to'
+export { to } from './to'

@@ -16,7 +16,7 @@
 
 ---
 
-`@esdora/date` 是 [Dora Pocket](https://github.com/esdora-js/esdora) 项目中提供的一个用于处理颜色相关的库。
+`@esdora/date` 是 [Dora Pocket](https://github.com/esdora-js/esdora) 项目中提供的一个用于处理日期相关的库。
 
 ## ✨ 理念
 

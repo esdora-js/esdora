@@ -102,36 +102,6 @@ const safeProcess = safe(process)
 safeProcess(5, (x: number) => x * 2, 'test') // => '5-10-test'
 ```
 
-### 安全的 JSON 操作
-
-```typescript
-import { _JSON } from '@esdora/kit'
-
-_JSON.parse('{"name":"John","age":30}') // => { name: 'John', age: 30 }
-_JSON.parse('{"name":"John","age":}') // => undefined（解析错误被捕获）
-
-_JSON.stringify({ name: 'John', age: 30 }) // => '{"name":"John","age":30}'
-```
-
-### 使用 createSafe 创建自定义安全包装器
-
-```typescript
-import { createSafe } from '@esdora/kit'
-
-const safe = createSafe(console.error)
-
-function strictAdd(a: number, b: number) {
-  if (a < 0 || b < 0) {
-    throw new Error('Negative numbers are not allowed')
-  }
-  return a + b
-}
-
-const safeStrictAdd = safe(strictAdd)
-
-safeStrictAdd(-1, 2) // => undefined，同时 console.error 输出错误
-```
-
 ## 签名
 
 ```typescript
@@ -139,16 +109,6 @@ function safe<T extends (...args: any[]) => any>(
   fn: T,
   errorHandler?: (err: any, handler?: (err: any) => void) => void,
 ): (...args: Parameters<T>) => ReturnType<T> | undefined
-
-function createSafe(handler: (err: any) => void): (
-  fn: T,
-  errorHandler?: (err: any, handler: (err: any) => void) => void,
-) => (...args: Parameters<T>) => ReturnType<T> | undefined
-
-const _JSON: {
-  parse: (text: string, reviver?: (key: string, value: any) => any) => any
-  stringify: (value: any, replacer?: (key: string, value: any) => any, space?: string | number) => string | undefined
-}
 ```
 
 ## 参数
@@ -157,14 +117,6 @@ const _JSON: {
 | -------------- | -------------------------------------------------- | ---------------------------------------------- | ---- |
 | `fn`           | `T`                                                | 需要安全包装的函数                             | 是   |
 | `errorHandler` | `(err: any, handler?: (err: any) => void) => void` | 可选的错误处理函数，接收错误和一个可选的处理器 | 否   |
-
-### createSafe 参数
-
-| 参数      | 类型                 | 描述             | 必需 |
-| --------- | -------------------- | ---------------- | ---- |
-| `handler` | `(err: any) => void` | 默认错误处理函数 | 是   |
-
-`createSafe` 返回的函数接收与 `safe` 相同的参数，但优先使用传入的 `errorHandler`（会接收错误和原始 handler），否则回退到默认的 `handler`。
 
 ## 返回值
 
@@ -225,5 +177,7 @@ flowchart TD
 
 ## 相关链接
 
-- [源码](https://github.com/kkfive/esdora/blob/main/packages/kit/src/function/safe/index.ts)
-- [单元测试](https://github.com/kkfive/esdora/blob/main/packages/kit/src/function/safe/index.test.ts)
+- [源码](https://github.com/kkfive/esdora/blob/main/packages/kit/src/function/safe/safe.ts)
+- [单元测试](https://github.com/kkfive/esdora/blob/main/packages/kit/src/function/safe/safe.test.ts)
+- [createSafe](./create-safe.md) — 创建可复用的自定义安全包装器
+- [\_JSON](./json.md) — 基于 safe 的安全 JSON 解析与序列化

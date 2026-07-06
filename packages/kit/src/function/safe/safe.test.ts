@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { _JSON, createSafe, safe } from '.'
+import { safe } from './safe'
 
 describe('safe function', () => {
   describe('基础同步函数', () => {
@@ -364,83 +364,5 @@ describe('safe function', () => {
       }
       expect(errorHandler).not.toHaveBeenCalled()
     })
-  })
-})
-
-describe('createSafe function', () => {
-  const errorHandler = vi.fn()
-  const safe = createSafe(errorHandler)
-
-  it('传入一个正确的方法', () => {
-    const fn = (a: number, b: number) => a + b
-    const safeFn = safe(fn)
-    expect(safeFn(1, 2)).toBe(3)
-    expect(errorHandler).not.toHaveBeenCalled()
-  })
-
-  it('传入一个抛出错误的方法', () => {
-    const fnError = (a: number, b: number) => {
-      if (a < 0 || b < 0) {
-        throw new Error('Negative numbers are not allowed')
-      }
-      return a + b
-    }
-    const safeFn = safe(fnError)
-    expect(safeFn(1, 2)).toBe(3)
-    expect(safeFn(-1, 2)).toBeUndefined()
-    expect(errorHandler).toHaveBeenCalledWith(new Error('Negative numbers are not allowed'))
-  })
-
-  it('传入一个抛出非 Error 的异常的方法', () => {
-    const fnThrow = (a: number, b: number) => {
-      if (a < 0 || b < 0) {
-        // 这里故意抛出一个非 Error 的异常
-        // eslint-disable-next-line no-throw-literal
-        throw 'Negative numbers are not allowed'
-      }
-      return a + b
-    }
-    const safeFn = safe(fnThrow)
-    expect(safeFn(1, 2)).toBe(3)
-    expect(safeFn(-1, 2)).toBeUndefined()
-    expect(errorHandler).toHaveBeenCalledWith('Negative numbers are not allowed')
-  })
-
-  it('再次设置 errorHandler', () => {
-    const newErrorHandler = vi.fn((_, handler) => {
-      expect(handler).toBeInstanceOf(Function)
-      expect(handler).toBe(errorHandler)
-    })
-    const fnThrow = (a: number, b: number) => {
-      if (a < 0 || b < 0) {
-        // 这里故意抛出一个非 Error 的异常
-        // eslint-disable-next-line no-throw-literal
-        throw 'Negative numbers are not allowed'
-      }
-      return a + b
-    }
-    const safeFn = safe(fnThrow, newErrorHandler)
-
-    expect(safeFn(1, 2)).toBe(3)
-    expect(newErrorHandler).not.toHaveBeenCalled()
-  })
-})
-
-describe('_JSON safe function', () => {
-  it('safe JSON.parse', () => {
-    const validJson = '{"name": "John", "age": 30}'
-    const invalidJson = '{"name": "John", "age": }'
-
-    expect(_JSON.parse(validJson)).toEqual({ name: 'John', age: 30 })
-    expect(_JSON.parse(invalidJson)).toBeUndefined()
-  })
-
-  it('safe JSON.stringify', () => {
-    const validObject = { name: 'John', age: 30 }
-    const circularObject: any = { name: 'John' }
-    circularObject.self = circularObject // 创建循环引用
-
-    expect(_JSON.stringify(validObject)).toBe('{"name":"John","age":30}')
-    expect(_JSON.stringify(circularObject)).toBeUndefined()
   })
 })

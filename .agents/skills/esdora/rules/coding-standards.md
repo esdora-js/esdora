@@ -20,6 +20,23 @@
 - Use `node:` prefixes for Node.js built-ins.
 - Keep each package's `src/index.ts` as the barrel export entry.
 - Configure public subpath exports through the package `package.json`.
+- **One public value export per leaf implementation file.** Each leaf
+  implementation file (the file that actually declares the function/const/class,
+  not a barrel) must export exactly one self-implemented public value symbol.
+  This keeps the dependency graph clear, aids tree-shaking, and — critically for
+  this repo — lets both the VitePress sidebar and the generated `llms.md` API
+  index surface every public API as its own discoverable entry. This mirrors the
+  convention used by modern TS utility libraries (es-toolkit, radash, remeda).
+  - Exemptions (not violations): the symbol's directly-consumed companion types
+    (`Options` / `Adjuster` / `Context` / `Result`) may live in the same file;
+    function overloads (multiple signatures of one symbol) count as one;
+    third-party re-exports (`export { parse } from 'qs'`) are a separate concern
+    and don't count against the limit.
+  - Excluded from the rule entirely: barrel files (`index.ts` that only
+    re-export), pure-type files (`types.ts`), `helpers.ts`, `constant(s).ts`,
+    `_internal/`, `experimental/`, and test files.
+  - Enforced by `pnpm lint:exports` (`detectMultiValueExports` in
+    `scripts/analyze-package-exports.mjs`), which hard-fails in CI.
 
 ## Implementation
 

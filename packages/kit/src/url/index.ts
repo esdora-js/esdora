@@ -1,1 +1,1 @@
-export * from './get-query-params'
+export { getQueryParams } from './get-query-params'

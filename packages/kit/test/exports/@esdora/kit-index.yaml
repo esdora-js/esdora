@@ -1,6 +1,6 @@
-safe: function
-createSafe: function
 _JSON: object
+createSafe: function
+safe: function
 isAlnum: function
 isAlpha: function
 isAndroid: function
@@ -18,8 +18,8 @@ isPhone: function
 isSafari: function
 clamp: function
 to: function
-treeFilter: function
 getLeafPath: function
+treeFilter: function
 treeMap: function
 treeSome: function
 getQueryParams: function

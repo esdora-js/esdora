@@ -1,1 +1,1 @@
-export * from './analyze-time-range'
+export { analyzeTimeRange } from './analyze-time-range'
