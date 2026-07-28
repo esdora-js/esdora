@@ -20,7 +20,7 @@ catalog:
   '@iconify-json/svg-spinners': ^1.2.4
   '@shikijs/vitepress-twoslash': 4.2.0
   '@types/culori': ^4.0.1
-  '@types/node': ^25.9.4
+  '@types/node': ^26.1.2
   '@types/qs': ^6.15.1
   '@unocss/reset': ^66.7.3
   '@vitest/coverage-v8': ^4.1.9
