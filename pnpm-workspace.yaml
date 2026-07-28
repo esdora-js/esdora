@@ -52,7 +52,7 @@ catalog:
   tsdown: ^0.22.3
   tsx: ^4.22.4
   turbo: ^2.10.0
-  typescript: ^6.0.3
+  typescript: ^7.0.2
   unocss: ^66.7.3
   unplugin-vue-components: ^32.1.0
   vite: ^8.1.0
