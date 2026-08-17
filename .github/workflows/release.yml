@@ -55,7 +55,7 @@ jobs:
 
       - name: Changesets Release
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           publish: pnpm ci:publish
           createGithubReleases: true
