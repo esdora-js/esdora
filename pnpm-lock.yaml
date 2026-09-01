@@ -109,8 +109,8 @@ catalogs:
       specifier: ^3.0.4
       version: 3.0.4
     pnpm:
-      specifier: ^11.9.0
-      version: 11.9.0
+      specifier: ^11.11.0
+      version: 11.25.0
     qs:
       specifier: ^6.15.3
       version: 6.15.3
@@ -214,7 +214,7 @@ importers:
         version: 2.1.9
       pnpm:
         specifier: 'catalog:'
-        version: 11.9.0
+        version: 11.25.0
       tinyexec:
         specifier: 'catalog:'
         version: 1.2.4
@@ -4149,8 +4149,8 @@ packages:
   pnpm-workspace-yaml@1.6.1:
     resolution: {integrity: sha512-yTeZntGWi8m9WNuhoVsP0DpFc4sC1U0+rr/qR6Zi9n2g3sxXY+JfccjXjjruNz96tM8I09yaJUA86doRnNLkbg==}
 
-  pnpm@11.9.0:
-    resolution: {integrity: sha512-vWgtXQP+Ul73yf1ngMaITR51asTJyf4AxTh4KCQxDc+Q493E9Tg18G3669UIXkGFXgvLs7YN4qxburieUDbwOw==}
+  pnpm@11.25.0:
+    resolution: {integrity: sha512-XN6SW08HX3Jetx+64YpC/+eEUkeJ8ZthxzHLhyHsKKruFg4BqNWvT+2ypCzb8wDv4j2zVrDUoXtNY+EfirfJVg==}
     engines: {node: '>=22.13'}
     hasBin: true
 
@@ -6377,8 +6377,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.61.1(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.61.1(typescript@6.0.3)
-      '@typescript-eslint/types': 8.61.1
+      '@typescript-eslint/tsconfig-utils': 8.62.0(typescript@6.0.3)
+      '@typescript-eslint/types': 8.62.0
       debug: 4.4.3
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -8885,7 +8885,7 @@ snapshots:
     dependencies:
       yaml: 2.9.0
 
-  pnpm@11.9.0: {}
+  pnpm@11.25.0: {}
 
   points-on-curve@0.2.0: {}
 
