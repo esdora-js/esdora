@@ -45,7 +45,7 @@ catalog:
   lefthook: ^2.1.9
   mermaid: ^11.16.0
   pinia: ^3.0.4
-  pnpm: ^11.9.0
+  pnpm: ^11.11.0
   qs: ^6.15.3
   tailwind-merge: ^3.6.0
   tinyexec: ^1.2.4
