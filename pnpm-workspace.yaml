@@ -46,7 +46,7 @@ catalog:
   mermaid: ^11.16.0
   pinia: ^3.0.4
   pnpm: ^11.9.0
-  qs: ^6.15.3
+  qs: ^6.16.0
   tailwind-merge: ^3.6.0
   tinyexec: ^1.2.4
   tsdown: ^0.22.3
